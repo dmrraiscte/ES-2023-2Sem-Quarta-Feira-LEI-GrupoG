@@ -1,4 +1,4 @@
-# ES-2022-LEI-Grupo-14
+# ES-2022-LEI-Grupo-G
 ## Work project by:
 - Luis Viana 98780
 - David Rosa 98359
