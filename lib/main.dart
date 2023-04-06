@@ -1,7 +1,10 @@
 import 'package:calendar_manager/screens/home.dart';
 import 'package:flutter/material.dart';
+import 'package:calendar_manager/utils/utils.dart';
 
 void main() {
+  Util.fromCSVToJSON();
+
   runApp(const MyApp());
 }
 
