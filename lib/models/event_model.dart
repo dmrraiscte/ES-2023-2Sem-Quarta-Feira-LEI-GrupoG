@@ -24,6 +24,7 @@ class Event {
       this.salaAtribuidaAAula,
       this.lotacaoSala);
 
+//creates an Event from the string [csv]
   factory Event.fromCSV(String csv) {
     var event = csv.split(RegExp(',(?=([^"]*"[^"]*")*[^"]*\$)'));
 
@@ -41,7 +42,8 @@ class Event {
         event[10].replaceAll('"', "").trim());
   }
 
-  toJson() {
+//Returns a string representing of an Event an its variables in a string with json format
+  String toJson() {
     return '{ "Curso": "$curso", "Unidade Curricular": "$unidadeCurricular", "Turno": "$turno", "Turma": "$turma", "Inscritos no turno": "$inscritosNoTurno", "Dia da semana": "$diaDaSemana", "Hora início da aula": "$horaInicioAula", "Hora fim da aula": "$horaFimAula", "Data da aula": "$dataAula", "Sala atribuída à aula": "$salaAtribuidaAAula", "Lotação da sala": "$lotacaoSala" }';
   }
 }

@@ -1,12 +1,10 @@
-//import "dart:io";
-
-import "package:calendar_manager/models/EventModel.dart";
+import 'package:calendar_manager/models/event_model.dart';
 import "package:tuple/tuple.dart";
 
 class Util {
+  //Receives a string [data] with csv format and returns a tuple with the list of events listed in data
+  // and a string with json format
   static Tuple2<String, List<Event>> fromCSVToJSON(String data) {
-    Stopwatch stopwatch = Stopwatch()..start();
-
     List<Event> events = csvToEventsList(data);
 
     String jsonString = "";
@@ -14,16 +12,10 @@ class Util {
     jsonString = events.map((e) => e.toJson()).join(",\n");
     jsonString = '{ "events": [$jsonString] }';
 
-    /*File jsonFile = File(
-        "C:/Users/lcvia/OneDrive/Documentos/GitHub/ES-2023-2Sem-Quarta-Feira-LEI-GrupoG/assets/files/events.json");
-
-    jsonFile.writeAsStringSync(jsonString);
-    */
-    stopwatch.stop();
-    print('Time elapsed: ${stopwatch.elapsedMilliseconds} milliseconds');
     return Tuple2(jsonString, events);
   }
 
+//Receives a string [data] with information of events in csv pattern and returns a list of events
   static List<Event> csvToEventsList(String data) {
     List<Event> events = [];
     List<String> eventsStrings = data.split("\n");

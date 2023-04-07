@@ -1,4 +1,3 @@
-import 'package:calendar_manager/models/EventModel.dart';
 import 'package:calendar_manager/utils/utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 
