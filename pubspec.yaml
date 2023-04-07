@@ -38,6 +38,7 @@ dependencies:
   syncfusion_flutter_calendar: ^21.1.38
   file_picker: ^5.2.7
   tuple: ^2.0.1
+  http: ^0.13.5
 
 
 dev_dependencies:
