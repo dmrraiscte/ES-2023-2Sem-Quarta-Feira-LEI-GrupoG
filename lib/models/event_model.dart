@@ -27,7 +27,7 @@ class Event {
       this.salaAtribuidaAAula,
       this.lotacaoSala);
 
-      Event.fromJson(Map<String, dynamic> json)
+  Event.fromJson(Map<String, dynamic> json)
       : curso = json['Curso'],
         unidadeCurricular = json['Unidade Curricular'],
         turno = json['Turno'],
