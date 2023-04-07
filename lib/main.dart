@@ -1,4 +1,5 @@
 import 'package:calendar_manager/screens/home.dart';
+import 'package:calendar_manager/screens/pickfile.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
@@ -15,10 +16,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      initialRoute: "home",
+      routes: {
+        "home": (context) => const Home(),
+        "pickfile": (context) => const PickFile(),
+      },
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
-      home: const Home(),
     );
   }
 }
