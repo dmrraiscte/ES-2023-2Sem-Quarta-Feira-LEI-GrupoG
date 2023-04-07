@@ -1,17 +1,12 @@
-import "dart:io";
-//import 'dart:html';
+//import "dart:io";
 
 import "package:calendar_manager/models/EventModel.dart";
+import "package:tuple/tuple.dart";
 
 class Util {
-  static void fromCSVToJSON() {
-    //var request = await HttpRequest.request("../files/horario-exemplo.csv");
-    //var response = request.response;
-    //String data = File("../files/horario-exemplo.csv").readAsStringSync();
+  static Tuple2<String, List<Event>> fromCSVToJSON(String data) {
     Stopwatch stopwatch = Stopwatch()..start();
-    String data = File(
-            "C:/Users/lcvia/OneDrive/Documentos/GitHub/ES-2023-2Sem-Quarta-Feira-LEI-GrupoG/assets/files/horario-exemplo.csv")
-        .readAsStringSync();
+
     List<Event> events = csvToEventsList(data);
 
     String jsonString = "";
@@ -19,12 +14,14 @@ class Util {
     jsonString = events.map((e) => e.toJson()).join(",\n");
     jsonString = '{ "events": [$jsonString] }';
 
-    File jsonFile = File(
+    /*File jsonFile = File(
         "C:/Users/lcvia/OneDrive/Documentos/GitHub/ES-2023-2Sem-Quarta-Feira-LEI-GrupoG/assets/files/events.json");
 
     jsonFile.writeAsStringSync(jsonString);
+    */
     stopwatch.stop();
     print('Time elapsed: ${stopwatch.elapsedMilliseconds} milliseconds');
+    return Tuple2(jsonString, events);
   }
 
   static List<Event> csvToEventsList(String data) {

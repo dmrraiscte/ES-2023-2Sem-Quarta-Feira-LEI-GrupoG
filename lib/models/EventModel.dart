@@ -27,11 +27,21 @@ class Event {
   factory Event.fromCSV(String csv) {
     var event = csv.split(RegExp(',(?=([^"]*"[^"]*")*[^"]*\$)'));
 
-    return Event(event[0], event[1], event[2], event[3], event[4], event[5],
-        event[6], event[7], event[8], event[9], event[10].trim());
+    return Event(
+        event[0].replaceAll('"', ""),
+        event[1].replaceAll('"', ""),
+        event[2].replaceAll('"', ""),
+        event[3].replaceAll('"', ""),
+        event[4].replaceAll('"', ""),
+        event[5].replaceAll('"', ""),
+        event[6].replaceAll('"', ""),
+        event[7].replaceAll('"', ""),
+        event[8].replaceAll('"', ""),
+        event[9].replaceAll('"', ""),
+        event[10].replaceAll('"', "").trim());
   }
 
   toJson() {
-    return '{ "Curso": "${curso.replaceAll('"', "")}", "Unidade Curricular": "${unidadeCurricular.replaceAll('"', "")}", "Turno": "${turno.replaceAll('"', "")}", "Turma": "${turma.replaceAll('"', "")}", "Inscritos no turno": "$inscritosNoTurno", "Dia da semana": "${diaDaSemana.replaceAll('"', "")}", "Hora início da aula": "${horaInicioAula.replaceAll('"', "")}", "Hora fim da aula": "${horaFimAula.replaceAll('"', "")}", "Data da aula": "${dataAula.replaceAll('"', "")}", "Sala atribuída à aula": "${salaAtribuidaAAula.replaceAll('"', "")}", "Lotação da sala": "$lotacaoSala" }';
+    return '{ "Curso": "$curso", "Unidade Curricular": "$unidadeCurricular", "Turno": "$turno", "Turma": "$turma", "Inscritos no turno": "$inscritosNoTurno", "Dia da semana": "$diaDaSemana", "Hora início da aula": "$horaInicioAula", "Hora fim da aula": "$horaFimAula", "Data da aula": "$dataAula", "Sala atribuída à aula": "$salaAtribuidaAAula", "Lotação da sala": "$lotacaoSala" }';
   }
 }
