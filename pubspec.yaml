@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   syncfusion_flutter_calendar: ^21.1.38
   file_picker: ^5.2.7
+  tuple: ^2.0.1
 
 
 dev_dependencies:
