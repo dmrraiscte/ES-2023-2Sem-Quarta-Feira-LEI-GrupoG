@@ -28,8 +28,6 @@ class Util {
   }
 
   static Tuple2<String, List<Event>> fromJsonToCSV(String jsonString) {
-
-  static Tuple2<String, List<Event>> fromJsonToCSV(String jsonString) {
     final aux = json.decode(jsonString);
     List<Event> events = [];
     String csvData = Event.csvHeader;
