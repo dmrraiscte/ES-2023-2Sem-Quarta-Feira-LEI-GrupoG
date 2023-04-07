@@ -28,6 +28,8 @@ class Util {
   }
 
   static Tuple2<String, List<Event>> fromJsonToCSV(String jsonString) {
+
+  static Tuple2<String, List<Event>> fromJsonToCSV(String jsonString) {
     final aux = json.decode(jsonString);
     List<Event> events = [];
     String csvData = Event.csvHeader;
@@ -35,6 +37,9 @@ class Util {
     for (int i = 0; i < aux["events"].length; i++) {
       var evento = Event.fromJson(aux["events"][i]);
       events.add(evento);
+      i == aux["events"].length - 1
+          ? csvData += evento.toCSV()
+          : csvData += "${evento.toCSV()}\n";
       i == aux["events"].length - 1
           ? csvData += evento.toCSV()
           : csvData += "${evento.toCSV()}\n";
