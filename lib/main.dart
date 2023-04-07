@@ -1,16 +1,11 @@
+import 'package:calendar_manager/screens/filefromusl.dart';
 import 'package:calendar_manager/screens/home.dart';
 import 'package:calendar_manager/screens/pickfile.dart';
 import 'package:flutter/material.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  runApp(const MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,6 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       initialRoute: "home",
       routes: {
+        "filefromurl": (context) => const FileFromUrl(),
         "home": (context) => const Home(),
         "pickfile": (context) => const PickFile(),
       },
