@@ -1,3 +1,4 @@
+import 'package:calendar_manager/models/event_model.dart';
 import 'package:calendar_manager/utils/utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -43,5 +44,23 @@ ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/1
         """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala""");
     expect(value.item1, "{ \"events\": [] }");
     expect(value.item2.length, 0);
+  });
+
+  test('getEventsFromURL() - test with non CSV/JSON file', () async {
+    List<Event> list = await Util.getEventsFromUrl(
+        'https://filesamples.com/samples/document/txt/sample3.txt');
+    expect(list.length, 0);
+  });
+
+  test('getEventsFromURL() - test with CSV file', () async {
+    List<Event> list = await Util.getEventsFromUrl(
+        'https://raw.githubusercontent.com/dmrraiscte/ES-2023-2Sem-Quarta-Feira-LEI-GrupoG/main/assets/files/horario-exemplo.csv');
+    expect(list.length, 26019);
+  });
+
+  test('getEventsFromURL() - test with JSON file', () async {
+    List<Event> list = await Util.getEventsFromUrl(
+        'https://raw.githubusercontent.com/dmrraiscte/ES-2023-2Sem-Quarta-Feira-LEI-GrupoG/main/assets/files/events.json');
+    expect(list.length, 26019);
   });
 }
