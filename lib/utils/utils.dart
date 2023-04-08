@@ -47,7 +47,7 @@ class Util {
           : csvData += "${evento.toCSV()}\n";
       */
     }
-    // Em vez de verificar sempre se é o final co corpo do FOR, faz apenas este if no final.
+    // Em vez de verificar sempre se é o final no corpo do FOR, faz apenas este IF no final.
     if (numEvent > 0) {
       var evento = Event.fromJson(aux["events"][numEvent - 1]);
       csvData += evento.toCSV();
