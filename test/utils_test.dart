@@ -63,4 +63,10 @@ ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/1
         'https://raw.githubusercontent.com/dmrraiscte/ES-2023-2Sem-Quarta-Feira-LEI-GrupoG/main/assets/files/events.json');
     expect(list.length, 26019);
   });
+
+  test('getEventsFromURL() - test with bad webpage', () async {
+    List<Event> list = await Util.getEventsFromUrl(
+        'https://github.com/dmrraiscte/ES-2023-2Sem-Quarta-Feira-LEI-GrupoG/testeBadPageErrorCode');
+    expect(list.length, 0);
+  });
 }
