@@ -37,7 +37,7 @@ class _SaveFileState extends State<SaveFile> {
                 child: const Text('JSON')),
             TextButton(
                 onPressed: () {
-                  var txt = Util.eventsToJson(value2.item2);
+                  var txt = Util.eventsToCsv(value2.item2);
                   Util.saveFile(txt, Formato.csv);
                 },
                 child: const Text('CSV'))

@@ -91,7 +91,7 @@ class Util {
 
   static String eventsToJson(List<Event> events) {
     String json = '{ "events": [';
-    json += '${events.map((e) => e.toJson()).join("\n")}]}';
+    json += '${events.map((e) => e.toJson()).join(",\n")}]}';
     return json;
   }
 
