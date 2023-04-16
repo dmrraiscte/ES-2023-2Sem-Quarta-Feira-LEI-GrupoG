@@ -37,17 +37,8 @@ class Util {
       var evento = Event.fromJson(aux["events"][i]);
       events.add(evento);
       csvData += "${evento.toCSV()}\n";
-      /*
-      // ESTA REPETIDO, SERÁ QUE FOI ERRO NO MERGE?
-      i == aux["events"].length - 1
-          ? csvData += evento.toCSV()
-          : csvData += "${evento.toCSV()}\n";
-      i == aux["events"].length - 1
-          ? csvData += evento.toCSV()
-          : csvData += "${evento.toCSV()}\n";
-      */
     }
-    // Em vez de verificar sempre se é o final no corpo do FOR, faz apenas este IF no final.
+
     if (numEvent > 0) {
       var evento = Event.fromJson(aux["events"][numEvent - 1]);
       csvData += evento.toCSV();
@@ -56,11 +47,22 @@ class Util {
     return Tuple2(csvData, events);
   }
 
+  /// __Returns a List\<Event\> from [url] file.__
+  ///
+  /// * Makes an HTTP GET request at given [url], downloads the file and converts it to List<Event>.
+  /// * If HTTP request fails, it returns an empty List\<Event\>.
+  ///
+  /// ```dart
+  /// ElevatedButton(
+  ///   onPressed: () {
+  ///     Util.getEventsFromUrl(urlString);
+  ///   },
+  ///   child: const Text('Submit'),
+  /// )
+  /// ```
   static Future<List<Event>> getEventsFromUrl(String url) async {
     var header = {'Access-Control-Allow-Origin': '*'};
-
     var response = await http.get(Uri.parse(url), headers: header);
-
     List<Event> lista = [];
 
     if (response.statusCode == 200) {
