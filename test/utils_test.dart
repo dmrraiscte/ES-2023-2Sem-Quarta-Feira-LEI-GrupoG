@@ -69,4 +69,37 @@ ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/1
         'https://github.com/dmrraiscte/ES-2023-2Sem-Quarta-Feira-LEI-GrupoG/testeBadPageErrorCode');
     expect(list.length, 0);
   });
+
+  test('eventsToCsv() - test: simple comparece of String content', () async {
+    var value2 = Util.eventsToCsv(Util.fromCSVToJSON(
+            """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala
+  ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,AA2.25,34
+  ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,23/11/2022,AA2.25,34""")
+        .item2);
+
+    expect(value2, """
+Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora início da aula,Hora fim da aula,Data da aula,Sala atribuída à aula,Lotação da sala
+  ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,AA2.25,34
+  ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,23/11/2022,AA2.25,34""");
+  });
+
+  test('eventstoCsv() - test with a empty List<Events>', () async {
+    expect(Util.eventsToCsv(List.empty()), Event.csvHeader);
+  });
+
+  test('eventsToJson() - test: simple comparece of String content', () async {
+    var value2 = Util.eventsToJson(Util.fromCSVToJSON(
+            """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala
+  ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,AA2.25,34
+  ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,23/11/2022,AA2.25,34""")
+        .item2);
+
+    expect(value2, """
+{ "events": [{ "Curso": "  ME", "Unidade Curricular": "Teoria dos Jogos e dos Contratos", "Turno": "01789TP01", "Turma": "MEA1", "Inscritos no turno": "30", "Dia da semana": "Sex", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "02/12/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "34" },
+{ "Curso": "  ME", "Unidade Curricular": "Teoria dos Jogos e dos Contratos", "Turno": "01789TP01", "Turma": "MEA1", "Inscritos no turno": "30", "Dia da semana": "Qua", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "23/11/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "34" }]}""");
+  });
+
+  test('eventstoJson() - test with a empty List<Events>', () async {
+    expect(Util.eventsToJson(List.empty()), '{ "events": []}');
+  });
 }
