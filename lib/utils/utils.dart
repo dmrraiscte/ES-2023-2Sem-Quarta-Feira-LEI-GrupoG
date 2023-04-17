@@ -82,6 +82,15 @@ class Util {
     return lista;
   }
 
+  ///
+  ///__Save a file in a default path with a specified formate from a String__
+  ///
+  ///``` dart
+  /// onPressed: () {
+  ///           var txt = Util.eventsToJson(List<Events>);
+  ///           Util.saveFile(txt, (Formato.json or Formato.csv) );
+  /// }
+  ///```
   static Future<void> saveFile(String fileText, Formato formato) async {
     await FileSaver.instance.saveFile(
         name: 'calendar.${formato.name}',
@@ -89,12 +98,22 @@ class Util {
         bytes: Uint8List.fromList(utf8.encode(fileText)));
   }
 
+  ///
+  ///__Returns a String in a JSON Formate from a List<Event>.__
+  ///
+  ///  * First part of the String will be the JSON Header, followed by all events in JSON formate
+  ///
   static String eventsToJson(List<Event> events) {
     String json = '{ "events": [';
     json += '${events.map((e) => e.toJson()).join(",\n")}]}';
     return json;
   }
 
+  ///
+  ///__Returns a String in a CSV Formate from a List<Event>.__
+  ///
+  ///  * First line of the String will be the CSV Header, followed by all events in CSV formate
+  ///
   static String eventsToCsv(List<Event> events) {
     String csv = Event.csvHeader;
     csv += events.map((e) => e.toCSV()).join("\n");
