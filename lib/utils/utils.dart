@@ -1,8 +1,12 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:calendar_manager/models/event_model.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:file_saver/file_saver.dart';
 import 'package:tuple/tuple.dart';
 import 'package:http/http.dart' as http;
+
+enum Formato { csv, json }
 
 class Util {
   //Receives a string [data] with csv format and returns a tuple with the list of events listed in data
@@ -113,5 +117,43 @@ class Util {
       }
     }
     return lista;
+  }
+
+  ///
+  ///__Save a file in a default path with a specified formate from a String__
+  ///
+  ///``` dart
+  /// onPressed: () {
+  ///           var txt = Util.eventsToJson(List<Events>);
+  ///           Util.saveFile(txt, (Formato.json or Formato.csv) );
+  /// }
+  ///```
+  static Future<void> saveFile(String fileText, Formato formato) async {
+    await FileSaver.instance.saveFile(
+        name: 'calendar.${formato.name}',
+        ext: formato.name,
+        bytes: Uint8List.fromList(utf8.encode(fileText)));
+  }
+
+  ///
+  ///__Returns a String in a JSON Formate from a List<Event>.__
+  ///
+  ///  * First part of the String will be the JSON Header, followed by all events in JSON formate
+  ///
+  static String eventsToJson(List<Event> events) {
+    String json = '{ "events": [';
+    json += '${events.map((e) => e.toJson()).join(",\n")}]}';
+    return json;
+  }
+
+  ///
+  ///__Returns a String in a CSV Formate from a List<Event>.__
+  ///
+  ///  * First line of the String will be the CSV Header, followed by all events in CSV formate
+  ///
+  static String eventsToCsv(List<Event> events) {
+    String csv = Event.csvHeader;
+    csv += events.map((e) => e.toCSV()).join("\n");
+    return csv;
   }
 }
