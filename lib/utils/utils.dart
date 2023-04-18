@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:calendar_manager/models/event_model.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:tuple/tuple.dart';
 import 'package:http/http.dart' as http;
 
@@ -45,6 +46,40 @@ class Util {
       events.add(evento);
     }
     return Tuple2(csvData, events);
+  }
+
+  /// __Returns a List\<Event\> from file ['csv', 'json'].__
+  ///
+  /// * Open default system dialog to pick a file with the allowed extensions ['csv', 'json'].
+  /// * Converts it to List<Event>
+  /// * If the chosen file doesn't contain a valid extension, an empty list is returned.
+  ///
+  /// ```dart
+  /// ElevatedButton.icon(
+  ///    onPressed: () async {
+  ///       await Util.getEventsFromFile();
+  ///    },
+  ///  icon: const Icon(CupertinoIcons.tray_arrow_down_fill),
+  ///  label: const Text("Escolher ficheiro")),
+  /// ```
+  static Future<List<Event>> getEventsFromFile() async {
+    var allowedExtensions = ['csv', 'json'];
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(type: FileType.custom, allowedExtensions: allowedExtensions);
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
+      if (allowedExtensions.contains(file.extension)) {
+        var data = utf8.decode(file.bytes!);
+        switch (file.extension) {
+          case 'csv':
+            return Util.fromCSVToJSON(data).item2;
+          case 'json':
+            return Util.fromJsonToCSV(data).item2;
+        }
+      }
+    }
+    return <Event>[];
   }
 
   /// __Returns a List\<Event\> from [url] file.__
