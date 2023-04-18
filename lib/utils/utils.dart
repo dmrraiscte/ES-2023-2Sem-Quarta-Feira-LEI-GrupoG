@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:calendar_manager/models/event_model.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:tuple/tuple.dart';
 import 'package:http/http.dart' as http;
@@ -41,17 +42,8 @@ class Util {
       var evento = Event.fromJson(aux["events"][i]);
       events.add(evento);
       csvData += "${evento.toCSV()}\n";
-      /*
-      // ESTA REPETIDO, SERÁ QUE FOI ERRO NO MERGE?
-      i == aux["events"].length - 1
-          ? csvData += evento.toCSV()
-          : csvData += "${evento.toCSV()}\n";
-      i == aux["events"].length - 1
-          ? csvData += evento.toCSV()
-          : csvData += "${evento.toCSV()}\n";
-      */
     }
-    // Em vez de verificar sempre se é o final no corpo do FOR, faz apenas este IF no final.
+
     if (numEvent > 0) {
       var evento = Event.fromJson(aux["events"][numEvent - 1]);
       csvData += evento.toCSV();
@@ -60,11 +52,56 @@ class Util {
     return Tuple2(csvData, events);
   }
 
+  /// __Returns a List\<Event\> from file ['csv', 'json'].__
+  ///
+  /// * Open default system dialog to pick a file with the allowed extensions ['csv', 'json'].
+  /// * Converts it to List<Event>
+  /// * If the chosen file doesn't contain a valid extension, an empty list is returned.
+  ///
+  /// ```dart
+  /// ElevatedButton.icon(
+  ///    onPressed: () async {
+  ///       await Util.getEventsFromFile();
+  ///    },
+  ///  icon: const Icon(CupertinoIcons.tray_arrow_down_fill),
+  ///  label: const Text("Escolher ficheiro")),
+  /// ```
+  static Future<List<Event>> getEventsFromFile() async {
+    var allowedExtensions = ['csv', 'json'];
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(type: FileType.custom, allowedExtensions: allowedExtensions);
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
+      if (allowedExtensions.contains(file.extension)) {
+        var data = utf8.decode(file.bytes!);
+        switch (file.extension) {
+          case 'csv':
+            return Util.fromCSVToJSON(data).item2;
+          case 'json':
+            return Util.fromJsonToCSV(data).item2;
+        }
+      }
+    }
+    return <Event>[];
+  }
+
+  /// __Returns a List\<Event\> from [url] file.__
+  ///
+  /// * Makes an HTTP GET request at given [url], downloads the file and converts it to List<Event>.
+  /// * If HTTP request fails, it returns an empty List\<Event\>.
+  ///
+  /// ```dart
+  /// ElevatedButton(
+  ///   onPressed: () {
+  ///     Util.getEventsFromUrl(urlString);
+  ///   },
+  ///   child: const Text('Submit'),
+  /// )
+  /// ```
   static Future<List<Event>> getEventsFromUrl(String url) async {
     var header = {'Access-Control-Allow-Origin': '*'};
-
     var response = await http.get(Uri.parse(url), headers: header);
-
     List<Event> lista = [];
 
     if (response.statusCode == 200) {
