@@ -9,8 +9,10 @@ import 'package:http/http.dart' as http;
 enum Formato { csv, json }
 
 class Util {
-  //Receives a string [data] with csv format and returns a tuple with the list of events listed in data
-  // and a string with json format
+  /// __Returns a Tuple\<String, List\<Event\>\>, consisting of json formatted string and a event list, from a csv formatted [data] string.__
+  /// * Uses the csvToEventsList() function
+  /// * For each Event in the list generates a json formatted string and concatenates it to the string to be returned
+
   static Tuple2<String, List<Event>> fromCSVToJSON(String data) {
     List<Event> events = csvToEventsList(data);
 
@@ -22,7 +24,10 @@ class Util {
     return Tuple2(jsonString, events);
   }
 
-//Receives a string [data] with information of events in csv pattern and returns a list of events
+  /// __Returns a List\<Event\> from csv formatted [data] string.__
+  /// * Split by break lines and create an event for each line
+  /// * All events are added and returned in a list
+
   static List<Event> csvToEventsList(String data) {
     List<Event> events = [];
     List<String> eventsStrings = data.split("\n");
@@ -31,6 +36,9 @@ class Util {
     }
     return events;
   }
+
+  ///__Returns a Tuple \<String, List\<Event\>\>, consisting of a CSV formatted string
+  ///and an event list, from a Json formatted [jsonString] string.__
 
   static Tuple2<String, List<Event>> fromJsonToCSV(String jsonString) {
     final aux = json.decode(jsonString);

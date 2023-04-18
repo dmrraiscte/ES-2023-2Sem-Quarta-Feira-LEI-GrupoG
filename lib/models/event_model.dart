@@ -1,3 +1,5 @@
+/// __Class with atribbutes regarding a schedule event.__
+
 class Event {
   String curso;
   String unidadeCurricular;
@@ -11,6 +13,7 @@ class Event {
   String salaAtribuidaAAula;
   String lotacaoSala;
 
+  /// Static to be used in csv formatted strings generation
   static String csvHeader =
       "Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora início da aula,Hora fim da aula,Data da aula,Sala atribuída à aula,Lotação da sala\n";
 
@@ -27,6 +30,10 @@ class Event {
       this.salaAtribuidaAAula,
       this.lotacaoSala);
 
+  ///__Creates an Event from the Map<String, dynamic> [json]__
+  ///
+  /// * The Map's key is a String that represents the JSON key and the Map's value is dynamic, representing the JSON value for said key
+
   Event.fromJson(Map<String, dynamic> json)
       : curso = json['Curso'],
         unidadeCurricular = json['Unidade Curricular'],
@@ -40,7 +47,11 @@ class Event {
         salaAtribuidaAAula = json['Sala atribuída à aula'],
         lotacaoSala = json['Lotação da sala'];
 
-//creates an Event from the string [csv]
+  /// __Creates an Event from a string [csv] with csv format__
+  ///
+  /// * Alternative constructor
+  /// * Split by comma outside of quotation marks
+
   factory Event.fromCSV(String csv) {
     var event = csv.split(RegExp(',(?=([^"]*"[^"]*")*[^"]*\$)'));
 
@@ -58,14 +69,24 @@ class Event {
         event[10].replaceAll('"', "").trim());
   }
 
-//Returns a string representing of an Event an its variables in a string with json format
+  /// __Returns a string representing of an Event an its variables in a string with json format__
   String toJson() {
     return '{ "Curso": "$curso", "Unidade Curricular": "$unidadeCurricular", "Turno": "$turno", "Turma": "$turma", "Inscritos no turno": "$inscritosNoTurno", "Dia da semana": "$diaDaSemana", "Hora início da aula": "$horaInicioAula", "Hora fim da aula": "$horaFimAula", "Data da aula": "$dataAula", "Sala atribuída à aula": "$salaAtribuidaAAula", "Lotação da sala": "$lotacaoSala" }';
   }
 
+  /// __Returns a string representing an Event an its variables in a string with CSV format__
   String toCSV() {
     return "${addQuotes(curso)},${addQuotes(unidadeCurricular)},${addQuotes(turno)},${addQuotes(turma)},$inscritosNoTurno,${addQuotes(diaDaSemana)},${addQuotes(horaInicioAula)},${addQuotes(horaFimAula)},${addQuotes(dataAula)},${addQuotes(salaAtribuidaAAula)},$lotacaoSala";
   }
+
+  /// __Returns a string with the correct csv value syntax from [value]__
+  ///
+  /// * If the [value] contains commas, the result returned will consist of said [value] surrounded by quotation marks
+  ///
+  /// ```dart
+  /// addQuotes("LETI") == LETI
+  /// addQuotes("LETI, LEI") == "LETI, LEI"
+  /// ```
 
   String addQuotes(String value) {
     return value.contains(",") ? "\"$value\"" : value;
