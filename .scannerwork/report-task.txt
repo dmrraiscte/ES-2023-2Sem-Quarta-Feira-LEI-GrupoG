@@ -2,5 +2,5 @@ projectKey=ES-2023-2Sem-Quarta-Feira-LEI-GrupoG
 serverUrl=http://localhost:9000
 serverVersion=10.0.0.68432
 dashboardUrl=http://localhost:9000/dashboard?id=ES-2023-2Sem-Quarta-Feira-LEI-GrupoG
-ceTaskId=AYeWNOT-s-_y5PMixokd
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYeWNOT-s-_y5PMixokd
+ceTaskId=AYeYjHlT4Nu6S75HZoox
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYeYjHlT4Nu6S75HZoox
