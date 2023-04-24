@@ -1,6 +1,7 @@
-import 'package:calendar_manager/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/file.dart';
 
 class PickFile extends StatefulWidget {
   const PickFile({super.key});
@@ -23,7 +24,7 @@ class _PickFileState extends State<PickFile> {
             Text(myText),
             ElevatedButton.icon(
                 onPressed: () async {
-                  var events = await Util.getEventsFromFile();
+                  var events = await File.getEventsFromFile();
                   setState(() {
                     myText =
                         "Encontrados ${events.length.toString()} no ficheiro";

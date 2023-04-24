@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../utils/utils.dart';
+import '../utils/conversion.dart';
+import '../utils/file.dart';
 
 class SaveFile extends StatefulWidget {
   const SaveFile({super.key});
@@ -32,13 +32,13 @@ class _SaveFileState extends State<SaveFile> {
             TextButton(
                 onPressed: () {
                   var txt = Util.eventsToJson(value2.item2);
-                  Util.saveFile(txt, Formato.json);
+                  File.saveFile(txt, Formato.json);
                 },
                 child: const Text('JSON')),
             TextButton(
                 onPressed: () {
                   var txt = Util.eventsToCsv(value2.item2);
-                  Util.saveFile(txt, Formato.csv);
+                  File.saveFile(txt, Formato.csv);
                 },
                 child: const Text('CSV'))
           ],
