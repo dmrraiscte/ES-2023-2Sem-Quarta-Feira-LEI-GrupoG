@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../utils/utils.dart';
+import '../utils/file.dart';
 
 class FileFromUrl extends StatefulWidget {
   const FileFromUrl({super.key});
@@ -35,7 +34,7 @@ class _FileFromUrlState extends State<FileFromUrl> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Util.getEventsFromUrl(inputText);
+                File.getEventsFromUrl(inputText);
               },
               child: const Text('Submit'),
             ),
