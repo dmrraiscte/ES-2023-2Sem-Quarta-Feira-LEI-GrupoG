@@ -58,7 +58,6 @@ class File {
     var header = {'Access-Control-Allow-Origin': '*'};
     var response = await http.get(Uri.parse(url), headers: header);
     List<Event> lista = [];
-
     if (response.statusCode == 200) {
       switch (url.split('.').last) {
         case 'json':

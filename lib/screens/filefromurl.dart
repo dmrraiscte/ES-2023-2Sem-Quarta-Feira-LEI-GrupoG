@@ -11,6 +11,14 @@ class FileFromUrl extends StatefulWidget {
 class _FileFromUrlState extends State<FileFromUrl> {
   var inputText = "";
   var outputText = "Start Flag";
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.text =
+        'https://raw.githubusercontent.com/dmrraiscte/ES-2023-2Sem-Quarta-Feira-LEI-GrupoG/main/assets/files/small_test.csv';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +31,7 @@ class _FileFromUrlState extends State<FileFromUrl> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
+              controller: _controller,
               onChanged: (text) {
                 setState(() {
                   inputText = text;
@@ -35,7 +44,7 @@ class _FileFromUrlState extends State<FileFromUrl> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                var lista = await File.getEventsFromUrl(inputText);
+                var lista = await File.getEventsFromUrl(_controller.text);
                 var result = lista.map((e) => e.toString()).join('\n');
                 setState(() {
                   outputText = result.isEmpty ? 'Vazio' : result;
