@@ -10,6 +10,7 @@ class FileFromUrl extends StatefulWidget {
 
 class _FileFromUrlState extends State<FileFromUrl> {
   var inputText = "";
+  var outputText = "Start Flag";
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +34,16 @@ class _FileFromUrlState extends State<FileFromUrl> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                File.getEventsFromUrl(inputText);
+              onPressed: () async {
+                var lista = await File.getEventsFromUrl(inputText);
+                var result = lista.map((e) => e.toString()).join('\n');
+                setState(() {
+                  outputText = result.isEmpty ? 'Vazio' : result;
+                });
               },
               child: const Text('Submit'),
             ),
+            Text(outputText)
           ],
         ),
       ),
