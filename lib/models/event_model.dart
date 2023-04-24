@@ -18,17 +18,18 @@ class Event {
       "Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora início da aula,Hora fim da aula,Data da aula,Sala atribuída à aula,Lotação da sala\n";
 
   Event(
-      this.curso,
-      this.unidadeCurricular,
-      this.turno,
-      this.turma,
-      this.inscritosNoTurno,
-      this.diaDaSemana,
-      this.horaInicioAula,
-      this.horaFimAula,
-      this.dataAula,
-      this.salaAtribuidaAAula,
-      this.lotacaoSala);
+    this.curso,
+    this.unidadeCurricular,
+    this.turno,
+    this.turma,
+    this.inscritosNoTurno,
+    this.diaDaSemana,
+    this.horaInicioAula,
+    this.horaFimAula,
+    this.dataAula,
+    this.salaAtribuidaAAula,
+    this.lotacaoSala,
+  );
 
   ///__Creates an Event from the Map<String, dynamic> [json]__
   ///
@@ -90,5 +91,10 @@ class Event {
 
   String addQuotes(String value) {
     return value.contains(",") ? "\"$value\"" : value;
+  }
+
+  @override
+  String toString() {
+    return 'EVENT[curso: $curso, dataAula: $dataAula, diaDaSemana: $diaDaSemana, horaFimAula: $horaFimAula, horaInicioAula: $horaInicioAula, inscritosNoTurno: $inscritosNoTurno, lotacaoSala: $lotacaoSala, salaAtribuidaAAula: $salaAtribuidaAAula, turma: $turma, turno: $turno, unidadeCurricular: $unidadeCurricular]';
   }
 }
