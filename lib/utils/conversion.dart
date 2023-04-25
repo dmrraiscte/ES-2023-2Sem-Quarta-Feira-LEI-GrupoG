@@ -40,18 +40,21 @@ class Util {
   ///__Returns a Tuple \<String, List\<Event\>\>, consisting of a CSV formatted string
   ///and an event list, from a Json formatted [jsonString] string.__
 
-  static Tuple2<String, List<Event>> fromJsonToCSV(String jsonString) {
+  static Tuple3<String, List<Event>, int> fromJsonToCSV(String jsonString) {
     final aux = json.decode(jsonString);
     List<Event> events = [];
     String csvData = Event.csvHeader;
     int numEvent = aux["events"].length;
+    int erros = 0;
 
     for (int i = 0; i < numEvent - 1; i++) {
       try {
         var evento = Event.fromJson(aux["events"][i]);
         events.add(evento);
         csvData += "${evento.toCSV()}\n";
-      } catch (_) {}
+      } catch (e) {
+        erros++;
+      }
     }
 
     if (numEvent > 0) {
@@ -63,10 +66,11 @@ class Util {
         if (csvData.substring(csvData.length - 1) == "\n") {
           csvData = csvData.substring(0, csvData.length - 1);
         }
+        erros++;
       }
     }
 
-    return Tuple2(csvData, events);
+    return Tuple3(csvData, events, erros);
   }
 
   ///

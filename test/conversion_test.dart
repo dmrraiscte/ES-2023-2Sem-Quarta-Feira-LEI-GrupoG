@@ -205,4 +205,15 @@ ME,"Teoria dos Jogos,dos Contratos",01789TP01,MEA1,30,,13:00:00,14:30:00,02/12/2
     expect(value.item2[1].curso, "LEI, LEI-PL");
     expect(value.item2[1].diaDaSemana, "Seg");
   });
+
+  test("Verificação da contagem de eventos não criados por erros de sintax",
+      () {
+    var value = Util.fromJsonToCSV("""{
+    "events": [{ "Curso": "MGSS", "Unidade Curricular": "GestÃ£o de OperaÃ§Ãµes e Sistema LogÃ­stico", "Turno": "03475TP01", "Turma": "MGSSA1", "Inscritos no turno": "43", "Dia da semana": "Sex", "Hora início da aula": "09:30:00", "Hora fim da aula": "11:00:00", "Data da aula": "16/09/2022", "Sala atribuída à aula": "AA3.23", "Lotação da sala":"" },
+{ "Curso": "", "Unidade Curricular": "Agentes AutÃ³nomos", "Turno": "03727T01", "Turma": "EI-PL-C2, EI-PL-C1", "Inscritos no turno": "51", "Dia da semana": "Seg", "Hora início da aula": "21:00:00", "Hora fim da aula": "22:30:00", "Data da aula": "05/12/2022", "Sala atribuída à aula": "C5.08", "Lotação da sala": "53" } ]}""");
+
+    expect(value.item3, 1);
+  });
+
+
 }
