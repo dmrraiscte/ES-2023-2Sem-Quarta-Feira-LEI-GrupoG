@@ -1,7 +1,7 @@
 import 'package:calendar_manager/utils/conversion.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:calendar_manager/models/event_model.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:file_saver/file_saver.dart';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -22,6 +22,7 @@ class File {
   ///  label: const Text("Escolher ficheiro")),
   /// ```
   static Future<List<Event>> getEventsFromFile() async {
+    //TODO: considerar mudar as extensões para incluir .ics
     var allowedExtensions = ['csv', 'json'];
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(type: FileType.custom, allowedExtensions: allowedExtensions);
@@ -43,7 +44,7 @@ class File {
 
   /// __Returns a List\<Event\> from [url] file.__
   ///
-  /// * Makes an HTTP GET request at given [url], downloads the file and converts it to List<Event>.
+  /// * Uses [getFileData] funtction to make HTTP requests and converts responseto List<Event>.
   /// * If HTTP request fails, it returns an empty List\<Event\>.
   ///
   /// ```dart
@@ -55,22 +56,73 @@ class File {
   /// )
   /// ```
   static Future<List<Event>> getEventsFromUrl(String url) async {
-    var header = {'Access-Control-Allow-Origin': '*'};
-    var response = await http.get(Uri.parse(url), headers: header);
+    url = url.contains('webcal') ? url.replaceFirst('webcal', 'https') : url;
+    var response = await getFileData(url);
     List<Event> lista = [];
     if (response.statusCode == 200) {
-      switch (url.split('.').last) {
+      switch (urlFileType(response.body)) {
         case 'json':
           lista = Util.fromJsonToCSV(response.body).item2;
           break;
         case 'csv':
           lista = Util.csvToEventsList(response.body);
           break;
+        case 'ics':
+          //TODO: codigo para conversão, é preciso implementar a conversão em conversion.dart
+          break;
         default:
           return lista;
       }
     }
     return lista;
+  }
+
+  //TODO: fazer documentação e testes
+  static String urlFileType(String responseBody) {
+    String fileType = 'Invalid';
+    if (isJsonFormat(responseBody)) {
+      fileType = 'json';
+    } else if (isCsvFormat(responseBody)) {
+      fileType = 'csv';
+    } else if (isICalendarFormat(responseBody)) {
+      fileType = 'ics';
+    }
+    return fileType;
+  }
+
+  //TODO: fazer documentação e testes
+  static bool isJsonFormat(String text) {
+    try {
+      jsonDecode(text);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  //TODO: fazer documentação e testes
+  static bool isCsvFormat(String text) {
+    int le = Event.csvHeader.split(',').length;
+    for (var e in text.split('\n')) {
+      if (e.split(',').length != le) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  //TODO: fazer documentação e testes
+  static bool isICalendarFormat(String text) {
+    return RegExp(r'^BEGIN:VCALENDAR\r\n').hasMatch(text);
+  }
+
+  /// __Returns a Response (http object) from [url] file.__
+  ///
+  /// * Makes an HTTP GET request at given [url], downloads the file and returns the response
+  static Future<Response> getFileData(String url) async {
+    var header = {'Access-Control-Allow-Origin': '*'};
+    var response = await get(Uri.parse(url), headers: header);
+    return response;
   }
 
   ///
@@ -88,6 +140,4 @@ class File {
         ext: formato.name,
         bytes: Uint8List.fromList(utf8.encode(fileText)));
   }
-
-  
 }

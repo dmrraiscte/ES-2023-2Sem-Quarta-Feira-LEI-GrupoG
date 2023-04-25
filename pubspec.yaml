@@ -40,6 +40,7 @@ dependencies:
   tuple: ^2.0.1
   http: ^0.13.5
   file_saver: ^0.2.1
+  csv: ^5.0.2
 
 
 dev_dependencies:
