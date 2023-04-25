@@ -29,7 +29,10 @@ class Event {
     this.dataAula,
     this.salaAtribuidaAAula,
     this.lotacaoSala,
-  ) : assert(curso.isNotEmpty &&
+  );
+
+  //TODO: Este assert tem de ser revisto. No webcal existem imensos dados em falta.
+  /* : assert(curso.isNotEmpty &&
             unidadeCurricular.isNotEmpty &&
             turno.isNotEmpty &&
             turma.isNotEmpty &&
@@ -37,7 +40,7 @@ class Event {
             horaFimAula.isNotEmpty &&
             dataAula.isNotEmpty &&
             salaAtribuidaAAula.isNotEmpty);
-
+*/
   ///__Creates an Event from the Map<String, dynamic> [json]__
   ///
   /// * The Map's key is a String that represents the JSON key and the Map's value is dynamic, representing the JSON value for said key

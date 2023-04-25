@@ -96,7 +96,6 @@ class Conversion {
     return csv;
   }
 
-
   /// __Returns a tupple containing an event list as item 1, and an integer indicating the number
   /// of events that couldnt be translated due to formating error in file as item 2.__
   ///
@@ -128,10 +127,12 @@ class Conversion {
         ad.addAll({l[0]: l[1]});
       }
       List<String> begin = ad['Begin']!.split(' ');
+
+      String desc = (ad.containsKey('Description') ? ad['Description'] : '')!;
       Event evento = Event(
           '',
-          ad['Unidade de execução']!,
-          ad['Turno']!,
+          ad['Unidade de execução'] ?? '',
+          ad['Turno'] ?? desc,
           '',
           '',
           '',
@@ -140,8 +141,10 @@ class Conversion {
           begin.first,
           icdData['location'].split(',').first,
           '');
+
       return evento;
     } catch (exception) {
+      //print(exception);
       return Null;
     }
   }
