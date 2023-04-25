@@ -44,16 +44,25 @@ class Util {
     int numEvent = aux["events"].length;
 
     for (int i = 0; i < numEvent - 1; i++) {
-      var evento = Event.fromJson(aux["events"][i]);
-      events.add(evento);
-      csvData += "${evento.toCSV()}\n";
+      try {
+        var evento = Event.fromJson(aux["events"][i]);
+        events.add(evento);
+        csvData += "${evento.toCSV()}\n";
+      } catch (_) {}
     }
 
     if (numEvent > 0) {
-      var evento = Event.fromJson(aux["events"][numEvent - 1]);
-      csvData += evento.toCSV();
-      events.add(evento);
+      try {
+        var evento = Event.fromJson(aux["events"][numEvent - 1]);
+        csvData += evento.toCSV();
+        events.add(evento);
+      } catch (e) {
+        if (csvData.substring(csvData.length - 1) == "\n") {
+          csvData = csvData.substring(0, csvData.length - 1);
+        }
+      }
     }
+
     return Tuple2(csvData, events);
   }
 
