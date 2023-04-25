@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 /// __Class with atribbutes regarding a schedule event.__
 
 class Event {
@@ -12,6 +14,7 @@ class Event {
   String dataAula;
   String salaAtribuidaAAula;
   String lotacaoSala;
+  DateFormat dateFormat = DateFormat("dd/MM/yyyy hh:mm:ss");
 
   /// Static to be used in csv formatted strings generation
   static String csvHeader =
@@ -91,6 +94,18 @@ class Event {
 
   String addQuotes(String value) {
     return value.contains(",") ? "\"$value\"" : value;
+  }
+
+  DateTime? getEventStart() {
+    return dateFormat.parse("$dataAula $horaInicioAula");
+  }
+
+  DateTime? getEventEnd() {
+    return dateFormat.parse("$dataAula $horaFimAula");
+  }
+
+  String getDescription() {
+    return "$unidadeCurricular\n$salaAtribuidaAAula";
   }
 
   @override
