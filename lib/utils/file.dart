@@ -88,4 +88,6 @@ class File {
         ext: formato.name,
         bytes: Uint8List.fromList(utf8.encode(fileText)));
   }
+
+  
 }
