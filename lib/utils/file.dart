@@ -50,7 +50,7 @@ class File {
   /// ```dart
   /// ElevatedButton(
   ///   onPressed: () {
-  ///     Util.getEventsFromUrl(urlString);
+  ///     File.getEventsFromUrl(urlString);
   ///   },
   ///   child: const Text('Submit'),
   /// )
@@ -77,9 +77,11 @@ class File {
     return lista;
   }
 
-  //TODO: fazer documentação e testes
+  /// __Returns a string indicator of the file extension.__
+  /// * 4 possible outputs: json, csv, ics and invalid.
+  ///  * If any for the first three arent recognized, 'invalid' is returned.
   static String urlFileType(String responseBody) {
-    String fileType = 'Invalid';
+    String fileType = 'invalid';
     if (isJsonFormat(responseBody)) {
       fileType = 'json';
     } else if (isCsvFormat(responseBody)) {
@@ -90,7 +92,7 @@ class File {
     return fileType;
   }
 
-  //TODO: fazer documentação e testes
+  /// __Returns boolean value for wether [text] is a json format string or not.__
   static bool isJsonFormat(String text) {
     try {
       jsonDecode(text);
@@ -100,7 +102,8 @@ class File {
     }
   }
 
-  //TODO: fazer documentação e testes
+  /// __Returns boolean value for wether [text] is a CSV format string or not.__
+  /// * CSV format is only compared against [Event.csvHeader], given the scope of use
   static bool isCsvFormat(String text) {
     int le = Event.csvHeader.split(',').length;
     for (var e in text.split('\n')) {
@@ -111,9 +114,9 @@ class File {
     return true;
   }
 
-  //TODO: fazer documentação e testes
+  /// __Returns boolean value for wether [text] is a ics format string or not.__
   static bool isICalendarFormat(String text) {
-    return RegExp(r'^BEGIN:VCALENDAR\r\n').hasMatch(text);
+    return RegExp(r'^BEGIN:VCALENDAR\n').hasMatch(text);
   }
 
   /// __Returns a Response (http object) from [url] file.__
@@ -131,7 +134,7 @@ class File {
   ///``` dart
   /// onPressed: () {
   ///           var txt = Util.eventsToJson(List<Events>);
-  ///           Util.saveFile(txt, (Formato.json or Formato.csv) );
+  ///           File.saveFile(txt, (Formato.json or Formato.csv) );
   /// }
   ///```
   static Future<void> saveFile(String fileText, Formato formato) async {
