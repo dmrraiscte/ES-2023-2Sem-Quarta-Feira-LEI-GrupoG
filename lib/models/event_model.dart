@@ -29,7 +29,14 @@ class Event {
     this.dataAula,
     this.salaAtribuidaAAula,
     this.lotacaoSala,
-  );
+  ) : assert(curso.isNotEmpty &&
+            unidadeCurricular.isNotEmpty &&
+            turno.isNotEmpty &&
+            turma.isNotEmpty &&
+            horaInicioAula.isNotEmpty &&
+            horaFimAula.isNotEmpty &&
+            dataAula.isNotEmpty &&
+            salaAtribuidaAAula.isNotEmpty);
 
   ///__Creates an Event from the Map<String, dynamic> [json]__
   ///

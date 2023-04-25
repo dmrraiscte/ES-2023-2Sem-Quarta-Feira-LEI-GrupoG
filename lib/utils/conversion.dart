@@ -26,7 +26,10 @@ class Util {
     List<Event> events = [];
     List<String> eventsStrings = data.split("\n");
     for (int i = 1; i < eventsStrings.length; i++) {
-      events.add(Event.fromCSV(eventsStrings[i]));
+      try {
+        var currentEvent = Event.fromCSV(eventsStrings[i]);
+        events.add(currentEvent);
+      } catch (_) {}
     }
     return events;
   }
