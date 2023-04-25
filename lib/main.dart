@@ -15,13 +15,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      initialRoute: "home",
+      initialRoute: "filefromurl",
       routes: {
-        "fileurl": (context) => const FileFromUrl(),
+        "filefromurl": (context) => const FileFromUrl(),
         "home": (context) => const Home(),
         "pickfile": (context) => const PickFile(),
         "savefile": (context) => const SaveFile(),
-        "ics": (context) => const IcsToString(),
+        "icstostring": (context) => const IcsToString(),
       },
       theme: ThemeData(
         primarySwatch: Colors.pink,

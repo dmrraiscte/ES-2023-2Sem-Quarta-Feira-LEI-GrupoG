@@ -1,6 +1,7 @@
 import 'package:calendar_manager/models/event_model.dart';
 import 'package:calendar_manager/utils/conversion.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:icalendar_parser/icalendar_parser.dart';
 
 void main() {
   test('fromCSVToJSON - String simple CSV conversion', () {
@@ -155,4 +156,69 @@ DF,Investimentos II,01074TP01,DFB1,3,Seg,17:30:00,19:00:00,21/11/2022,D1.07,27""
     expect(value.item2[1].curso, "LEI, LEI-PL");
     expect(value.item2[1].diaDaSemana, "Seg");
   });
+
+  test("icdToEvent and icdToEventList - good input", () {
+    String ics = r'''BEGIN:VCALENDAR
+PRODID:-//ISCTE-IUL//fenix//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+X-WR-CALNAME:ffgts@iscte.pt_iscte-iul
+BEGIN:VEVENT
+DTSTAMP:20230424T200358Z
+DTSTART:20220913T133000Z
+DTEND:20220913T150000Z
+SUMMARY:Programação Concorrente e Distribuída - Concurrent and Parallel P
+ rogramming
+UID:847676220398161@fenix.iscte.pt
+DESCRIPTION:Semestre: 2022/2023 - 1.º Semestre\nUnidade de execução: Prog
+ ramação Concorrente e Distribuída\nCódigo: L5096\nTurno: L5096TP04\nIníc
+ io: 2022-09-13 14:30\nFim: 2022-09-13 16:00\nDocente: Luís Henrique Rami
+ lo Mota\n\nSemester: 2022/2023 - 1.º Semestre\nExecution course: Concurr
+ ent and Parallel Programming\nCode: L5096\nShift: L5096TP04\nBegin: 2022
+ -09-13 14:30\nEnd: 2022-09-13 16:00\nTeacher: Luís Henrique Ramilo Mota\
+ n\n
+LOCATION:0S01\, 0\, Edifício Sedas Nunes (ISCTE-IUL)\, ISCTE-IUL
+END:VEVENT
+END:VCALENDAR''';
+    expect(
+        Conversion.icdToEvent(ICalendar.fromString(ics).data.first).toString(),
+        'EVENT[curso: , dataAula: 2022-09-13, diaDaSemana: , horaFimAula: 16:00, horaInicioAula: 14:30, inscritosNoTurno: , lotacaoSala: , salaAtribuidaAAula: 0S01, turma: , turno: L5096TP04, unidadeCurricular: Programação Concorrente e Distribuída]');
+
+    var temp = Conversion.icsToEventList(ics);
+    expect(temp.item1.length, 1);
+    expect(temp.item2, 0);
+  });
+
+  test("icdToEvent - bad input", () {
+    String ics = r'''BEGIN:VCALENDAR
+PRODID:-//ISCTE-IUL//fenix//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+X-WR-CALNAME:ffgts@iscte.pt_iscte-iul
+BsdEGIN:VEVENT
+DTSTAMP:20230424T200358Z
+DTSTART:20220913T133000Z
+DTEND:20220913T150000Z
+SUMMARY:Programação Concorrente e Distribuída - Concurrent and Parallel P
+ rogramming
+UID:847676220398161@fenix.iscte.pt
+DESCRsIPTION:Semestre: 2022/2023 - 1.º Semestre\nUnidade de execução: Prog
+ ramação Concorrente e Distribuída\nCódigo: L5096\nTurno: L5096TP04\nIníc
+ io: 2022-09-13 14:30\nFim: 2022-09-13 16:00\nDocente: Luís Henrique Rami
+ lo Mota\n\,Semester: 2022/2023 - 1.º Semestre\nExecution course: Concurr
+ ent and Parallel Programming\nCode: L5096\nShift: L5096TP04\nBegin: 2022
+ -09-13 14:30\nEnd: 202,2-09-13 16:00\nTeacher:, Luís Henrique Ramilo Mota\
+ n\n
+LOCA  qTION:0S01\, 0\, Edifício Sedas Nunes (ISCTE-IUL)\, ISCTE-IUL
+END:VEVENT
+END:VCALENDAR''';
+    expect(
+        Conversion.icdToEvent(ICalendar.fromString(ics).data.first).toString(),
+        'Null');
+        var temp = Conversion.icsToEventList(ics);
+    expect(temp.item1.length, 0);
+    expect(temp.item2, 1);
+  });
+
+  
 }
