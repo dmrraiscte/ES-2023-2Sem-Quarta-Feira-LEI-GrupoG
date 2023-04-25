@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('fromCSVToJSON - String simple CSV conversion', () {
-    var value = Util.fromCSVToJSON(
+    var value = Conversion.fromCSVToJSON(
         """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala
 ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,AA2.25,34
 ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,23/11/2022,AA2.25,34""");
@@ -17,7 +17,7 @@ ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,23/1
   test(
       'fromCSVToJSON - String, CSV with empty fields and quotations conversion',
       () {
-    var value2 = Util.fromCSVToJSON(
+    var value2 = Conversion.fromCSVToJSON(
         """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala
 LP,CompetÃªncias AcadÃ©micas I,L5205PL05,PA3,23,Qua,11:00:00,12:30:00,14/12/2022,"2,00E+07",50
 "LETI, LEI, LEI-PL, LIGE, LIGE-PL",Fundamentos de Arquitectura de Computadores,L0705TP23,"ET-A9, ET-A8, ET-A7, ET-A12, ET-A11, ET-A10",44,Sex,13:00:00,14:30:00,09/12/2022,C5.06,70
@@ -30,7 +30,7 @@ LP,CompetÃªncias AcadÃ©micas I,L5205PL05,PA3,23,Qua,11:00:00,12:30:00,14/12/
   });
 
   test('fromCSVToJSON - List of Events ', () {
-    var value = Util.fromCSVToJSON(
+    var value = Conversion.fromCSVToJSON(
         """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala
 ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,AA2.25,34
 "LETI, LEI, LEI-PL",CÃ¡lculo I,03703TP02,"EI-A6, EI-A5, EI-A4, EI-A3, EI-A2, EI-A1",52,Qui,14:30:00,16:00:00,15/09/2022,,""");
@@ -40,14 +40,14 @@ ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/1
     expect(value.item2[1].curso, "LETI, LEI, LEI-PL");
   });
   test('fromCSVToJSON - Empty File ', () {
-    var value = Util.fromCSVToJSON(
+    var value = Conversion.fromCSVToJSON(
         """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala""");
     expect(value.item1, "{ \"events\": [] }");
     expect(value.item2.length, 0);
   });
 
   test('eventsToCsv() - test: simple comparece of String content', () async {
-    var value2 = Util.eventsToCsv(Util.fromCSVToJSON(
+    var value2 = Conversion.eventsToCsv(Conversion.fromCSVToJSON(
             """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala
   ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,AA2.25,34
   ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,23/11/2022,AA2.25,34""")
@@ -60,11 +60,11 @@ Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora iníc
   });
 
   test('eventstoCsv() - test with a empty List<Events>', () async {
-    expect(Util.eventsToCsv(List.empty()), Event.csvHeader);
+    expect(Conversion.eventsToCsv(List.empty()), Event.csvHeader);
   });
 
   test('eventsToJson() - test: simple comparece of String content', () async {
-    var value2 = Util.eventsToJson(Util.fromCSVToJSON(
+    var value2 = Conversion.eventsToJson(Conversion.fromCSVToJSON(
             """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala
   ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,AA2.25,34
   ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,23/11/2022,AA2.25,34""")
@@ -76,13 +76,13 @@ Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora iníc
   });
 
   test('eventstoJson() - test with a empty List<Events>', () async {
-    expect(Util.eventsToJson(List.empty()), '{ "events": []}');
+    expect(Conversion.eventsToJson(List.empty()), '{ "events": []}');
   });
 
   test(
       """Conversão sem caracteres especiais nos valores recebidos (sem , ou "" )""",
       () {
-    var value = Util.fromJsonToCSV(""" {
+    var value = Conversion.fromJsonToCSV(""" {
     "events": [
         { "Curso": "ME", "Unidade Curricular": "Teoria dos Jogos e dos Contratos", "Turno": "01789TP01", "Turma": "MEA1", "Inscritos no turno": "30", "Dia da semana": "Qua", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "23/11/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "34" },
         { "Curso": "DF", "Unidade Curricular": "Investimentos II", "Turno": "01074TP01", "Turma": "DFB1", "Inscritos no turno": "3", "Dia da semana": "Seg", "Hora início da aula": "17:30:00", "Hora fim da aula": "19:00:00", "Data da aula": "21/11/2022", "Sala atribuída à aula": "D1.07", "Lotação da sala": "27" }
@@ -95,7 +95,7 @@ DF,Investimentos II,01074TP01,DFB1,3,Seg,17:30:00,19:00:00,21/11/2022,D1.07,27""
   });
 
   test("Conversão com vírgulas nos valores recebidos", () {
-    var value = Util.fromJsonToCSV(""" {
+    var value = Conversion.fromJsonToCSV(""" {
     "events": [
         {
             "Curso": "ME",
@@ -116,7 +116,7 @@ DF,Investimentos II,01074TP01,DFB1,3,Seg,17:30:00,19:00:00,21/11/2022,D1.07,27""
   });
 
   test("""Conversão com "" nos valores recebidos""", () {
-    var value = Util.fromJsonToCSV(""" {
+    var value = Conversion.fromJsonToCSV(""" {
     "events": [
         {
             "Curso": "",
@@ -138,7 +138,7 @@ DF,Investimentos II,01074TP01,DFB1,3,Seg,17:30:00,19:00:00,21/11/2022,D1.07,27""
   });
 
   test("Conversão sem objetos no ficheiro", () {
-    var value = Util.fromJsonToCSV(""" {
+    var value = Conversion.fromJsonToCSV(""" {
     "events": []} """);
 
     expect(value.item1,
@@ -147,7 +147,7 @@ DF,Investimentos II,01074TP01,DFB1,3,Seg,17:30:00,19:00:00,21/11/2022,D1.07,27""
   });
 
   test("Verificação dos Eventos criados", () {
-    var value = Util.fromJsonToCSV("""{
+    var value = Conversion.fromJsonToCSV("""{
     "events": [{ "Curso": "MGSS", "Unidade Curricular": "GestÃ£o de OperaÃ§Ãµes e Sistema LogÃ­stico", "Turno": "03475TP01", "Turma": "MGSSA1", "Inscritos no turno": "43", "Dia da semana": "Sex", "Hora início da aula": "09:30:00", "Hora fim da aula": "11:00:00", "Data da aula": "16/09/2022", "Sala atribuída à aula": "AA3.23", "Lotação da sala":"" },
 { "Curso": "LEI, LEI-PL", "Unidade Curricular": "Agentes AutÃ³nomos", "Turno": "03727T01", "Turma": "EI-PL-C2, EI-PL-C1", "Inscritos no turno": "51", "Dia da semana": "Seg", "Hora início da aula": "21:00:00", "Hora fim da aula": "22:30:00", "Data da aula": "05/12/2022", "Sala atribuída à aula": "C5.08", "Lotação da sala": "58" } ]}""");
 

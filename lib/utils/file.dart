@@ -33,9 +33,9 @@ class File {
         var data = utf8.decode(file.bytes!);
         switch (file.extension) {
           case 'csv':
-            return Util.fromCSVToJSON(data).item2;
+            return Conversion.fromCSVToJSON(data).item2;
           case 'json':
-            return Util.fromJsonToCSV(data).item2;
+            return Conversion.fromJsonToCSV(data).item2;
         }
       }
     }
@@ -62,10 +62,10 @@ class File {
     if (response.statusCode == 200) {
       switch (urlFileType(response.body)) {
         case 'json':
-          lista = Util.fromJsonToCSV(response.body).item2;
+          lista = Conversion.fromJsonToCSV(response.body).item2;
           break;
         case 'csv':
-          lista = Util.csvToEventsList(response.body);
+          lista = Conversion.csvToEventsList(response.body);
           break;
         case 'ics':
           //TODO: codigo para conversão, é preciso implementar a conversão em conversion.dart

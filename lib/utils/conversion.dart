@@ -4,7 +4,7 @@ import 'package:tuple/tuple.dart';
 
 enum Formato { csv, json }
 
-class Util {
+class Conversion {
   /// __Returns a Tuple\<String, List\<Event\>\>, consisting of json formatted string and a event list, from a csv formatted [data] string.__
   /// * Uses the csvToEventsList() function
   /// * For each Event in the list generates a json formatted string and concatenates it to the string to be returned
@@ -74,5 +74,9 @@ class Util {
     String csv = Event.csvHeader;
     csv += events.map((e) => e.toCSV()).join("\n");
     return csv;
+  }
+
+  static String icsToEventList(String ics) {
+    return 'hello';
   }
 }
