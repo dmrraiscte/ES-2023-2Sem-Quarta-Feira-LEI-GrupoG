@@ -64,7 +64,7 @@ class File {
           lista = Util.fromJsonToCSV(response.body).item2;
           break;
         case 'csv':
-          lista = Util.csvToEventsList(response.body);
+          lista = Util.csvToEventsList(response.body).item1;
           break;
         default:
           return lista;

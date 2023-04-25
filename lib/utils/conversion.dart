@@ -8,30 +8,33 @@ class Util {
   /// __Returns a Tuple\<String, List\<Event\>\>, consisting of json formatted string and a event list, from a csv formatted [data] string.__
   /// * Uses the csvToEventsList() function
   /// * For each Event in the list generates a json formatted string and concatenates it to the string to be returned
-  static Tuple2<String, List<Event>> fromCSVToJSON(String data) {
-    List<Event> events = csvToEventsList(data);
+  static Tuple3<String, List<Event>, int> fromCSVToJSON(String data) {
+    Tuple2<List<Event>, int> events = csvToEventsList(data);
 
     String jsonString = "";
 
-    jsonString = events.map((e) => e.toJson()).join(",\n");
+    jsonString = events.item1.map((e) => e.toJson()).join(",\n");
     jsonString = '{ "events": [$jsonString] }';
 
-    return Tuple2(jsonString, events);
+    return Tuple3(jsonString, events.item1, events.item2);
   }
 
   /// __Returns a List\<Event\> from csv formatted [data] string.__
   /// * Split by break lines and create an event for each line
   /// * All events are added and returned in a list
-  static List<Event> csvToEventsList(String data) {
+  static Tuple2<List<Event>, int> csvToEventsList(String data) {
     List<Event> events = [];
     List<String> eventsStrings = data.split("\n");
+    int badEvents = 0;
     for (int i = 1; i < eventsStrings.length; i++) {
       try {
         var currentEvent = Event.fromCSV(eventsStrings[i]);
         events.add(currentEvent);
-      } catch (_) {}
+      } catch (_) {
+        badEvents++;
+      }
     }
-    return events;
+    return Tuple2(events, badEvents);
   }
 
   ///__Returns a Tuple \<String, List\<Event\>\>, consisting of a CSV formatted string
