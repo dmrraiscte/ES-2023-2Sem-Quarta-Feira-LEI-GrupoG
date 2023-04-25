@@ -67,10 +67,9 @@ class File {
           lista = Conversion.fromJsonToCSV(response.body).item2;
           break;
         case 'csv':
-          lista = Conversion.csvToEventsList(response.body);
+          lista = Conversion.csvToEventsList(response.body).item1;
           break;
         case 'ics':
-          // print(response.body);
           lista = Conversion.icsToEventList(response.body).item1;
           break;
         default:
