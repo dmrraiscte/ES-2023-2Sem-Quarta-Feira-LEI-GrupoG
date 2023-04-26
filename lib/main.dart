@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      initialRoute: "filefromurl",
+      initialRoute: "home",
       routes: {
         "filefromurl": (context) => const FileFromUrl(),
         "home": (context) => const Home(),
