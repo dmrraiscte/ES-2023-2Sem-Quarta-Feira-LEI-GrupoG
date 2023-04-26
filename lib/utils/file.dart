@@ -1,3 +1,4 @@
+import 'package:calendar_manager/models/events_file_model.dart';
 import 'package:calendar_manager/utils/conversion.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:calendar_manager/models/event_model.dart';
@@ -21,7 +22,7 @@ class File {
   ///  icon: const Icon(CupertinoIcons.tray_arrow_down_fill),
   ///  label: const Text("Escolher ficheiro")),
   /// ```
-  static Future<List<Event>> getEventsFromFile() async {
+  static Future<EventsFile> getEventsFromFile() async {
     var allowedExtensions = ['csv', 'json', 'ics'];
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(type: FileType.custom, allowedExtensions: allowedExtensions);
@@ -32,18 +33,17 @@ class File {
         var data = utf8.decode(file.bytes!);
         switch (file.extension) {
           case 'csv':
-            return Conversion.fromCSVToJSON(data).item2;
+            return Conversion.fromCSVToJSON(data);
           case 'json':
-            return Conversion.fromJsonToCSV(data).item2;
+            return Conversion.fromJsonToCSV(data);
           case 'ics':
-            return Conversion.icsToEventList(data).item1;
+            return Conversion.icsToEventList(data);
         }
       }
     }
-    return <Event>[];
+    return EventsFile("", [], -1);
   }
 
-  //TODO: Considerar enviar os tuplos em vez de só os dados, para dar feeback ao utilizador de problemas
   /// __Returns a List\<Event\> from [url] file.__
   ///
   /// * Uses [getUrlFileData] funtction to make HTTP requests and converts responseto List<Event>.
@@ -57,26 +57,20 @@ class File {
   ///   child: const Text('Submit'),
   /// )
   /// ```
-  static Future<List<Event>> getEventsFromUrl(String url) async {
+  static Future<EventsFile> getEventsFromUrl(String url) async {
     url = url.contains('webcal') ? url.replaceFirst('webcal', 'https') : url;
     var response = await getUrlFileData(url);
-    List<Event> lista = [];
     if (response.statusCode == 200) {
       switch (urlFileType(response.body)) {
         case 'json':
-          lista = Conversion.fromJsonToCSV(response.body).item2;
-          break;
+          return Conversion.fromJsonToCSV(response.body);
         case 'csv':
-          lista = Conversion.csvToEventsList(response.body).item1;
-          break;
+          return Conversion.fromCSVToJSON(response.body);
         case 'ics':
-          lista = Conversion.icsToEventList(response.body).item1;
-          break;
-        default:
-          return lista;
+          return Conversion.icsToEventList(response.body);
       }
     }
-    return lista;
+    return EventsFile("", [], -1);
   }
 
   /// __Returns a string indicator of the file extension.__
