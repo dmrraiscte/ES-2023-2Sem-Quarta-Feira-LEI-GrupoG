@@ -1,4 +1,6 @@
 import 'package:calendar_manager/models/event_model.dart';
+import 'package:calendar_manager/utils/extensions.dart';
+import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class EventDataSource extends CalendarDataSource {
@@ -21,9 +23,16 @@ class EventDataSource extends CalendarDataSource {
     return appointments![index].getDescription();
   }
 
-  /*@override
+  @override
   Color getColor(int index) {
-    return appointments![index].background;
+    if (appointments!.any((e) {
+      return e != appointments![index] &&
+          (appointments![index].getEventStart() as DateTime)
+              .isInBetweenInclusive((e.getEventStart() as DateTime),
+                  (e.getEventEnd() as DateTime));
+    })) {
+      return Colors.red;
+    }
+    return Colors.green;
   }
-*/
 }
