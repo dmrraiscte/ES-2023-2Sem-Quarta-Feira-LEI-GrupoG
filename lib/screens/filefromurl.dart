@@ -44,9 +44,9 @@ class _FileFromUrlState extends State<FileFromUrl> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                var lista = await File.getEventsFromUrl(_controller.text);
+                var data = await File.getEventsFromUrl(_controller.text);
                 //var result = lista.map((e) => e.toString()).join('\n');
-                var result = lista.length;
+                var result = data.lstEvents.length;
                 setState(() {
                   outputText = result == 0 ? 'Vazio' : result.toString();
                 });
