@@ -14,7 +14,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  CalendarController _calendarController = CalendarController();
+  final CalendarController _calendarController = CalendarController();
 
   @override
   initState() {
@@ -51,6 +51,7 @@ class _HomeState extends State<Home> {
               )
             : SfCalendar(
                 view: CalendarView.month,
+
                 allowedViews: const <CalendarView>[
                   CalendarView.day,
                   CalendarView.week,
@@ -64,10 +65,10 @@ class _HomeState extends State<Home> {
 
                 showDatePickerButton: true,
                 allowViewNavigation: true,
-                //viewNavigationMode: ViewNavigationMode.snap,
+                //viewNavigationMode: ViewNavigationMode.none,
 
                 dataSource: eventDataSource,
-                view: CalendarView.week,
+
                 timeSlotViewSettings: const TimeSlotViewSettings(startHour: 6),
               ),
       ),
