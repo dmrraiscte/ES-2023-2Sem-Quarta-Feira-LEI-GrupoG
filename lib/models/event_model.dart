@@ -14,7 +14,7 @@ class Event {
   String dataAula;
   String salaAtribuidaAAula;
   String lotacaoSala;
-  DateFormat dateFormat = DateFormat("dd/MM/yyyy hh:mm:ss");
+  DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
 
   /// Static to be used in csv formatted strings generation
   static String csvHeader =
