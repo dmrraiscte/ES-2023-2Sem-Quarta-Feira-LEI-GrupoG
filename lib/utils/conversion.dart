@@ -1,32 +1,17 @@
 import 'dart:convert';
 import 'package:calendar_manager/models/event_model.dart';
-import 'package:tuple/tuple.dart';
+import 'package:calendar_manager/models/events_file_model.dart';
 import 'package:icalendar_parser/icalendar_parser.dart';
 
 enum Formato { csv, json }
 
 class Conversion {
-  /// __Returns a Tuple\<String, List\<Event\>\>, consisting of json formatted string and a event list, from a csv formatted [data] string.__
-  /// * Uses the csvToEventsList() function
+  /// __Returns a EventsFile, consisting of json formatted string and a event list, from a csv formatted [data] string.__
   /// * For each Event in the list generates a json formatted string and concatenates it to the string to be returned
-  static Tuple3<String, List<Event>, int> fromCSVToJSON(String data) {
-    Tuple2<List<Event>, int> events = csvToEventsList(data);
-
-    String jsonString = "";
-
-    jsonString = events.item1.map((e) => e.toJson()).join(",\n");
-    jsonString = '{ "events": [$jsonString] }';
-
-    return Tuple3(jsonString, events.item1, events.item2);
-  }
-
-  /// __Returns a List\<Event\> from csv formatted [data] string.__
-  /// * Split by break lines and create an event for each line
-  /// * All events are added and returned in a list
-  static Tuple2<List<Event>, int> csvToEventsList(String data) {
+  static EventsFile fromCSVToJSON(String data) {
     List<Event> events = [];
-    List<String> eventsStrings = data.split("\n");
-    int badEvents = 0;
+    var eventsStrings = data.split("\n");
+    var badEvents = 0;
     for (int i = 1; i < eventsStrings.length; i++) {
       try {
         var currentEvent = Event.fromCSV(eventsStrings[i]);
@@ -35,18 +20,21 @@ class Conversion {
         badEvents++;
       }
     }
-    return Tuple2(events, badEvents);
+
+    var jsonString = eventsToJson(events);
+
+    return EventsFile(jsonString, events, badEvents);
   }
 
   ///__Returns a Tuple \<String, List\<Event\>\>, consisting of a CSV formatted string
   ///and an event list, from a Json formatted [jsonString] string.__
 
-  static Tuple3<String, List<Event>, int> fromJsonToCSV(String jsonString) {
+  static EventsFile fromJsonToCSV(String jsonString) {
     final aux = json.decode(jsonString);
     List<Event> events = [];
-    String csvData = Event.csvHeader;
-    int numEvent = aux["events"].length;
-    int erros = 0;
+    var csvData = Event.csvHeader;
+    var numEvent = aux["events"].length;
+    var erros = 0;
 
     for (int i = 0; i < numEvent - 1; i++) {
       try {
@@ -71,7 +59,7 @@ class Conversion {
       }
     }
 
-    return Tuple3(csvData, events, erros);
+    return EventsFile(csvData, events, erros);
   }
 
   ///
@@ -100,7 +88,7 @@ class Conversion {
   /// of events that couldnt be translated due to formating error in file as item 2.__
   ///
   /// * Receives a string [ics] as input representing the string text of the ics file
-  static Tuple2<List<Event>, int> icsToEventList(String ics) {
+  static EventsFile icsToEventList(String ics) {
     int missingData = 0;
     List<Event> lista = [];
     ICalendar icd = ICalendar.fromString(ics);
@@ -112,7 +100,7 @@ class Conversion {
         lista.add(obj as Event);
       }
     }
-    return Tuple2(lista, missingData);
+    return EventsFile("", lista, missingData);
   }
 
   /// __Returns an Object type object in the realm of [Event, Null].__

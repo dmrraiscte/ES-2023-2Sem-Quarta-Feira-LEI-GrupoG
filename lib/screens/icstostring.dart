@@ -47,7 +47,7 @@ class _IcsToStringState extends State<IcsToString> {
                     onPressed: () {
                       var data = Conversion.icsToEventList(_input.text);
                       _output.text =
-                          'DATA:\n${data.item1.map((e) => e.toString()).join('\n')}\n\n#MissingData:\n${data.item2}';
+                          'DATA:\n${data.lstEvents.map((e) => e.toString()).join('\n')}\n\n#MissingData:\n${data.numberOfErrors}';
                     },
                     child: const Text('Test')),
               )),

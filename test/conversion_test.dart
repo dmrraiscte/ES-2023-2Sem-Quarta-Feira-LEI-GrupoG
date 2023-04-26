@@ -10,7 +10,7 @@ void main() {
 ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,AA2.25,34
 ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,23/11/2022,AA2.25,34""");
 
-    expect(value.item1,
+    expect(value.representativeString,
         """{ "events": [{ "Curso": "ME", "Unidade Curricular": "Teoria dos Jogos e dos Contratos", "Turno": "01789TP01", "Turma": "MEA1", "Inscritos no turno": "30", "Dia da semana": "Sex", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "02/12/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "34" },
 { "Curso": "ME", "Unidade Curricular": "Teoria dos Jogos e dos Contratos", "Turno": "01789TP01", "Turma": "MEA1", "Inscritos no turno": "30", "Dia da semana": "Qua", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "23/11/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "34" }] }""");
   });
@@ -24,7 +24,7 @@ LP,CompetÃªncias AcadÃ©micas I,L5205PL05,PA3,23,Qua,11:00:00,12:30:00,14/12/
 "LETI, LEI, LEI-PL, LIGE, LIGE-PL",Fundamentos de Arquitectura de Computadores,L0705TP23,"ET-A9, ET-A8, ET-A7, ET-A12, ET-A11, ET-A10",44,Sex,13:00:00,14:30:00,09/12/2022,C5.06,70
 "LETI, LEI, LEI-PL",CÃ¡lculo I,03703TP02,"EI-A6, EI-A5, EI-A4, EI-A3, EI-A2, EI-A1",52,Qui,14:30:00,16:00:00,15/09/2022,AA2.25,""");
 
-    expect(value2.item1,
+    expect(value2.representativeString,
         """{ "events": [{ "Curso": "LP", "Unidade Curricular": "CompetÃªncias AcadÃ©micas I", "Turno": "L5205PL05", "Turma": "PA3", "Inscritos no turno": "23", "Dia da semana": "Qua", "Hora início da aula": "11:00:00", "Hora fim da aula": "12:30:00", "Data da aula": "14/12/2022", "Sala atribuída à aula": "2,00E+07", "Lotação da sala": "50" },
 { "Curso": "LETI, LEI, LEI-PL, LIGE, LIGE-PL", "Unidade Curricular": "Fundamentos de Arquitectura de Computadores", "Turno": "L0705TP23", "Turma": "ET-A9, ET-A8, ET-A7, ET-A12, ET-A11, ET-A10", "Inscritos no turno": "44", "Dia da semana": "Sex", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "09/12/2022", "Sala atribuída à aula": "C5.06", "Lotação da sala": "70" },
 { "Curso": "LETI, LEI, LEI-PL", "Unidade Curricular": "CÃ¡lculo I", "Turno": "03703TP02", "Turma": "EI-A6, EI-A5, EI-A4, EI-A3, EI-A2, EI-A1", "Inscritos no turno": "52", "Dia da semana": "Qui", "Hora início da aula": "14:30:00", "Hora fim da aula": "16:00:00", "Data da aula": "15/09/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "" }] }""");
@@ -37,7 +37,7 @@ LP,CompetÃªncias AcadÃ©micas I,L5205PL05,PA3,23,Qua,11:00:00,12:30:00,14/12/
 "LETI, LEI, LEI-PL, LIGE, LIGE-PL",Fundamentos de Arquitectura de Computadores,L0705TP23,"ET-A9, ET-A8, ET-A7, ET-A12, ET-A11, ET-A10",44,Sex,13:00:00,14:30:00,09/12/2022,C5.06,70
 "LETI, LEI, LEI-PL",CÃ¡lculo I,03703TP02,"EI-A6, EI-A5, EI-A4, EI-A3, EI-A2, EI-A1",52,Qui,14:30:00,16:00:00,15/09/2022,AA2.25,""");
 
-    expect(value2.item1,
+    expect(value2.representativeString,
         """{ "events": [{ "Curso": "LP", "Unidade Curricular": "CompetÃªncias AcadÃ©micas I", "Turno": "L5205PL05", "Turma": "PA3", "Inscritos no turno": "23", "Dia da semana": "Qua", "Hora início da aula": "11:00:00", "Hora fim da aula": "12:30:00", "Data da aula": "14/12/2022", "Sala atribuída à aula": "2,00E+07", "Lotação da sala": "50" },
 { "Curso": "LETI, LEI, LEI-PL, LIGE, LIGE-PL", "Unidade Curricular": "Fundamentos de Arquitectura de Computadores", "Turno": "L0705TP23", "Turma": "ET-A9, ET-A8, ET-A7, ET-A12, ET-A11, ET-A10", "Inscritos no turno": "44", "Dia da semana": "Sex", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "09/12/2022", "Sala atribuída à aula": "C5.06", "Lotação da sala": "70" }] }""");
   });
@@ -48,16 +48,16 @@ LP,CompetÃªncias AcadÃ©micas I,L5205PL05,PA3,23,Qua,11:00:00,12:30:00,14/12/
 ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,AA2.25,34
 "LETI, LEI, LEI-PL",CÃ¡lculo I,03703TP02,"EI-A6, EI-A5, EI-A4, EI-A3, EI-A2, EI-A1",52,Qui,14:30:00,16:00:00,15/09/2022,AA2.25,
 "LETI, LEI, LEI-PL",CÃ¡lculo I,03703TP02,"EI-A6, EI-A5, EI-A4, EI-A3, EI-A2, EI-A1",52,Qui,14:30:00,16:00:00,15/09/2022,,""");
-    expect(value.item2.length, 2);
-    expect(value.item2[0].curso, "ME");
-    expect(value.item2[1].lotacaoSala, "");
-    expect(value.item2[1].curso, "LETI, LEI, LEI-PL");
+    expect(value.lstEvents.length, 2);
+    expect(value.lstEvents[0].curso, "ME");
+    expect(value.lstEvents[1].lotacaoSala, "");
+    expect(value.lstEvents[1].curso, "LETI, LEI, LEI-PL");
   });
   test('fromCSVToJSON - Empty File ', () {
     var value = Conversion.fromCSVToJSON(
         """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala""");
-    expect(value.item1, "{ \"events\": [] }");
-    expect(value.item2.length, 0);
+    expect(value.representativeString, "{ \"events\": [] }");
+    expect(value.lstEvents.length, 0);
   });
 
   test('fromCSVToJSON - Bad event format ', () {
@@ -66,10 +66,10 @@ ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/1
 ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,AA2.25,34
 "LETI, LEI, LEI-PL",CÃ¡lculo I,03703TP02,"EI-A6, EI-A5, EI-A4, EI-A3, EI-A2, EI-A1",52,Qui,14:30:00,16:00:00,15/09/2022,AA2.25
 "LETI, LEI, LEI-PL",CÃ¡lculo I,03703TP02,"EI-A6, EI-A5, EI-A4, EI-A3, EI-A2, EI-A1",52,Qui,14:30:00,16:00:00,15/09/2022,,""");
-    expect(value.item1,
+    expect(value.representativeString,
         """{ "events": [{ "Curso": "ME", "Unidade Curricular": "Teoria dos Jogos e dos Contratos", "Turno": "01789TP01", "Turma": "MEA1", "Inscritos no turno": "30", "Dia da semana": "Sex", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "02/12/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "34" }] }""");
-    expect(value.item2.length, 1);
-    expect(value.item3, 2);
+    expect(value.lstEvents.length, 1);
+    expect(value.numberOfErrors, 2);
   });
 
   test('eventsToCsv() - test: simple comparece of String content', () async {
@@ -77,7 +77,7 @@ ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/1
             """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala
   ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,AA2.25,34
   ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,23/11/2022,AA2.25,34""")
-        .item2);
+        .lstEvents);
 
     expect(value2, """
 Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora início da aula,Hora fim da aula,Data da aula,Sala atribuída à aula,Lotação da sala
@@ -94,7 +94,7 @@ Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora iníc
             """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala
   ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,AA2.25,34
   ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,23/11/2022,AA2.25,34""")
-        .item2);
+        .lstEvents);
 
     expect(value2, """
 { "events": [{ "Curso": "  ME", "Unidade Curricular": "Teoria dos Jogos e dos Contratos", "Turno": "01789TP01", "Turma": "MEA1", "Inscritos no turno": "30", "Dia da semana": "Sex", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "02/12/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "34" },
@@ -114,7 +114,7 @@ Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora iníc
         { "Curso": "DF", "Unidade Curricular": "Investimentos II", "Turno": "01074TP01", "Turma": "DFB1", "Inscritos no turno": "3", "Dia da semana": "Seg", "Hora início da aula": "17:30:00", "Hora fim da aula": "19:00:00", "Data da aula": "21/11/2022", "Sala atribuída à aula": "D1.07", "Lotação da sala": "27" }
         ]} """);
 
-    expect(value.item1,
+    expect(value.representativeString,
         """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora início da aula,Hora fim da aula,Data da aula,Sala atribuída à aula,Lotação da sala
 ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,23/11/2022,AA2.25,34
 DF,Investimentos II,01074TP01,DFB1,3,Seg,17:30:00,19:00:00,21/11/2022,D1.07,27""");
@@ -137,7 +137,7 @@ DF,Investimentos II,01074TP01,DFB1,3,Seg,17:30:00,19:00:00,21/11/2022,D1.07,27""
             "Lotação da sala": "34"
         }]} """);
 
-    expect(value.item1,
+    expect(value.representativeString,
         """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora início da aula,Hora fim da aula,Data da aula,Sala atribuída à aula,Lotação da sala\nME,"Teoria dos Jogos,dos Contratos",01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/12/2022,"2,00E+08",34""");
   });
 
@@ -160,7 +160,7 @@ DF,Investimentos II,01074TP01,DFB1,3,Seg,17:30:00,19:00:00,21/11/2022,D1.07,27""
             "Lotação da sala": ""
         }]} """);
 
-    expect(value.item1,
+    expect(value.representativeString,
         """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora início da aula,Hora fim da aula,Data da aula,Sala atribuída à aula,Lotação da sala""");
   });
 
@@ -183,7 +183,7 @@ DF,Investimentos II,01074TP01,DFB1,3,Seg,17:30:00,19:00:00,21/11/2022,D1.07,27""
             "Lotação da sala": ""
         }]} """);
 
-    expect(value.item1,
+    expect(value.representativeString,
         """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora início da aula,Hora fim da aula,Data da aula,Sala atribuída à aula,Lotação da sala
 ME,"Teoria dos Jogos,dos Contratos",01789TP01,MEA1,30,,13:00:00,14:30:00,02/12/2022,"2,00E+08",""");
   });
@@ -192,9 +192,9 @@ ME,"Teoria dos Jogos,dos Contratos",01789TP01,MEA1,30,,13:00:00,14:30:00,02/12/2
     var value = Conversion.fromJsonToCSV(""" {
     "events": []} """);
 
-    expect(value.item1,
+    expect(value.representativeString,
         """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora início da aula,Hora fim da aula,Data da aula,Sala atribuída à aula,Lotação da sala\n""");
-    expect(value.item2.length, 0);
+    expect(value.lstEvents.length, 0);
   });
 
   test("Verificação dos Eventos criados", () {
@@ -202,9 +202,9 @@ ME,"Teoria dos Jogos,dos Contratos",01789TP01,MEA1,30,,13:00:00,14:30:00,02/12/2
     "events": [{ "Curso": "MGSS", "Unidade Curricular": "GestÃ£o de OperaÃ§Ãµes e Sistema LogÃ­stico", "Turno": "03475TP01", "Turma": "MGSSA1", "Inscritos no turno": "43", "Dia da semana": "Sex", "Hora início da aula": "09:30:00", "Hora fim da aula": "11:00:00", "Data da aula": "16/09/2022", "Sala atribuída à aula": "AA3.23", "Lotação da sala":"" },
 { "Curso": "LEI, LEI-PL", "Unidade Curricular": "Agentes AutÃ³nomos", "Turno": "03727T01", "Turma": "EI-PL-C2, EI-PL-C1", "Inscritos no turno": "51", "Dia da semana": "Seg", "Hora início da aula": "21:00:00", "Hora fim da aula": "22:30:00", "Data da aula": "05/12/2022", "Sala atribuída à aula": "C5.08", "Lotação da sala": "58" } ]}""");
 
-    expect(value.item2[0].lotacaoSala, "");
-    expect(value.item2[1].curso, "LEI, LEI-PL");
-    expect(value.item2[1].diaDaSemana, "Seg");
+    expect(value.lstEvents[0].lotacaoSala, "");
+    expect(value.lstEvents[1].curso, "LEI, LEI-PL");
+    expect(value.lstEvents[1].diaDaSemana, "Seg");
   });
 
   test("icdToEvent and icdToEventList - good input", () {
@@ -235,8 +235,8 @@ END:VCALENDAR''';
         'EVENT[curso: , dataAula: 2022-09-13, diaDaSemana: , horaFimAula: 16:00, horaInicioAula: 14:30, inscritosNoTurno: , lotacaoSala: , salaAtribuidaAAula: 0S01, turma: , turno: L5096TP04, unidadeCurricular: Programação Concorrente e Distribuída]');
 
     var temp = Conversion.icsToEventList(ics);
-    expect(temp.item1.length, 1);
-    expect(temp.item2, 0);
+    expect(temp.representativeString.length, 1);
+    expect(temp.lstEvents, 0);
   });
 
   test("icdToEvent - bad input", () {
@@ -266,8 +266,8 @@ END:VCALENDAR''';
         Conversion.icdToEvent(ICalendar.fromString(ics).data.first).toString(),
         'Null');
     var temp = Conversion.icsToEventList(ics);
-    expect(temp.item1.length, 0);
-    expect(temp.item2, 1);
+    expect(temp.lstEvents.length, 0);
+    expect(temp.numberOfErrors, 1);
   });
 
   test("Verificação da contagem de eventos não criados por erros de sintax",
@@ -276,6 +276,6 @@ END:VCALENDAR''';
     "events": [{ "Curso": "MGSS", "Unidade Curricular": "GestÃ£o de OperaÃ§Ãµes e Sistema LogÃ­stico", "Turno": "03475TP01", "Turma": "MGSSA1", "Inscritos no turno": "43", "Dia da semana": "Sex", "Hora início da aula": "09:30:00", "Hora fim da aula": "11:00:00", "Data da aula": "16/09/2022", "Sala atribuída à aula": "AA3.23", "Lotação da sala":"" },
 { "Curso": "", "Unidade Curricular": "Agentes AutÃ³nomos", "Turno": "03727T01", "Turma": "EI-PL-C2, EI-PL-C1", "Inscritos no turno": "51", "Dia da semana": "Seg", "Hora início da aula": "21:00:00", "Hora fim da aula": "22:30:00", "Data da aula": "05/12/2022", "Sala atribuída à aula": "C5.08", "Lotação da sala": "53" } ]}""");
 
-    expect(value.item3, 1);
+    expect(value.numberOfErrors, 1);
   });
 }

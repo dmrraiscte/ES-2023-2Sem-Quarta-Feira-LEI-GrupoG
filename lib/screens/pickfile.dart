@@ -24,10 +24,10 @@ class _PickFileState extends State<PickFile> {
             Text(myText),
             ElevatedButton.icon(
                 onPressed: () async {
-                  var events = await File.getEventsFromFile();
+                  var data = await File.getEventsFromFile();
                   setState(() {
                     myText =
-                        "Encontrados ${events.length.toString()} no ficheiro";
+                        "Encontrados ${data.lstEvents.toString()} no ficheiro\nErros: ${data.numberOfErrors}";
                   });
                 },
                 icon: const Icon(CupertinoIcons.tray_arrow_down_fill),
