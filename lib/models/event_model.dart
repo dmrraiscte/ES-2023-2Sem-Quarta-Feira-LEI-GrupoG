@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 /// __Class with atribbutes regarding a schedule event.__
 
 class Event {
@@ -12,6 +14,7 @@ class Event {
   String dataAula;
   String salaAtribuidaAAula;
   String lotacaoSala;
+  DateFormat dateFormat = DateFormat("dd/MM/yyyy hh:mm:ss");
 
   /// Static to be used in csv formatted strings generation
   static String csvHeader =
@@ -29,10 +32,10 @@ class Event {
     this.dataAula,
     this.salaAtribuidaAAula,
     this.lotacaoSala,
-  );
+  )
 
   //TODO: Este assert tem de ser revisto. No webcal existem imensos dados em falta.
-  /* : assert(curso.isNotEmpty &&
+  : assert(curso.isNotEmpty &&
             unidadeCurricular.isNotEmpty &&
             turno.isNotEmpty &&
             turma.isNotEmpty &&
@@ -40,7 +43,7 @@ class Event {
             horaFimAula.isNotEmpty &&
             dataAula.isNotEmpty &&
             salaAtribuidaAAula.isNotEmpty);
-*/
+
   ///__Creates an Event from the Map<String, dynamic> [json]__
   ///
   /// * The Map's key is a String that represents the JSON key and the Map's value is dynamic, representing the JSON value for said key
@@ -104,6 +107,18 @@ class Event {
 
   String addQuotes(String value) {
     return value.contains(",") ? "\"$value\"" : value;
+  }
+
+  DateTime? getEventStart() {
+    return dateFormat.parse("$dataAula $horaInicioAula");
+  }
+
+  DateTime? getEventEnd() {
+    return dateFormat.parse("$dataAula $horaFimAula");
+  }
+
+  String getDescription() {
+    return "$unidadeCurricular\n$salaAtribuidaAAula";
   }
 
   @override
