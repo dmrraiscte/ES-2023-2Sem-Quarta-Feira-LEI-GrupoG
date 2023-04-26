@@ -41,7 +41,9 @@ class _HomeState extends State<Home> {
               child: const Text("Importar por ficheiro local"),
               onTap: () async {
                 var data = await File.getEventsFromFile();
-                populateCalendar(data.lstEvents);
+                if (data.lstEvents.isNotEmpty) {
+                  populateCalendar(data.lstEvents);
+                }
               },
             ),
           ];
