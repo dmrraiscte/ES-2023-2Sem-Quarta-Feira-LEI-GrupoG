@@ -17,7 +17,7 @@ class _FileFromUrlState extends State<FileFromUrl> {
   void initState() {
     super.initState();
     _controller.text =
-        'https://raw.githubusercontent.com/dmrraiscte/ES-2023-2Sem-Quarta-Feira-LEI-GrupoG/main/assets/files/small_test.csv';
+        'webcal://fenix.iscte-iul.pt/publico/publicPersonICalendar.do?method=iCalendar&username=ffgts@iscte.pt&password=SX4v4d8ydbeslYCCIgm4AyX34eKv7rM8znluCsj1EShymYzeRoEyLKY1fTs0A0IXlcG7xOnUyErtqIdC0DaATwh07UqvoVBmHcWD5lkVpleosKcBSs0yqxqyfEAn08UE';
   }
 
   @override
@@ -45,9 +45,10 @@ class _FileFromUrlState extends State<FileFromUrl> {
             ElevatedButton(
               onPressed: () async {
                 var lista = await File.getEventsFromUrl(_controller.text);
-                var result = lista.map((e) => e.toString()).join('\n');
+                //var result = lista.map((e) => e.toString()).join('\n');
+                var result = lista.length;
                 setState(() {
-                  outputText = result.isEmpty ? 'Vazio' : result;
+                  outputText = result == 0 ? 'Vazio' : result.toString();
                 });
               },
               child: const Text('Submit'),

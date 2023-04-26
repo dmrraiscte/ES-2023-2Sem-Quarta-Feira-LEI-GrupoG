@@ -34,22 +34,35 @@ class Event {
     this.lotacaoSala,
   );
 
+  //TODO: Este assert tem de ser revisto. No webcal existem imensos dados em falta.
+  /* : assert(curso.isNotEmpty &&
+            unidadeCurricular.isNotEmpty &&
+            turno.isNotEmpty &&
+            turma.isNotEmpty &&
+            horaInicioAula.isNotEmpty &&
+            horaFimAula.isNotEmpty &&
+            dataAula.isNotEmpty &&
+            salaAtribuidaAAula.isNotEmpty);
+*/
   ///__Creates an Event from the Map<String, dynamic> [json]__
   ///
   /// * The Map's key is a String that represents the JSON key and the Map's value is dynamic, representing the JSON value for said key
 
-  Event.fromJson(Map<String, dynamic> json)
-      : curso = json['Curso'],
-        unidadeCurricular = json['Unidade Curricular'],
-        turno = json['Turno'],
-        turma = json['Turma'],
-        inscritosNoTurno = json['Inscritos no turno'],
-        diaDaSemana = json['Dia da semana'],
-        horaInicioAula = json['Hora início da aula'],
-        horaFimAula = json['Hora fim da aula'],
-        dataAula = json['Data da aula'],
-        salaAtribuidaAAula = json['Sala atribuída à aula'],
-        lotacaoSala = json['Lotação da sala'];
+  factory Event.fromJson(Map<String, dynamic> json) {
+    var event = Event(
+        json['Curso'],
+        json['Unidade Curricular'],
+        json['Turno'],
+        json['Turma'],
+        json['Inscritos no turno'],
+        json['Dia da semana'],
+        json['Hora início da aula'],
+        json['Hora fim da aula'],
+        json['Data da aula'],
+        json['Sala atribuída à aula'],
+        json['Lotação da sala']);
+    return event;
+  }
 
   /// __Creates an Event from a string [csv] with csv format__
   ///
