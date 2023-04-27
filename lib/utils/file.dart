@@ -126,7 +126,7 @@ class File {
 
   ///
   ///__Save a file in a default path with a specified formate from a String__
-  /// 
+  ///
   ///``` dart
   /// onPressed: () {
   ///           var txt = Util.eventsToJson(List<Events>);
