@@ -142,6 +142,20 @@ class File {
         bytes: Uint8List.fromList(utf8.encode(fileText)));
   }
 
+  ///
+  ///__Generate a pop up alert__
+  ///
+  /// Generate a pop up alert. It can be successfull if erros are 0 or less; 
+  /// warning if there is any errors.
+  /// the pop up messagem will auto close in 2 seconds.
+  /// 
+  /// ``` dart
+  /// onPressed: () {
+  ///             File.alert(context, erros);
+  ///             File.saveFile(txt, Formato.json);
+  ///           },
+  /// ```
+  ///
   static void alert(BuildContext context, int erros) {
     if (erros < 1) {
       QuickAlert.show(
