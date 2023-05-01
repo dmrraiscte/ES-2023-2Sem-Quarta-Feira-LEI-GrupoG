@@ -2,10 +2,12 @@ import 'package:calendar_manager/models/events_file_model.dart';
 import 'package:calendar_manager/utils/conversion.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:calendar_manager/models/event_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:file_saver/file_saver.dart';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:quickalert/quickalert.dart';
 
 class File {
   /// __Returns a List\<Event\> from file ['csv', 'json'].__
@@ -138,5 +140,36 @@ class File {
         name: 'calendar.${formato.name}',
         ext: formato.name,
         bytes: Uint8List.fromList(utf8.encode(fileText)));
+  }
+
+  ///
+  ///__Generate a pop up alert__
+  ///
+  /// Generate a pop up alert. It can be successfull if erros are 0 or less; 
+  /// warning if there is any errors.
+  /// the pop up messagem will auto close in 2 seconds.
+  /// 
+  /// ``` dart
+  /// onPressed: () {
+  ///             File.alert(context, erros);
+  ///             File.saveFile(txt, Formato.json);
+  ///           },
+  /// ```
+  ///
+  static void alert(BuildContext context, int erros) {
+    if (erros < 1) {
+      QuickAlert.show(
+          context: context,
+          title: 'Success',
+          type: QuickAlertType.success,
+          autoCloseDuration: const Duration(seconds: 2));
+    } else {
+      QuickAlert.show(
+          context: context,
+          title: 'Warning',
+          type: QuickAlertType.warning,
+          text: 'Encontrados $erros no ficheiro',
+          autoCloseDuration: const Duration(seconds: 2));
+    }
   }
 }

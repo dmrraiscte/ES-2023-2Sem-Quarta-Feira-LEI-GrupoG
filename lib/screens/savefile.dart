@@ -32,12 +32,14 @@ class _SaveFileState extends State<SaveFile> {
             TextButton(
                 onPressed: () {
                   var txt = Conversion.eventsToJson(value2.lstEvents);
+                  File.alert(context, 0);
                   File.saveFile(txt, Formato.json);
                 },
                 child: const Text('JSON')),
             TextButton(
                 onPressed: () {
                   var txt = Conversion.eventsToCsv(value2.lstEvents);
+                  File.alert(context, 3);
                   File.saveFile(txt, Formato.csv);
                 },
                 child: const Text('CSV'))
