@@ -1,10 +1,10 @@
 import 'package:calendar_manager/models/event_data_source.dart';
+import 'package:calendar_manager/models/events_file_model.dart';
 import 'package:calendar_manager/utils/file.dart';
+import 'package:calendar_manager/widgets.dart/filters.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
-import '../models/event_model.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,6 +15,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final CalendarController _calendarController = CalendarController();
+  var eventsFile = EventsFile("", [], -1);
 
   @override
   initState() {
@@ -44,33 +45,41 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: Center(
-        child: eventDataSource == null
-            ? const Text(
-                "Sem dados a apresentar.\nPara importar um calendário, clica no + no canto inferior direito.",
-                textAlign: TextAlign.center,
-              )
-            : SfCalendar(
-                view: CalendarView.month,
+        child: Column(
+          children: [
+            Filters(eventsLst: eventsFile.lstEvents),
+            Expanded(
+              child: eventDataSource == null
+                  ? const Text(
+                      "Sem dados a apresentar.\nPara importar um calendário, clica no + no canto inferior direito.",
+                      textAlign: TextAlign.center,
+                    )
+                  : SfCalendar(
+                      view: CalendarView.month,
 
-                allowedViews: const <CalendarView>[
-                  CalendarView.day,
-                  CalendarView.week,
-                  CalendarView.month,
-                  CalendarView.schedule
-                ],
-                minDate: DateTime(2021, 03, 05, 10, 0, 0),
-                maxDate: DateTime(2023, 08, 25, 10, 0, 0),
+                      allowedViews: const <CalendarView>[
+                        CalendarView.day,
+                        CalendarView.week,
+                        CalendarView.month,
+                        CalendarView.schedule
+                      ],
+                      minDate: DateTime(2021, 03, 05, 10, 0, 0),
+                      maxDate: DateTime(2023, 08, 25, 10, 0, 0),
 
-                controller: _calendarController,
+                      controller: _calendarController,
 
-                showDatePickerButton: true,
-                allowViewNavigation: true,
-                //viewNavigationMode: ViewNavigationMode.none,
+                      showDatePickerButton: true,
+                      allowViewNavigation: true,
+                      //viewNavigationMode: ViewNavigationMode.none,
 
-                dataSource: eventDataSource,
+                      dataSource: eventDataSource,
 
-                timeSlotViewSettings: const TimeSlotViewSettings(startHour: 6),
-              ),
+                      timeSlotViewSettings:
+                          const TimeSlotViewSettings(startHour: 6),
+                    ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: PopupMenuButton(
         tooltip: "",
@@ -82,8 +91,9 @@ class _HomeState extends State<Home> {
               child: const Text("Importar por ficheiro local"),
               onTap: () async {
                 var data = await File.getEventsFromFile();
+
                 if (data.lstEvents.isNotEmpty) {
-                  populateCalendar(data.lstEvents);
+                  populateCalendar(data);
                 }
               },
             ),
@@ -93,14 +103,16 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void populateCalendar(List<Event> list) {
+  void populateCalendar(EventsFile data) {
     setState(() {
-      eventDataSource = EventDataSource(list);
+      eventsFile = data;
+      //eventDataSource = EventDataSource(data.lstEvents);
     });
   }
 
   void clearCalendar() {
     setState(() {
+      eventsFile = EventsFile("", [], -1);
       eventDataSource = null;
     });
   }
