@@ -75,6 +75,7 @@ class _FiltersState extends State<Filters> {
     );
   }
 
+//TODO: Check if performance can be better (should be using isolates but no can do because its running on web)
   Future<void> updateMapValue() async {
     if (widget.eventsLst.isNotEmpty) {
       selectedUc = widget.eventsLst.first.unidadeCurricular;
