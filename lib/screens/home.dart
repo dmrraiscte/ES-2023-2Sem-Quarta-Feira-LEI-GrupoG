@@ -1,4 +1,5 @@
 import 'package:calendar_manager/models/event_data_source.dart';
+import 'package:calendar_manager/models/event_model.dart';
 import 'package:calendar_manager/models/events_file_model.dart';
 import 'package:calendar_manager/utils/file.dart';
 import 'package:calendar_manager/widgets.dart/filters.dart';
@@ -47,7 +48,14 @@ class _HomeState extends State<Home> {
       body: Center(
         child: Column(
           children: [
-            Filters(eventsLst: eventsFile.lstEvents),
+            Filters(
+              eventsLst: eventsFile.lstEvents,
+              onFilterChangedList: (events) {
+                setState(() {
+                  populateCalendar(events);
+                });
+              },
+            ),
             Expanded(
               child: eventDataSource == null
                   ? const Text(
@@ -85,7 +93,7 @@ class _HomeState extends State<Home> {
         tooltip: "",
         icon: const Icon(CupertinoIcons.plus),
         itemBuilder: (BuildContext context) {
-          //TODO: Adicionar os outros métodos de import e chamar o populateCalendar com a listagem desejada
+          //TODO: Adicionar os outros métodos de import e chamar
           return [
             PopupMenuItem(
               child: const Text("Importar por ficheiro local"),
@@ -93,7 +101,7 @@ class _HomeState extends State<Home> {
                 var data = await File.getEventsFromFile();
 
                 if (data.lstEvents.isNotEmpty) {
-                  populateCalendar(data);
+                  startFilters(data);
                 }
               },
             ),
@@ -103,11 +111,15 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void populateCalendar(EventsFile data) {
+  void startFilters(EventsFile data) {
     setState(() {
       eventsFile = data;
-      //TODO: Comentado para performance performance
-      //eventDataSource = EventDataSource(data.lstEvents);
+    });
+  }
+
+  void populateCalendar(List<Event> data) {
+    setState(() {
+      eventDataSource = EventDataSource(data);
     });
   }
 

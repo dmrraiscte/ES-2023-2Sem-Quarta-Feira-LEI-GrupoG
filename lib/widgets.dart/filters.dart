@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 class Filters extends StatefulWidget {
   final List<Event> eventsLst;
-  const Filters({super.key, required this.eventsLst});
+  final Function(List<Event>) onFilterChangedList;
+  const Filters(
+      {super.key, required this.eventsLst, required this.onFilterChangedList});
 
   @override
   State<Filters> createState() => _FiltersState();
@@ -60,6 +62,8 @@ class _FiltersState extends State<Filters> {
                     setState(() {
                       selectedTurno = val;
                     });
+                    widget.onFilterChangedList(
+                        mapEvents[selectedUc]![selectedTurno]!);
                   }
                 }),
       ],
