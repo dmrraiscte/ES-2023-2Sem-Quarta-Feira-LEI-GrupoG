@@ -30,13 +30,14 @@ class MyApp extends StatelessWidget {
       ),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         SfGlobalLocalizations.delegate
       ],
       supportedLocales: const [
-        Locale('pt'),
+        Locale('pt', 'PT'),
       ],
-      locale: const Locale("pt"),
+      locale: const Locale("pt", "PT"),
     );
   }
 }

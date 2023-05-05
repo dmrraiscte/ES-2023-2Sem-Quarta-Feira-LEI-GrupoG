@@ -14,7 +14,6 @@ class _FiltersState extends State<Filters> {
   Map<String, Map<String, List<Event>>> mapEvents = {};
   String selectedUc = "";
   String selectedTurno = "";
-  bool loading = true;
   @override
   void initState() {
     super.initState();
@@ -67,10 +66,7 @@ class _FiltersState extends State<Filters> {
     );
   }
 
-  void updateMapValue() {
-    setState(() {
-      loading = true;
-    });
+  Future<void> updateMapValue() async {
     if (widget.eventsLst.isNotEmpty) {
       selectedUc = widget.eventsLst.first.unidadeCurricular;
       selectedTurno = "";
@@ -96,9 +92,5 @@ class _FiltersState extends State<Filters> {
         mapEvents.addAll({uc: turnoMap});
       }
     }
-
-    setState(() {
-      loading = false;
-    });
   }
 }

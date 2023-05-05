@@ -106,6 +106,7 @@ class _HomeState extends State<Home> {
   void populateCalendar(EventsFile data) {
     setState(() {
       eventsFile = data;
+      //TODO: Comentado para performance performance
       //eventDataSource = EventDataSource(data.lstEvents);
     });
   }
