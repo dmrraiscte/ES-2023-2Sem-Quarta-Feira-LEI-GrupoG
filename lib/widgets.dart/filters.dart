@@ -23,7 +23,9 @@ class _FiltersState extends State<Filters> {
 
   @override
   Widget build(BuildContext context) {
-    if (tempLst != widget.eventsLst) updateMapValue();
+    if (tempLst != widget.eventsLst) {
+      updateMapValue();
+    }
     tempLst = widget.eventsLst;
     return Row(
       children: [
@@ -47,9 +49,7 @@ class _FiltersState extends State<Filters> {
         selectedUc.isEmpty
             ? Container()
             : DropdownButton(
-                value: selectedTurno.isEmpty
-                    ? mapEvents[selectedUc]!.keys.first
-                    : selectedTurno,
+                value: selectedTurno,
                 items: mapEvents[selectedUc]!
                     .keys
                     .map((e) => DropdownMenuItem(
@@ -73,7 +73,7 @@ class _FiltersState extends State<Filters> {
   Future<void> updateMapValue() async {
     if (widget.eventsLst.isNotEmpty) {
       selectedUc = widget.eventsLst.first.unidadeCurricular;
-      selectedTurno = "";
+      selectedTurno = widget.eventsLst.first.turno;
       mapEvents = {};
 
       for (var uc in widget.eventsLst
