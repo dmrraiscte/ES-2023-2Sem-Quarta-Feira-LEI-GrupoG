@@ -14,6 +14,7 @@ class _FiltersState extends State<Filters> {
   Map<String, Map<String, List<Event>>> mapEvents = {};
   String selectedUc = "";
   String selectedTurno = "";
+  bool loading = true;
   @override
   void initState() {
     super.initState();
@@ -67,32 +68,37 @@ class _FiltersState extends State<Filters> {
   }
 
   void updateMapValue() {
+    setState(() {
+      loading = true;
+    });
     if (widget.eventsLst.isNotEmpty) {
-      setState(() {
-        selectedUc = widget.eventsLst.first.unidadeCurricular;
-        selectedTurno = "";
-        mapEvents = {};
+      selectedUc = widget.eventsLst.first.unidadeCurricular;
+      selectedTurno = "";
+      mapEvents = {};
 
-        for (var uc in widget.eventsLst
-            .map((e) => e.unidadeCurricular)
+      for (var uc in widget.eventsLst
+          .map((e) => e.unidadeCurricular)
+          .toSet()
+          .toList()) {
+        Map<String, List<Event>> turnoMap = {};
+        for (var turno in widget.eventsLst
+            .where((e) => e.unidadeCurricular == uc)
+            .map((e) => e.turno)
             .toSet()
             .toList()) {
-          Map<String, List<Event>> turnoMap = {};
-          for (var turno in widget.eventsLst
-              .where((e) => e.unidadeCurricular == uc)
-              .map((e) => e.turno)
-              .toSet()
-              .toList()) {
-            turnoMap.addAll({
-              turno: widget.eventsLst
-                  .where((e) => e.unidadeCurricular == uc && e.turno == turno)
-                  .toSet()
-                  .toList()
-            });
-          }
-          mapEvents.addAll({uc: turnoMap});
+          turnoMap.addAll({
+            turno: widget.eventsLst
+                .where((e) => e.unidadeCurricular == uc && e.turno == turno)
+                .toSet()
+                .toList()
+          });
         }
-      });
+        mapEvents.addAll({uc: turnoMap});
+      }
     }
+
+    setState(() {
+      loading = false;
+    });
   }
 }
