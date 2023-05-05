@@ -18,6 +18,8 @@ class _FiltersState extends State<Filters> {
   String selectedTurno = "";
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) =>
+        widget.onFilterChangedList(mapEvents[selectedUc]![selectedTurno]!));
     super.initState();
   }
 
@@ -43,6 +45,9 @@ class _FiltersState extends State<Filters> {
                   if (val != null) {
                     setState(() {
                       selectedUc = val;
+                      selectedTurno = mapEvents[val]!.keys.first;
+                      widget.onFilterChangedList(
+                          mapEvents[selectedUc]![selectedTurno]!);
                     });
                   }
                 }),
