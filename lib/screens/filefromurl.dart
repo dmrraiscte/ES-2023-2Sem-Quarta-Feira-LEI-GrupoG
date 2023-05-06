@@ -27,34 +27,38 @@ class _FileFromUrlState extends State<FileFromUrl> {
         title: const Text('testing'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
-              controller: _controller,
-              onChanged: (text) {
-                setState(() {
-                  inputText = text;
-                });
-              },
-              decoration: const InputDecoration(
-                hintText: 'URL',
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextField(
+                controller: _controller,
+                onChanged: (text) {
+                  setState(() {
+                    inputText = text;
+                  });
+                },
+                decoration: const InputDecoration(
+                  hintText: 'URL',
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                var data = await File.getEventsFromUrl(_controller.text);
-                //var result = lista.map((e) => e.toString()).join('\n');
-                var result = data.lstEvents.length;
-                setState(() {
-                  outputText = result == 0 ? 'Vazio' : result.toString();
-                });
-              },
-              child: const Text('Submit'),
-            ),
-            Text(outputText)
-          ],
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  var data = await File.getEventsFromUrl(_controller.text);
+                  //var result = lista.map((e) => e.toString()).join('\n');
+                  var result = data.lstEvents;
+                  setState(() {
+                    outputText = result.isEmpty
+                        ? 'Vazio'
+                        : result.map((e) => e.toString()).join("\n");
+                  });
+                },
+                child: const Text('Submit'),
+              ),
+              Text(outputText)
+            ],
+          ),
         ),
       ),
     );

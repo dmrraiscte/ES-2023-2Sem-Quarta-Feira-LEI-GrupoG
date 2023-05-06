@@ -48,6 +48,11 @@ class _HomeState extends State<Home> {
       body: Center(
         child: Column(
           children: [
+            GridView(
+              
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 10)),
+            /*
             if (eventsFile.numberOfErrors != -1)
               Filters(
                 eventsLst: eventsFile.lstEvents,
@@ -57,6 +62,7 @@ class _HomeState extends State<Home> {
                   });
                 },
               ),
+              */
             Expanded(
               child: eventDataSource == null
                   ? const Text(

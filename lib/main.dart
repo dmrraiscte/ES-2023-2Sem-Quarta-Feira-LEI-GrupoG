@@ -1,4 +1,3 @@
-import 'package:calendar_manager/screens/all.dart';
 import 'package:calendar_manager/screens/filefromurl.dart';
 import 'package:calendar_manager/screens/home.dart';
 import 'package:calendar_manager/screens/pickfile.dart';
@@ -18,14 +17,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      initialRoute: "all",
+      initialRoute: "filefromurl",
       routes: {
         "filefromurl": (context) => const FileFromUrl(),
         "home": (context) => const Home(),
         "pickfile": (context) => const PickFile(),
         "savefile": (context) => const SaveFile(),
         "icstostring": (context) => const IcsToString(),
-        "all": (context) => const All()
       },
       theme: ThemeData(
         primarySwatch: Colors.pink,
