@@ -50,11 +50,6 @@ class _HomeState extends State<Home> {
           children: [
             Filters(
               eventsLst: eventsFile.lstEvents,
-              onFilterChangedList: (lst) {
-                setState(() {
-                  populateCalendar(lst);
-                });
-              },
             ),
             Expanded(
               child: eventDataSource == null
