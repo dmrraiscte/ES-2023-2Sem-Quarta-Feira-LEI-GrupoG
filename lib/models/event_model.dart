@@ -121,6 +121,11 @@ class Event {
     return "$unidadeCurricular\n$salaAtribuidaAAula";
   }
 
+  bool isTestOrExam() {
+    return turno.toLowerCase().contains("teste") ||
+        turno.toLowerCase().contains("exame");
+  }
+
   @override
   String toString() {
     return 'EVENT[curso: $curso, dataAula: $dataAula, diaDaSemana: $diaDaSemana, horaFimAula: $horaFimAula, horaInicioAula: $horaInicioAula, inscritosNoTurno: $inscritosNoTurno, lotacaoSala: $lotacaoSala, salaAtribuidaAAula: $salaAtribuidaAAula, turma: $turma, turno: $turno, unidadeCurricular: $unidadeCurricular]';
