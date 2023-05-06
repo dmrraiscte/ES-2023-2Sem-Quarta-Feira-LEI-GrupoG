@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 
 class Filters extends StatefulWidget {
   final List<Event> eventsLst;
-  final Function(List<Event>) onFilterChangedList;
-  const Filters(
-      {super.key, required this.eventsLst, required this.onFilterChangedList});
+  final Function(List<Event>)? onFilterChangedList;
+  const Filters({super.key, required this.eventsLst, this.onFilterChangedList});
 
   @override
   State<Filters> createState() => _FiltersState();
@@ -18,8 +17,9 @@ class _FiltersState extends State<Filters> {
   String selectedTurno = "";
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) =>
-        widget.onFilterChangedList(mapEvents[selectedUc]![selectedTurno]!));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      callback();
+    });
     super.initState();
   }
 
@@ -46,8 +46,7 @@ class _FiltersState extends State<Filters> {
                     setState(() {
                       selectedUc = val;
                       selectedTurno = mapEvents[val]!.keys.first;
-                      widget.onFilterChangedList(
-                          mapEvents[selectedUc]![selectedTurno]!);
+                      callback();
                     });
                   }
                 }),
@@ -67,8 +66,7 @@ class _FiltersState extends State<Filters> {
                     setState(() {
                       selectedTurno = val;
                     });
-                    widget.onFilterChangedList(
-                        mapEvents[selectedUc]![selectedTurno]!);
+                    callback();
                   }
                 }),
       ],
@@ -101,6 +99,12 @@ class _FiltersState extends State<Filters> {
         }
         mapEvents.addAll({uc: turnoMap});
       }
+    }
+  }
+
+  void callback() {
+    if (widget.onFilterChangedList != null) {
+      widget.onFilterChangedList!(mapEvents[selectedUc]![selectedTurno]!);
     }
   }
 }
