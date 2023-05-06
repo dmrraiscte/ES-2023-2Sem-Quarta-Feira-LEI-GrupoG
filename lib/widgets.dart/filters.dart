@@ -46,8 +46,8 @@ class _FiltersState extends State<Filters> {
                     setState(() {
                       selectedUc = val;
                       selectedTurno = mapEvents[val]!.keys.first;
-                      callback();
                     });
+                    callback();
                   }
                 }),
         selectedUc.isEmpty
