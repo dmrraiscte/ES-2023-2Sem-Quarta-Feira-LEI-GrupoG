@@ -2,6 +2,8 @@ import 'package:calendar_manager/screens/filefromurl.dart';
 import 'package:calendar_manager/screens/home.dart';
 import 'package:calendar_manager/screens/pickfile.dart';
 import 'package:calendar_manager/screens/savefile.dart';
+import 'package:calendar_manager/utils/constants.dart';
+import 'package:calendar_manager/utils/scroll_behavior.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_manager/screens/icstostring.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       initialRoute: "filefromurl",
+      scrollBehavior: CustomScrollBehavior(),
       routes: {
         "filefromurl": (context) => const FileFromUrl(),
         "home": (context) => const Home(),
@@ -26,8 +29,8 @@ class MyApp extends StatelessWidget {
         "icstostring": (context) => const IcsToString(),
       },
       theme: ThemeData(
-        primarySwatch: Colors.pink,
-      ),
+          primarySwatch: Constants.kPrimaryColor,
+          iconTheme: IconThemeData(color: Constants.kPrimaryColor),),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
