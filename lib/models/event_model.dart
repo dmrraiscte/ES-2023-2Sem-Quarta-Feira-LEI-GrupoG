@@ -14,7 +14,6 @@ class Event {
   String dataAula;
   String salaAtribuidaAAula;
   String lotacaoSala;
-  DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
 
   /// Static to be used in csv formatted strings generation
   static String csvHeader =
@@ -109,12 +108,18 @@ class Event {
     return value.contains(",") ? "\"$value\"" : value;
   }
 
+  DateFormat getDateFormat() {
+    if (dataAula.contains("-")) return DateFormat("yyyy-MM-dd HH:mm");
+    return DateFormat("dd/MM/yyyy HH:mm:ss");
+  }
+
   DateTime? getEventStart() {
-    return dateFormat.parse("$dataAula $horaInicioAula");
+    print(this);
+    return getDateFormat().parse("$dataAula $horaInicioAula");
   }
 
   DateTime? getEventEnd() {
-    return dateFormat.parse("$dataAula $horaFimAula");
+    return getDateFormat().parse("$dataAula $horaFimAula");
   }
 
   String getDescription() {

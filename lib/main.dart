@@ -29,8 +29,12 @@ class MyApp extends StatelessWidget {
         "icstostring": (context) => const IcsToString(),
       },
       theme: ThemeData(
-          primarySwatch: Constants.kPrimaryColor,
-          iconTheme: IconThemeData(color: Constants.kPrimaryColor),),
+        checkboxTheme: CheckboxThemeData(
+            checkColor:
+                MaterialStateProperty.all<Color>(Constants.kPrimaryColor)),
+        primarySwatch: Constants.kPrimaryColor,
+        iconTheme: IconThemeData(color: Constants.kPrimaryColor),
+      ),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

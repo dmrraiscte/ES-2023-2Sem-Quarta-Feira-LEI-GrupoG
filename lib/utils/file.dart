@@ -121,7 +121,12 @@ class File {
   ///
   /// * Makes an HTTP GET request at given [url], downloads the file and returns the response
   static Future<Response> getUrlFileData(String url) async {
-    var header = {'Access-Control-Allow-Origin': '*'};
+    var header = {
+      'Access-Control-Allow-Origin': '*',
+      "Access-Control-Allow-Methods": "GET,PUT,PATCH,POST,DELETE",
+      "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept"
+    };
     var response = await get(Uri.parse(url), headers: header);
     return response;
   }
@@ -145,10 +150,10 @@ class File {
   ///
   ///__Generate a pop up alert__
   ///
-  /// Generate a pop up alert. It can be successfull if erros are 0 or less; 
+  /// Generate a pop up alert. It can be successfull if erros are 0 or less;
   /// warning if there is any errors.
   /// the pop up messagem will auto close in 2 seconds.
-  /// 
+  ///
   /// ``` dart
   /// onPressed: () {
   ///             File.alert(context, erros);

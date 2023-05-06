@@ -64,12 +64,9 @@ class _FiltersState extends State<Filters> {
                               : "${selectedUcs.length} UC's selecionadas"),
                       listType: MultiSelectListType.LIST,
                       searchable: true,
-                      items: [
-                        ...mapEvents.keys
-                            .map((e) => MultiSelectItem<String>(e, e))
-                            .toList(),
-                        MultiSelectItem<String>("teste", "teste")
-                      ],
+                      items: mapEvents.keys
+                          .map((e) => MultiSelectItem<String>(e, e))
+                          .toList(),
                       title: const Text("Unidades curriculares"),
                       onConfirm: (selectedLst) {
                         setState(() {
@@ -161,7 +158,7 @@ class _FiltersState extends State<Filters> {
           .toList()) {
         Map<String, List<Event>> turnoMap = {};
         for (var turno in widget.eventsLst
-            .where((e) => e.unidadeCurricular == uc)
+            .where((e) => e.unidadeCurricular == uc && !e.isTestOrExam())
             .map((e) => e.turno)
             .toSet()
             .toList()) {

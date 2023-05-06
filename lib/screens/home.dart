@@ -25,6 +25,7 @@ class _HomeState extends State<Home> {
   }
 
   EventDataSource? eventDataSource;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,36 +51,40 @@ class _HomeState extends State<Home> {
           children: [
             Filters(
               eventsLst: eventsFile.lstEvents,
+              onFilterChangedList: (lst) {
+                setState(() {
+                  populateCalendar(lst);
+                });
+              },
             ),
             Expanded(
-              child: eventDataSource == null
-                  ? const Text(
-                      "Sem dados a apresentar.\nPara importar um calendário, clica no + no canto inferior direito.",
-                      textAlign: TextAlign.center,
-                    )
-                  : SfCalendar(
-                      view: CalendarView.month,
+              child: eventsFile.lstEvents.isEmpty
+                  ? noSourceInfo("selecfile")
+                  : eventDataSource == null
+                      ? noSourceInfo("selectsubjects")
+                      : SfCalendar(
+                          view: CalendarView.month,
 
-                      allowedViews: const <CalendarView>[
-                        CalendarView.day,
-                        CalendarView.week,
-                        CalendarView.month,
-                        CalendarView.schedule
-                      ],
-                      minDate: DateTime(2021, 03, 05, 10, 0, 0),
-                      maxDate: DateTime(2023, 08, 25, 10, 0, 0),
+                          allowedViews: const <CalendarView>[
+                            CalendarView.day,
+                            CalendarView.week,
+                            CalendarView.month,
+                            CalendarView.schedule
+                          ],
+                          minDate: DateTime(2021, 03, 05, 10, 0, 0),
+                          maxDate: DateTime(2023, 08, 25, 10, 0, 0),
 
-                      controller: _calendarController,
+                          controller: _calendarController,
 
-                      showDatePickerButton: true,
-                      allowViewNavigation: true,
-                      //viewNavigationMode: ViewNavigationMode.none,
+                          showDatePickerButton: true,
+                          allowViewNavigation: true,
+                          //viewNavigationMode: ViewNavigationMode.none,
 
-                      dataSource: eventDataSource,
+                          dataSource: eventDataSource,
 
-                      timeSlotViewSettings:
-                          const TimeSlotViewSettings(startHour: 6),
-                    ),
+                          timeSlotViewSettings:
+                              const TimeSlotViewSettings(startHour: 6),
+                        ),
             ),
           ],
         ),
@@ -91,10 +96,24 @@ class _HomeState extends State<Home> {
           //TODO: Adicionar os outros métodos de import e chamar
           return [
             PopupMenuItem(
+              child: const Text("Importar ficheiro de url"),
+              onTap: () async {
+                WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  var url = await popUpMenu(context);
+                  if (url != null) {
+                    var data = await File.getEventsFromUrl(url.toString());
+                    if (data.lstEvents.isNotEmpty) {
+                      startFilters(data);
+                      
+                    }
+                  }
+                });
+              },
+            ),
+            PopupMenuItem(
               child: const Text("Importar por ficheiro local"),
               onTap: () async {
                 var data = await File.getEventsFromFile();
-
                 if (data.lstEvents.isNotEmpty) {
                   startFilters(data);
                 }
@@ -104,6 +123,48 @@ class _HomeState extends State<Home> {
         },
       ),
     );
+  }
+
+  Text noSourceInfo(String type) {
+    String output = "";
+    if (type == "selectsubjects") {
+      output =
+          "Eventos importados!\nSelecione as UC's e turnos que pretende inserir no horário.";
+    }
+    if (type == "selectfile") {
+      output =
+          "Sem dados a apresentar.\nPara importar um calendário, clicque no + no canto inferior direito.";
+    }
+    return Text(
+      output,
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Future<dynamic> popUpMenu(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (_) {
+          TextEditingController urlController = TextEditingController();
+          return AlertDialog(
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Cancelar")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(urlController.text);
+                  },
+                  child: const Text("Submit"))
+            ],
+            title: const Text("Introduza o url"),
+            content: TextField(
+              controller: urlController,
+            ),
+          );
+        });
   }
 
   void startFilters(EventsFile data) {
