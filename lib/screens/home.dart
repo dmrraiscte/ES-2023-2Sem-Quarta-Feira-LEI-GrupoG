@@ -48,10 +48,14 @@ class _HomeState extends State<Home> {
       body: Center(
         child: Column(
           children: [
-            if (eventsFile.numberOfErrors != -1)
-              Filters(
-                eventsLst: eventsFile.lstEvents,
-              ),
+            Filters(
+              eventsLst: eventsFile.lstEvents,
+              onFilterChangedList: (lst) {
+                setState(() {
+                  populateCalendar(lst);
+                });
+              },
+            ),
             Expanded(
               child: eventDataSource == null
                   ? const Text(
