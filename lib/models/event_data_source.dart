@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class EventDataSource extends CalendarDataSource {
+  //List<int> overlapped = [];
+
   EventDataSource(List<Event> source) {
     appointments = source;
   }
@@ -27,10 +29,16 @@ class EventDataSource extends CalendarDataSource {
   Color getColor(int index) {
     if (appointments!.any((e) {
       return e != appointments![index] &&
-          (appointments![index].getEventStart() as DateTime)
-              .isInBetweenInclusive((e.getEventStart() as DateTime),
-                  (e.getEventEnd() as DateTime));
+          ((appointments![index].getEventStart() as DateTime).isInBetween(
+                  (e.getEventStart() as DateTime), //not inclusive
+                  (e.getEventEnd() as DateTime)) ||
+              (appointments![index].getEventEnd() as DateTime).isInBetween(
+                  (e.getEventStart() as DateTime), //not inclusive
+                  (e.getEventEnd() as DateTime)) ||
+              appointments![index].getEventEnd() == e.getEventEnd() ||
+              appointments![index].getEventStart() == e.getEventStart());
     })) {
+      //overlapped.add(appointments![index]);
       return Colors.red;
     }
     return Colors.green;
