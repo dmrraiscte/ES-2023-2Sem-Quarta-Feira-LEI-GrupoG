@@ -56,7 +56,7 @@ ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Sex,13:00:00,14:30:00,02/1
   test('fromCSVToJSON - Empty File ', () {
     var value = Conversion.fromCSVToJSON(
         """Curso,Unidade Curricular,Turno,Turma,Inscritos no turno,Dia da semana,Hora inÃ­cio da aula,Hora fim da aula,Data da aula,Sala atribuÃ­da Ã  aula,LotaÃ§Ã£o da sala""");
-    expect(value.representativeString, "{ \"events\": [] }");
+    expect(value.representativeString, "{ \"events\": []}");
     expect(value.lstEvents.length, 0);
   });
 
