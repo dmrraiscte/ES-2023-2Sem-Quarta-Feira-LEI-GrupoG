@@ -103,7 +103,7 @@ class Conversion {
     return EventsFile("", lista, missingData);
   }
 
-  /// __Returns an Object type object in the realm of [Event, Null].__
+  /// __Returns an Object type object in the realm of Event, Null.__
   /// * Input [icdData] is a String to Dynamic object mapping contaning the various objects in the data of an [ICalendar] object.
   /// * A Null return indicates that the conversion of the string data to Event wasnt possible due to formating errors
   static Object icdToEvent(Map<String, dynamic> icdData) {

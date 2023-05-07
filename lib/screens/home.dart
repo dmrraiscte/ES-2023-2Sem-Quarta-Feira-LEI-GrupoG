@@ -3,7 +3,7 @@ import 'package:calendar_manager/models/event_model.dart';
 import 'package:calendar_manager/models/events_file_model.dart';
 import 'package:calendar_manager/utils/conversion.dart';
 import 'package:calendar_manager/utils/file.dart';
-import 'package:calendar_manager/widgets.dart/filters.dart';
+import 'package:calendar_manager/widgets/filters.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';

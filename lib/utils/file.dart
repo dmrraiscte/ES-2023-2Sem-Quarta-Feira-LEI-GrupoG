@@ -10,9 +10,9 @@ import 'dart:typed_data';
 import 'package:quickalert/quickalert.dart';
 
 class File {
-  /// __Returns a List\<Event\> from file ['csv', 'json'].__
+  /// __Returns a List\<Event\> from file 'csv', 'json', 'ics'.__
   ///
-  /// * Open default system dialog to pick a file with the allowed extensions ['csv', 'json', 'ics'].
+  /// * Open default system dialog to pick a file with the allowed extensions 'csv', 'json', 'ics'.
   /// * Converts it to List<Event>
   /// * If the chosen file doesn't contain a valid extension, an empty list is returned.
   ///
