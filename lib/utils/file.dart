@@ -135,9 +135,9 @@ class File {
   ///           File.savefile(txt, (Formato.json or Formato.csv) );
   /// }
   ///```
-  static Future<void> saveFile(String fileText, Formato formato) async {
+  static Future<void> saveFile(String fileText, Formato formato, [String name = 'calendar']) async {
     await FileSaver.instance.saveFile(
-        name: 'calendar.${formato.name}',
+        name: '$name.${formato.name}',
         ext: formato.name,
         bytes: Uint8List.fromList(utf8.encode(fileText)));
   }

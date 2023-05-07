@@ -40,7 +40,7 @@ class _SaveFileState extends State<SaveFile> {
                 onPressed: () {
                   var txt = Conversion.eventsToCsv(value2.lstEvents);
                   File.alert(context, 3);
-                  File.saveFile(txt, Formato.csv);
+                  File.saveFile(txt, Formato.csv, 'joaoCalendario');
                 },
                 child: const Text('CSV'))
           ],
