@@ -29,6 +29,12 @@ class _FiltersState extends State<Filters> {
     super.initState();
   }
 
+  icon: const Material(
+            color = Colors.transparent,
+            shape = const CircleBorder(side: BorderSide(color: Colors.black)),
+            child = Icon(CupertinoIcons.plus)),
+        iconSize: eventsFile.lstEvents.isEmpty ? 40 + 10 * _breath : 40,
+
   @override
   Widget build(BuildContext context) {
     if (tempLst != widget.eventsLst) {
@@ -39,9 +45,13 @@ class _FiltersState extends State<Filters> {
       padding: EdgeInsets.symmetric(
           horizontal: Utils.getSidePadding(context), vertical: 8),
       child: GFAccordion(
-        collapsedIcon: const Icon(
+        collapsedIcon: Material(
+            color: Colors.transparent,
+            shape: const CircleBorder(side: BorderSide(color: Colors.black)),
+            child: const Icon(
           Icons.filter_alt,
-        ),
+          size: selectedUcs.isEmpty ?)),
+      
         expandedIcon: const Icon(Icons.filter_alt_outlined),
         collapsedTitleBackgroundColor:
             Theme.of(context).scaffoldBackgroundColor,

@@ -14,14 +14,31 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with TickerProviderStateMixin {
   final CalendarController _calendarController = CalendarController();
   var eventsFile = EventsFile("", [], -1);
+  late AnimationController _breathingController;
+  var _breath = 0.0;
 
   @override
   initState() {
-    _calendarController.displayDate = DateTime(2022, 02, 05);
     super.initState();
+    _calendarController.displayDate = DateTime(2022, 02, 05);
+    _breathingController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1000));
+    _breathingController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _breathingController.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        _breathingController.forward();
+      }
+    });
+    _breathingController.addListener(() {
+      setState(() {
+        _breath = _breathingController.value;
+      });
+    });
+    _breathingController.forward();
   }
 
   EventDataSource? eventDataSource;
@@ -57,41 +74,17 @@ class _HomeState extends State<Home> {
                 });
               },
             ),
-            Expanded(
-              child: eventsFile.lstEvents.isEmpty
-                  ? noSourceInfo("selecfile")
-                  : eventDataSource == null
-                      ? noSourceInfo("selectsubjects")
-                      : SfCalendar(
-                          view: CalendarView.month,
-
-                          allowedViews: const <CalendarView>[
-                            CalendarView.day,
-                            CalendarView.week,
-                            CalendarView.month,
-                            CalendarView.schedule
-                          ],
-                          minDate: DateTime(2021, 03, 05, 10, 0, 0),
-                          maxDate: DateTime(2023, 08, 25, 10, 0, 0),
-
-                          controller: _calendarController,
-
-                          showDatePickerButton: true,
-                          allowViewNavigation: true,
-                          //viewNavigationMode: ViewNavigationMode.none,
-
-                          dataSource: eventDataSource,
-
-                          timeSlotViewSettings:
-                              const TimeSlotViewSettings(startHour: 6),
-                        ),
-            ),
+            getPresentingWidget(),
           ],
         ),
       ),
       floatingActionButton: PopupMenuButton(
         tooltip: "",
-        icon: const Icon(CupertinoIcons.plus),
+        icon: const Material(
+            color: Colors.transparent,
+            shape: CircleBorder(side: BorderSide(color: Colors.black)),
+            child: Icon(CupertinoIcons.plus)),
+        iconSize: eventsFile.lstEvents.isEmpty ? 40 + 10 * _breath : 40,
         itemBuilder: (BuildContext context) {
           //TODO: Adicionar os outros métodos de import e chamar
           return [
@@ -122,6 +115,40 @@ class _HomeState extends State<Home> {
         },
       ),
     );
+  }
+
+  Expanded getPresentingWidget() {
+    Widget presentor;
+    if (eventsFile.lstEvents.isEmpty) {
+      presentor = noSourceInfo("selectfile");
+    } else if (eventDataSource == null) {
+      presentor = noSourceInfo("selectsubjects");
+    } else {
+      presentor = SfCalendar(
+        view: CalendarView.month,
+
+        allowedViews: const <CalendarView>[
+          CalendarView.day,
+          CalendarView.week,
+          CalendarView.month,
+          CalendarView.schedule
+        ],
+        minDate: DateTime(2021, 03, 05, 10, 0, 0),
+        maxDate: DateTime(2023, 08, 25, 10, 0, 0),
+
+        controller: _calendarController,
+
+        showDatePickerButton: true,
+        allowViewNavigation: true,
+        //viewNavigationMode: ViewNavigationMode.none,
+
+        dataSource: eventDataSource,
+
+        timeSlotViewSettings: const TimeSlotViewSettings(startHour: 6),
+      );
+    }
+
+    return Expanded(child: presentor);
   }
 
   Text noSourceInfo(String type) {
