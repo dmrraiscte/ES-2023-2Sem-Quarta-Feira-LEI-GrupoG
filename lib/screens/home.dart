@@ -50,6 +50,11 @@ class _HomeState extends State<Home> {
           children: [
             Filters(
               eventsLst: eventsFile.lstEvents,
+              onFilterChangedList: (events) {
+                setState(() {
+                  populateCalendar(events);
+                });
+              },
             ),
             eventDataSource?.overlapped != null
                 ? Text(eventDataSource!.overlapped!.length.toString())
