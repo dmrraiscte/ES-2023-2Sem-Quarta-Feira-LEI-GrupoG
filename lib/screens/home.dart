@@ -78,8 +78,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   PopupMenuButton<dynamic> downloadCalendarButtons() {
     return PopupMenuButton(
-        icon: const Icon(CupertinoIcons.floppy_disk),
-        iconSize: 50,
+        icon: Container(
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Theme.of(context).primaryColor)),
+          child: const Icon(CupertinoIcons.floppy_disk),
+        ),
+        iconSize: 40,
         tooltip: "",
         itemBuilder: (BuildContext context) {
           return [
@@ -124,21 +129,30 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   PopupMenuButton<dynamic> uploadCalendarButtons() {
     return PopupMenuButton(
       tooltip: "",
-      icon: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: Theme.of(context).primaryColor),
-            shape: BoxShape.circle),
-        child: Center(
-          child: eventsFile.lstEvents.isNotEmpty
-              ? const Icon(CupertinoIcons.plus)
-              : const Icon(
-                  CupertinoIcons.plus,
-                ),
-        ),
-      ).animate(onPlay: (controller) => controller.repeat(reverse: true)).scale(
-          begin: const Offset(1.4, 1.4),
-          end: const Offset(2, 2),
-          duration: const Duration(milliseconds: 1500)),
+      icon: eventsFile.lstEvents.isNotEmpty
+          ? Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: Theme.of(context).primaryColor),
+                  shape: BoxShape.circle),
+              child: const Center(
+                  child: Icon(
+                CupertinoIcons.plus,
+              )),
+            )
+          : Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: Theme.of(context).primaryColor),
+                  shape: BoxShape.circle),
+              child: const Center(
+                  child: Icon(
+                CupertinoIcons.plus,
+              )),
+            )
+              .animate(onPlay: (controller) => controller.repeat(reverse: true))
+              .scale(
+                  begin: const Offset(1.4, 1.4),
+                  end: const Offset(2, 2),
+                  duration: const Duration(milliseconds: 1500)),
       itemBuilder: (BuildContext context) {
         //TODO: Adicionar os outros métodos de import e chamar
         return [
@@ -177,27 +191,30 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     } else if (eventDataSource == null) {
       presentor = noSourceInfo("selectsubjects");
     } else {
-      presentor = SfCalendar(
-        view: CalendarView.month,
+      presentor = Padding(
+        padding: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
+        child: SfCalendar(
+          view: CalendarView.month,
 
-        allowedViews: const <CalendarView>[
-          CalendarView.day,
-          CalendarView.week,
-          CalendarView.month,
-          CalendarView.schedule
-        ],
-        minDate: DateTime(2021, 03, 05, 10, 0, 0),
-        maxDate: DateTime(2023, 08, 25, 10, 0, 0),
+          allowedViews: const <CalendarView>[
+            CalendarView.day,
+            CalendarView.week,
+            CalendarView.month,
+            CalendarView.schedule
+          ],
+          minDate: DateTime(2021, 03, 05, 10, 0, 0),
+          maxDate: DateTime(2023, 08, 25, 10, 0, 0),
 
-        controller: _calendarController,
+          controller: _calendarController,
 
-        showDatePickerButton: true,
-        allowViewNavigation: true,
-        //viewNavigationMode: ViewNavigationMode.none,
+          showDatePickerButton: true,
+          allowViewNavigation: true,
+          //viewNavigationMode: ViewNavigationMode.none,
 
-        dataSource: eventDataSource,
+          dataSource: eventDataSource,
 
-        timeSlotViewSettings: const TimeSlotViewSettings(startHour: 6),
+          timeSlotViewSettings: const TimeSlotViewSettings(startHour: 6),
+        ),
       );
     }
 

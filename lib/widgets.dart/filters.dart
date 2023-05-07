@@ -39,16 +39,24 @@ class _FiltersState extends State<Filters> {
       padding: EdgeInsets.symmetric(
           horizontal: Utils.getSidePadding(context), vertical: 8),
       child: GFAccordion(
-        collapsedIcon: !(selectedUcs.isEmpty && mapEvents.isNotEmpty)
+        collapsedIcon: mapEvents.isEmpty
             ? const Icon(Icons.filter_alt)
             : const Icon(Icons.filter_alt)
                 .animate(
                     onPlay: (controller) => controller.repeat(reverse: true))
                 .scale(
-                    begin: const Offset(1, 1),
-                    end: const Offset(1.5, 1.5),
-                    duration: const Duration(milliseconds: 1500)),
-        expandedIcon: const Icon(Icons.filter_alt_outlined),
+                    begin: const Offset(1.2, 1.2),
+                    end: const Offset(1.7, 1.7),
+                    duration: const Duration(milliseconds: 1000)),
+        expandedIcon: mapEvents.isEmpty
+            ? const Icon(Icons.filter_alt_outlined)
+            : const Icon(Icons.filter_alt_outlined)
+                .animate(
+                    onPlay: (controller) => controller.repeat(reverse: true))
+                .scale(
+                    begin: const Offset(1.2, 1.2),
+                    end: const Offset(1.7, 1.7),
+                    duration: const Duration(milliseconds: 1000)),
         collapsedTitleBackgroundColor:
             Theme.of(context).scaffoldBackgroundColor,
         expandedTitleBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
