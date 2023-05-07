@@ -5,10 +5,17 @@ extension DateTimeUtils on DateTime {
     return DateTime(year, month + 1, 0).day;
   }
 
+/// __getFirstDayOfTheWeek()__
+/// 
+/// Return the first day of the week as an int
+/// 
   int getFirstDayOfTheWeek() {
     return subtract(Duration(days: weekday - 1)).day;
   }
 
+/// __format({[String] pattern = "dd/MM/yyyy", [int] substring = -1})__
+/// 
+/// Change format to a specific patern
   String format({String pattern = "dd/MM/yyyy", int substring = -1}) {
     try {
       return DateFormat(pattern)
@@ -19,10 +26,18 @@ extension DateTimeUtils on DateTime {
     }
   }
 
+/// __isSameDay([DateTime] date)__
+/// 
+/// Return boolean comparing year month day of a date
+/// 
   bool isSameDay(DateTime date) {
     return year == date.year && month == date.month && day == date.day;
   }
 
+/// __isWeekend()__
+/// 
+/// Return boolean if the date is a weekend
+/// 
   bool isWeekend() {
     return weekday == 6 || weekday == 7;
   }
