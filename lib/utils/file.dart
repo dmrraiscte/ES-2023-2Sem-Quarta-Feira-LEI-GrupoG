@@ -130,29 +130,30 @@ class File {
   ///__Save a file in a default path with a specified formate from a String__
   ///
   ///Consist in 3 parameters fileText String that will be the content of the file,
-  ///format may be json or csv and optional parameter that will be the name of the 
+  ///format may be json or csv and optional parameter that will be the name of the
   ///file by default will be calendar.
   ///
   ///``` dart
   /// onPressed: () {
   ///           var txt = Util.eventsToJson(List<Events>);
-  ///           File.savefile(txt, (Formato.json or Formato.csv) );
+  ///           File.savefile(txt, (Formato.json or Formato.csv) , optional : name);
   /// }
   ///```
-  static Future<String> saveFile(String fileText, Formato formato, [String name = 'calendar']) async {
+  static Future<String> saveFile(String fileText, Formato formato,
+      [String name = 'calendar']) async {
     return await FileSaver.instance.saveFile(
-            name: '$name.${formato.name}',
-            ext: formato.name,
-            bytes: Uint8List.fromList(utf8.encode(fileText)));
+        name: '$name.${formato.name}',
+        ext: formato.name,
+        bytes: Uint8List.fromList(utf8.encode(fileText)));
   }
 
   ///
   ///__Generate a pop up alert__
   ///
-  /// Generate a pop up alert. It can be successfull if erros are 0 or less; 
+  /// Generate a pop up alert. It can be successfull if erros are 0 or less;
   /// warning if there is any errors.
   /// the pop up messagem will auto close in 2 seconds.
-  /// 
+  ///
   /// ``` dart
   /// onPressed: () {
   ///             File.alert(context, erros);
