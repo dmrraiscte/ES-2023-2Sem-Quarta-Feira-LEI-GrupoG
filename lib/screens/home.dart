@@ -80,11 +80,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     return PopupMenuButton(
         icon: Container(
           decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Theme.of(context).primaryColor)),
-          child: const Icon(CupertinoIcons.floppy_disk),
+              border: Border.all(color: Theme.of(context).primaryColor),
+              shape: BoxShape.rectangle),
+          child: const Center(
+              child: Icon(
+            CupertinoIcons.floppy_disk,
+          )),
         ),
-        iconSize: 40,
         tooltip: "",
         itemBuilder: (BuildContext context) {
           return [
