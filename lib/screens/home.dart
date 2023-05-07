@@ -57,6 +57,22 @@ class _HomeState extends State<Home> {
                   });
                 },
               ),
+            eventDataSource?.overlapped != null
+                ? Text(eventDataSource!.overlapped!.length.toString())
+                : const Text("nada"),
+/*                ToggleButtons(
+              children: <Widget>[
+                Icon(Icons.format_bold),
+                Icon(Icons.format_italic),
+                Icon(Icons.format_underlined),
+              ],
+              isSelected:_selections,
+              onPressed:(int index){
+                setState(() {
+                  _selections[index]=!_selections[index];
+                })}),
+*/
+
             Expanded(
               child: eventDataSource == null
                   ? const Text(
