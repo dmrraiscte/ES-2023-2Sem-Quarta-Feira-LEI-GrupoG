@@ -58,61 +58,63 @@ class _HomeState extends State<Home> {
               },
             ),
             eventDataSource?.overlapped != null
-                ? //Text(eventDataSource!.overlapped!.length.toString())
-                badges.Badge(
-                    badgeStyle: const badges.BadgeStyle(
-                      badgeColor: Color.fromARGB(255, 255, 0, 85),
-                    ),
-                    badgeContent: Text(
-                      eventDataSource!.overlapped.length.toString(),
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(CupertinoIcons.bell_fill),
-                      onPressed: () {
-                        showDialog(
-                          //if set to true allow to close popup by tapping out of the popup
-                          barrierDismissible: true,
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: const Text("SOBREPOSIÇÕES"),
-                            content: SizedBox(
-                              width: 600,
-                              height: 400,
-                              child: ListView.builder(
-                                  itemCount: eventDataSource?.overlapped.length,
-                                  itemBuilder: (_, int index) {
-                                    return ListTile(
-                                        title: Text(eventDataSource!.overlapped
-                                            .elementAt(index)
-                                            .getOverlappingDescription()));
-                                  }),
-                            ),
-                            elevation: 24,
-                          ),
-                        );
-                        /*                       ListView.builder(
-                            itemCount: eventDataSource?.overlapped?.length,
-                            itemBuilder: (_, int index) {
-                              return ListTile(title: Text('item $index'));
-                            });
-                            */
-                      },
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: badges.Badge(
+                        badgeStyle: badges.BadgeStyle(
+                          badgeColor: Theme.of(context).primaryColor,
+                        ),
+                        badgeContent: Text(
+                          eventDataSource!.overlapped.length.toString(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        child: IconButton(
+                          icon: const Icon(
+                              CupertinoIcons.exclamationmark_triangle_fill),
+                          onPressed: () {
+                            showDialog(
+                              //if set to true allow to close popup by tapping out of the popup
+                              barrierDismissible: true,
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text("Sobreposições"),
+                                    GestureDetector(
+                                      child: const Icon(CupertinoIcons.xmark),
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                ),
+                                content: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.60,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.60,
+                                  child: ListView.builder(
+                                      itemCount:
+                                          eventDataSource?.overlapped.length,
+                                      itemBuilder: (_, int index) {
+                                        return ListTile(
+                                            title: Text(
+                                                "${eventDataSource!.overlapped.elementAt(index).item1.getOverlappingDescription()} [X] ${eventDataSource!.overlapped.elementAt(index).item2.getOverlappingDescription()}"));
+                                      }),
+                                ),
+                                elevation: 24,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   )
                 : const Text("nada"),
-/*                ToggleButtons(
-              children: <Widget>[
-                Icon(Icons.format_bold),
-                Icon(Icons.format_italic),
-                Icon(Icons.format_underlined),
-              ],
-              isSelected:_selections,
-              onPressed:(int index){
-                setState(() {
-                  _selections[index]=!_selections[index];
-                })}),
-*/
             Expanded(
               child: eventDataSource == null
                   ? const Text(

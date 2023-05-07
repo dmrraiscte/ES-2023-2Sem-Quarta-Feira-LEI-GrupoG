@@ -2,11 +2,10 @@ import 'package:calendar_manager/models/event_model.dart';
 import 'package:calendar_manager/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:tuple/tuple.dart';
 
 class EventDataSource extends CalendarDataSource {
-  //List<Event>? overlapped = [];
-  Set<Event> overlapped = {};
-  //HashMap overlapped = HashMap<Event, Event>();
+  List<Tuple2<Event, Event>> overlapped = [];
 
   EventDataSource(List<Event> source) {
     appointments = source;
@@ -33,7 +32,7 @@ class EventDataSource extends CalendarDataSource {
   @override
   Color getColor(int index) {
     if (appointments!.any((e) {
-      return e != appointments![index] &&
+      var aux = (e != appointments![index] &&
           ((appointments![index].getEventStart() as DateTime).isInBetween(
                   (e.getEventStart() as DateTime), //not inclusive
                   (e.getEventEnd() as DateTime)) ||
@@ -41,13 +40,25 @@ class EventDataSource extends CalendarDataSource {
                   (e.getEventStart() as DateTime), //not inclusive
                   (e.getEventEnd() as DateTime)) ||
               appointments![index].getEventEnd() == e.getEventEnd() ||
-              appointments![index].getEventStart() == e.getEventStart());
+              appointments![index].getEventStart() == e.getEventStart()));
+      if (aux == true) addToList(appointments![index], e);
+      return aux;
     })) {
-      print(overlapped.length);
-      overlapped.add(appointments![index]);
-      print(overlapped.length);
       return Colors.red;
     }
     return Colors.green;
+  }
+
+  ///__Adds a Tuple2 containing input events [e1], [e2] to the List\<Tuple2\<Event, Event\>\> overlapped containing overlapping events__
+  ///
+  ///Conditions to the addition:
+  /// * The list doesn't contain the Tuple2\<[e1] ,[e2]\>;
+  /// * The list doesn't contain the Tuple2\<[e2] ,[e1]\>;
+  ///
+  void addToList(Event e1, Event e2) {
+    if (!overlapped.contains(Tuple2(e2, e1)) &&
+        !overlapped.contains(Tuple2(e1, e2))) {
+      overlapped.add(Tuple2(e1, e2));
+    }
   }
 }
