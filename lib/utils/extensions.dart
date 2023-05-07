@@ -1,13 +1,17 @@
 import 'package:intl/intl.dart';
 
 extension DateTimeUtils on DateTime {
+  /// __getLastDayOfMonth()__
+  ///
+  /// Return the last day of the month as an [int]
+  ///
   int getLastDayOfMonth() {
     return DateTime(year, month + 1, 0).day;
   }
 
   /// __getFirstDayOfTheWeek()__
   ///
-  /// Return the first day of the week as an int
+  /// Return the first day of the week as an [int]
   ///
   int getFirstDayOfTheWeek() {
     return subtract(Duration(days: weekday - 1)).day;
