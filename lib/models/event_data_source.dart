@@ -6,11 +6,12 @@ import 'package:tuple/tuple.dart';
 
 class EventDataSource extends CalendarDataSource {
   List<Tuple2<Event, Event>> overlapped = [];
+  List<String> sobrelotation = [];
 
   EventDataSource(List<Event> source) {
     appointments = source;
     appointments?.asMap().forEach((index, element) {
-      getColor(index);
+      setOverlapAndSobrelotation(index, element);
     });
   }
 
@@ -29,9 +30,12 @@ class EventDataSource extends CalendarDataSource {
     return appointments![index].getDescription();
   }
 
-  @override
-  Color getColor(int index) {
-    if (appointments!.any((e) {
+  ///__Returns true if the event @ [index] overlaps any other event in the appointments list.__
+  ///
+  /// Iterates through eventsList and calls addToList function to add an event pair containing the event selected by [index] that are overlapping based on their datetime start and end times
+  ///
+  bool isOverlapped(int index) {
+    return (appointments!.any((e) {
       var aux = (e != appointments![index] &&
           ((appointments![index].getEventStart() as DateTime).isInBetween(
                   (e.getEventStart() as DateTime), //not inclusive
@@ -43,7 +47,28 @@ class EventDataSource extends CalendarDataSource {
               appointments![index].getEventStart() == e.getEventStart()));
       if (aux == true) addToList(appointments![index], e);
       return aux;
-    })) {
+    }));
+  }
+
+  ///__Adds a String containing a desciption of the event[element] to the List\<Event\> containing sobrelotation events__
+  ///
+  ///Conditions to the addition:
+  /// * The event has maximum capacity defined;
+  /// * The event has current capacity defined;
+  /// * The event's maximum capacity has a lower limit than it's current capacity defined;
+  ///
+  void setOverlapAndSobrelotation(int index, dynamic element) {
+    isOverlapped(index);
+    if (int.tryParse(element.lotacaoSala) != null &&
+        int.tryParse(element.inscritosNoTurno) != null &&
+        int.parse(element.lotacaoSala) < int.parse(element.inscritosNoTurno)) {
+      sobrelotation.add(element.getSobrelotationDescription());
+    }
+  }
+
+  @override
+  Color getColor(int index) {
+    if (isOverlapped(index)) {
       return Colors.red;
     }
     return Colors.green;

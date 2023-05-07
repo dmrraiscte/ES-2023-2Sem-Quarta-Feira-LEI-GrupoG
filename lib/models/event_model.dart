@@ -136,4 +136,10 @@ class Event {
   String getOverlappingDescription() {
     return "$turno - $unidadeCurricular $dataAula ($horaInicioAula - $horaFimAula)";
   }
+
+  /// __Returns a string representing an Event an its some of its variables in a string__
+
+  String getSobrelotationDescription() {
+    return "$turno - $unidadeCurricular $dataAula ($horaInicioAula - $horaFimAula)\nLotação máxima: $lotacaoSala; Lotação atual: $inscritosNoTurno";
+  }
 }
