@@ -7,9 +7,8 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class Filters extends StatefulWidget {
   final List<Event> eventsLst;
-  final Function(List<Event>) onFilterChangedList;
-  const Filters(
-      {super.key, required this.eventsLst, required this.onFilterChangedList});
+  final Function(List<Event>)? onFilterChangedList;
+  const Filters({super.key, required this.eventsLst, this.onFilterChangedList});
 
   @override
   State<Filters> createState() => _FiltersState();
@@ -17,9 +16,7 @@ class Filters extends StatefulWidget {
 
 class _FiltersState extends State<Filters> {
   var tempLst = <Event>[];
-  Map<String, Map<String, List<Event>>> mapEvents = {};
-  String selectedUc = "";
-  String selectedTurno = "";
+  var mapEvents = <String, Map<String, List<Event>>>{};
 
   var selectedUcs = <String>[];
   var selectedTurnos = <String, List<String>>{};
@@ -160,7 +157,9 @@ class _FiltersState extends State<Filters> {
 //TODO: Check if performance can be better (should be using isolates but no can do because its running on web)
   Future<void> updateMapValue() async {
     if (widget.eventsLst.isNotEmpty) {
-      mapEvents = {};
+      selectedUcs = [];
+      selectedTurnos = <String, List<String>>{};
+      mapEvents = <String, Map<String, List<Event>>>{};
 
       for (var uc in widget.eventsLst
           .map((e) => e.unidadeCurricular)
@@ -193,9 +192,7 @@ class _FiltersState extends State<Filters> {
     var lst = <Event>[];
     for (var entry in selectedTurnos.entries) {
       for (String turno in entry.value) {
-        for (var e in mapEvents[entry.key]![turno]!) {
-          lst.add(e);
-        }
+        lst.addAll(mapEvents[entry.key]![turno]!);
       }
     }
 
@@ -203,6 +200,8 @@ class _FiltersState extends State<Filters> {
       lst.addAll(mapEvents[uc]!["exam"]!);
     }
 
-    widget.onFilterChangedList(lst);
+    if (widget.onFilterChangedList != null) {
+      widget.onFilterChangedList!(lst);
+    }
   }
 }
