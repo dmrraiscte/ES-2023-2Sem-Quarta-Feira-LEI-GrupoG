@@ -20,7 +20,7 @@ class _FiltersState extends State<Filters> {
   String selectedTurno = "";
 
   var selectedUcs = <String>[];
-  var selectedTurnos = <String, String>{};
+  var selectedTurnos = <String, List<String>>{};
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -90,8 +90,14 @@ class _FiltersState extends State<Filters> {
                               scrollDirection: Axis.horizontal,
                               child: Row(
                                 children: mapEvents[uc]!.keys.map((turno) {
+                                  if (!selectedTurnos.keys
+                                      .toList()
+                                      .contains(uc)) {
+                                    selectedTurnos[uc] = <String>[];
+                                  }
+
                                   var isThisSelected =
-                                      selectedTurnos[uc] == turno;
+                                      selectedTurnos[uc]!.contains(turno);
                                   if (turno == "exam") return Container();
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -99,9 +105,9 @@ class _FiltersState extends State<Filters> {
                                       onTap: () {
                                         setState(() {
                                           if (isThisSelected) {
-                                            selectedTurnos.remove(uc);
+                                            selectedTurnos[uc]!.remove(turno);
                                           } else {
-                                            selectedTurnos[uc] = turno;
+                                            selectedTurnos[uc]!.add(turno);
                                           }
                                         });
 
@@ -182,7 +188,11 @@ class _FiltersState extends State<Filters> {
   void callback() {
     var lst = <Event>[];
     for (var entry in selectedTurnos.entries) {
-      lst.addAll(mapEvents[entry.key]![entry.value]!);
+      for (String turno in entry.value) {
+        for (var e in mapEvents[entry.key]![turno]!) {
+          lst.add(e);
+        }
+      }
     }
 
     for (var uc in selectedUcs) {

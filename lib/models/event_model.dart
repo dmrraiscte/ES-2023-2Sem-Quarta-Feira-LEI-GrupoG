@@ -114,7 +114,6 @@ class Event {
   }
 
   DateTime? getEventStart() {
-    print(this);
     return getDateFormat().parse("$dataAula $horaInicioAula");
   }
 
@@ -128,7 +127,9 @@ class Event {
 
   bool isTestOrExam() {
     return turno.toLowerCase().contains("teste") ||
-        turno.toLowerCase().contains("exame");
+        turno.toLowerCase().contains("exame") ||
+        turno.toLowerCase().contains("avaliação") ||
+        turno.toLowerCase().contains("intercalar");
   }
 
   @override

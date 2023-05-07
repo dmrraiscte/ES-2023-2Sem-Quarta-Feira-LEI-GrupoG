@@ -104,7 +104,6 @@ class _HomeState extends State<Home> {
                     var data = await File.getEventsFromUrl(url.toString());
                     if (data.lstEvents.isNotEmpty) {
                       startFilters(data);
-                      
                     }
                   }
                 });
