@@ -167,7 +167,6 @@ class _FiltersState extends State<Filters> {
   /// It clears our local variables and rebuilds or map with the follwoing structure:
   /// Unidade Curricular - [Turnos] - [Events that are from that UC and turno]
   Future<void> updateMapValue() async {
-    //TODO: Check if performance can be better (should be using isolates but no can do because its running on web)
     if (widget.eventsLst.isNotEmpty) {
       selectedUcs = [];
       selectedTurnos = <String, List<String>>{};
