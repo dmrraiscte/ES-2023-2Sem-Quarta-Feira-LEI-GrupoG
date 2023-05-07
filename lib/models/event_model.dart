@@ -130,4 +130,10 @@ class Event {
   String toString() {
     return 'EVENT[curso: $curso, dataAula: $dataAula, diaDaSemana: $diaDaSemana, horaFimAula: $horaFimAula, horaInicioAula: $horaInicioAula, inscritosNoTurno: $inscritosNoTurno, lotacaoSala: $lotacaoSala, salaAtribuidaAAula: $salaAtribuidaAAula, turma: $turma, turno: $turno, unidadeCurricular: $unidadeCurricular]';
   }
+
+  /// __Returns a string representing an Event an its some of its variables in a string__
+
+  String getOverlappingDescription() {
+    return "$turno - $unidadeCurricular $dataAula ($horaInicioAula - $horaFimAula)";
+  }
 }

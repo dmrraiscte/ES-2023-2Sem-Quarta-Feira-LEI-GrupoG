@@ -6,6 +6,7 @@ import 'package:calendar_manager/widgets.dart/filters.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:badges/badges.dart' as badges;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -48,16 +49,72 @@ class _HomeState extends State<Home> {
       body: Center(
         child: Column(
           children: [
-            if (eventsFile.numberOfErrors != -1)
-              Filters(
-                eventsLst: eventsFile.lstEvents,
-                 onFilterChangedList: (events) {
-                  setState(() {
-                    populateCalendar(events);
-                  });
-                },
-              ),
-              
+            Filters(
+              eventsLst: eventsFile.lstEvents,
+              onFilterChangedList: (events) {
+                setState(() {
+                  populateCalendar(events);
+                });
+              },
+            ),
+            eventDataSource?.overlapped != null
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: badges.Badge(
+                        badgeStyle: badges.BadgeStyle(
+                          badgeColor: Theme.of(context).primaryColor,
+                        ),
+                        badgeContent: Text(
+                          eventDataSource!.overlapped.length.toString(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        child: IconButton(
+                          icon: const Icon(
+                              CupertinoIcons.exclamationmark_triangle_fill),
+                          onPressed: () {
+                            showDialog(
+                              //if set to true allow to close popup by tapping out of the popup
+                              barrierDismissible: true,
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text("Sobreposições"),
+                                    GestureDetector(
+                                      child: const Icon(CupertinoIcons.xmark),
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                ),
+                                content: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.60,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.60,
+                                  child: ListView.builder(
+                                      itemCount:
+                                          eventDataSource?.overlapped.length,
+                                      itemBuilder: (_, int index) {
+                                        return ListTile(
+                                            title: Text(
+                                                "${eventDataSource!.overlapped.elementAt(index).item1.getOverlappingDescription()} [X] ${eventDataSource!.overlapped.elementAt(index).item2.getOverlappingDescription()}"));
+                                      }),
+                                ),
+                                elevation: 24,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  )
+                : const Text("nada"),
             Expanded(
               child: eventDataSource == null
                   ? const Text(
