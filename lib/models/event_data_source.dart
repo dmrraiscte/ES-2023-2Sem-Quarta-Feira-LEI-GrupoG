@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:tuple/tuple.dart';
 
+
+///__Class that edits all appointments to be placed in the Calendar__
+///
+///Responsable for detecting overlapping and overcrowded events
+///
 class EventDataSource extends CalendarDataSource {
   List<Tuple2<Event, Event>> overlapped = [];
   List<String> sobrelotation = [];

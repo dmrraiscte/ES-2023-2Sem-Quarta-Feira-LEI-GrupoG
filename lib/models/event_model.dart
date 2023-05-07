@@ -108,19 +108,19 @@ class Event {
   String addQuotes(String value) {
     return value.contains(",") ? "\"$value\"" : value;
   }
-
+/// __Returns a DateTime, specific of the beginning of a this event__
   DateTime? getEventStart() {
     return dateFormat.parse("$dataAula $horaInicioAula");
   }
-
+/// __Returns a DateTime, specific of the end of a this event__
   DateTime? getEventEnd() {
     return dateFormat.parse("$dataAula $horaFimAula");
   }
-
+/// __Returns a String containing the fields unidadeCurricular and SalaAtribuidaAAula of a this event__
   String getDescription() {
     return "$unidadeCurricular\n$salaAtribuidaAAula";
   }
-
+/// __Returns a boolean specifing if this event represents an evaluation class or a normal class__
   bool isTestOrExam() {
     return turno.toLowerCase().contains("teste") ||
         turno.toLowerCase().contains("exame");
