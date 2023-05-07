@@ -235,8 +235,8 @@ END:VCALENDAR''';
         'EVENT[curso: , dataAula: 2022-09-13, diaDaSemana: , horaFimAula: 16:00, horaInicioAula: 14:30, inscritosNoTurno: , lotacaoSala: , salaAtribuidaAAula: 0S01, turma: , turno: L5096TP04, unidadeCurricular: Programação Concorrente e Distribuída]');
 
     var temp = Conversion.icsToEventList(ics);
-    expect(temp.representativeString.length, 1);
-    expect(temp.lstEvents, 0);
+    expect(temp.representativeString.length, 0);
+    expect(temp.lstEvents.length, 1);
   });
 
   test("icdToEvent - bad input", () {
