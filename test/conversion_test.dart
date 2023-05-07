@@ -12,7 +12,7 @@ ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,23/1
 
     expect(value.representativeString,
         """{ "events": [{ "Curso": "ME", "Unidade Curricular": "Teoria dos Jogos e dos Contratos", "Turno": "01789TP01", "Turma": "MEA1", "Inscritos no turno": "30", "Dia da semana": "Sex", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "02/12/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "34" },
-{ "Curso": "ME", "Unidade Curricular": "Teoria dos Jogos e dos Contratos", "Turno": "01789TP01", "Turma": "MEA1", "Inscritos no turno": "30", "Dia da semana": "Qua", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "23/11/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "34" }] }""");
+{ "Curso": "ME", "Unidade Curricular": "Teoria dos Jogos e dos Contratos", "Turno": "01789TP01", "Turma": "MEA1", "Inscritos no turno": "30", "Dia da semana": "Qua", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "23/11/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "34" }]}""");
   });
 
   test(
@@ -27,7 +27,7 @@ LP,CompetÃªncias AcadÃ©micas I,L5205PL05,PA3,23,Qua,11:00:00,12:30:00,14/12/
     expect(value2.representativeString,
         """{ "events": [{ "Curso": "LP", "Unidade Curricular": "CompetÃªncias AcadÃ©micas I", "Turno": "L5205PL05", "Turma": "PA3", "Inscritos no turno": "23", "Dia da semana": "Qua", "Hora início da aula": "11:00:00", "Hora fim da aula": "12:30:00", "Data da aula": "14/12/2022", "Sala atribuída à aula": "2,00E+07", "Lotação da sala": "50" },
 { "Curso": "LETI, LEI, LEI-PL, LIGE, LIGE-PL", "Unidade Curricular": "Fundamentos de Arquitectura de Computadores", "Turno": "L0705TP23", "Turma": "ET-A9, ET-A8, ET-A7, ET-A12, ET-A11, ET-A10", "Inscritos no turno": "44", "Dia da semana": "Sex", "Hora início da aula": "13:00:00", "Hora fim da aula": "14:30:00", "Data da aula": "09/12/2022", "Sala atribuída à aula": "C5.06", "Lotação da sala": "70" },
-{ "Curso": "LETI, LEI, LEI-PL", "Unidade Curricular": "CÃ¡lculo I", "Turno": "03703TP02", "Turma": "EI-A6, EI-A5, EI-A4, EI-A3, EI-A2, EI-A1", "Inscritos no turno": "52", "Dia da semana": "Qui", "Hora início da aula": "14:30:00", "Hora fim da aula": "16:00:00", "Data da aula": "15/09/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "" }] }""");
+{ "Curso": "LETI, LEI, LEI-PL", "Unidade Curricular": "CÃ¡lculo I", "Turno": "03703TP02", "Turma": "EI-A6, EI-A5, EI-A4, EI-A3, EI-A2, EI-A1", "Inscritos no turno": "52", "Dia da semana": "Qui", "Hora início da aula": "14:30:00", "Hora fim da aula": "16:00:00", "Data da aula": "15/09/2022", "Sala atribuída à aula": "AA2.25", "Lotação da sala": "" }]}""");
   });
 
   test('fromCSVToJSON - String, CSV with important empty fields', () {
