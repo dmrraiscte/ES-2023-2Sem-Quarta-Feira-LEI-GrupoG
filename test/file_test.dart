@@ -1,5 +1,7 @@
+import 'package:calendar_manager/utils/conversion.dart';
 import 'package:calendar_manager/utils/file.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'dart:io' as io;
 
 void main() {
   test('getEventsFromURL() - test with non CSV/JSON file', () async {
@@ -84,5 +86,18 @@ ME,Teoria dos Jogos e dos Contratos,01789TP01,MEA1,30,Qua,13:00:00,14:30:00,16/1
   test('urlFileType() - only need "invalid" test', () {
     String test = 'Random String';
     expect(File.urlFileType(test), 'invalid');
+  });
+
+  test('saveFile() - file exists', () async {
+    String temp = await File.saveFile('test', Formato.json);
+    bool temp2 = await io.File(temp).exists();
+    expect(temp2, true);
+  });
+
+  test('saveFile() - check name', () async {
+    String name = 'name';
+    String temp = await File.saveFile('test', Formato.json, name);
+    String result = temp.split('/').last.split('.').first;
+    expect(result, name);
   });
 }
