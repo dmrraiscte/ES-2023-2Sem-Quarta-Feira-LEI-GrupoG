@@ -65,76 +65,77 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 });
               },
             ),
-            if(eventDataSource?.overlapped != null)
-                 Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: badges.Badge(
-                        badgeStyle: badges.BadgeStyle(
-                          badgeColor: Theme.of(context).primaryColor,
-                        ),
-                        badgeContent: Text(
-                          (eventDataSource!.overlapped.length +
-                                  eventDataSource!.sobrelotation.length)
-                              .toString(),
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        child: IconButton(
-                          icon: const Icon(
-                              CupertinoIcons.exclamationmark_triangle_fill),
-                          onPressed: () {
-                            showDialog(
-                              //if set to true allow to close popup by tapping out of the popup
-                              barrierDismissible: true,
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: GestureDetector(
-                                    child: const Icon(CupertinoIcons.xmark),
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ),
-                                content: SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.60,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.60,
-                                    child: Column(
-                                      children: [
-                                        GFAccordion(
-                                          showAccordion: true,
-                                          title: "Sobreposições",
-                                          contentChild: ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: eventDataSource
-                                                  ?.overlapped.length,
-                                              itemBuilder: (_, int index) {
-                                                return ListTile(
-                                                    title: Text(
-                                                        "${eventDataSource!.overlapped.elementAt(index).item1.getOverlappingDescription()} [X] ${eventDataSource!.overlapped.elementAt(index).item2.getOverlappingDescription()}"));
-                                              }),
-                                        ),
-                                        GFAccordion(
-                                          showAccordion: true,
-                                          title: "Sobrelotações",
-                                          contentChild: ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: eventDataSource
-                                                  ?.sobrelotation.length,
-                                              itemBuilder: (_, int index) {
-                                                return ListTile(
-                                                    title: Text(eventDataSource!
-                                                        .sobrelotation
-                                                        .elementAt(index)));
-                                              }),
-                                        )
-                                      ],
+            if (eventDataSource?.overlapped != null &&
+                (eventDataSource!.overlapped.isNotEmpty ||
+                    eventDataSource!.sobrelotation.isNotEmpty))
+              Padding(
+                padding: const EdgeInsets.only(right: 15),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: badges.Badge(
+                    badgeStyle: badges.BadgeStyle(
+                      badgeColor: Theme.of(context).primaryColor,
+                    ),
+                    badgeContent: Text(
+                      (eventDataSource!.overlapped.length +
+                              eventDataSource!.sobrelotation.length)
+                          .toString(),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    child: IconButton(
+                      icon: const Icon(
+                          CupertinoIcons.exclamationmark_triangle_fill),
+                      onPressed: () {
+                        showDialog(
+                          //if set to true allow to close popup by tapping out of the popup
+                          barrierDismissible: true,
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: Align(
+                              alignment: Alignment.centerRight,
+                              child: GestureDetector(
+                                child: const Icon(CupertinoIcons.xmark),
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ),
+                            content: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.60,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.60,
+                                child: Column(
+                                  children: [
+                                    GFAccordion(
+                                      showAccordion: true,
+                                      title: "Sobreposições",
+                                      contentChild: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: eventDataSource
+                                              ?.overlapped.length,
+                                          itemBuilder: (_, int index) {
+                                            return ListTile(
+                                                title: Text(
+                                                    "${eventDataSource!.overlapped.elementAt(index).item1.getOverlappingDescription()} [X] ${eventDataSource!.overlapped.elementAt(index).item2.getOverlappingDescription()}"));
+                                          }),
+                                    ),
+                                    GFAccordion(
+                                      showAccordion: true,
+                                      title: "Sobrelotações",
+                                      contentChild: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: eventDataSource
+                                              ?.sobrelotation.length,
+                                          itemBuilder: (_, int index) {
+                                            return ListTile(
+                                                title: Text(eventDataSource!
+                                                    .sobrelotation
+                                                    .elementAt(index)));
+                                          }),
                                     )
-                                    /*child: ListView.builder(
+                                  ],
+                                )
+                                /*child: ListView.builder(
                                       itemCount:
                                           eventDataSource?.overlapped.length,
                                       itemBuilder: (_, int index) {
@@ -142,24 +143,25 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                             title: Text(
                                                 "${eventDataSource!.overlapped.elementAt(index).item1.getOverlappingDescription()} [X] ${eventDataSource!.overlapped.elementAt(index).item2.getOverlappingDescription()}"));
                                       }), */
-                                    ),
-                                elevation: 24,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                                ),
+                            elevation: 24,
+                          ),
+                        );
+                      },
                     ),
-                  )
-                ,
+                  ),
+                ),
+              ),
             getPresentingWidget(),
           ],
         ),
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (selectedEventsFinalList.isNotEmpty) downloadCalendarButtons(),
+          const Padding(padding: EdgeInsets.all(2)),
           uploadCalendarButtons(),
         ],
       ),
@@ -168,15 +170,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   PopupMenuButton<dynamic> downloadCalendarButtons() {
     return PopupMenuButton(
-        icon: Container(
-          decoration: BoxDecoration(
-              border: Border.all(color: Theme.of(context).primaryColor),
-              shape: BoxShape.rectangle),
-          child: const Center(
-              child: Icon(
-            CupertinoIcons.floppy_disk,
-          )),
-        ),
         tooltip: "",
         itemBuilder: (BuildContext context) {
           return [
@@ -215,30 +208,44 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               },
             )
           ];
-        });
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Theme.of(context).primaryColor),
+              shape: BoxShape.circle),
+          child: const Padding(
+            padding: EdgeInsets.all(4.0),
+            child: Icon(
+              CupertinoIcons.floppy_disk,
+              size: 25,
+            ),
+          ),
+        ));
   }
 
   PopupMenuButton<dynamic> uploadCalendarButtons() {
     return PopupMenuButton(
       tooltip: "",
-      icon: eventsFile.lstEvents.isNotEmpty
+      child: eventsFile.lstEvents.isNotEmpty
           ? Container(
               decoration: BoxDecoration(
                   border: Border.all(color: Theme.of(context).primaryColor),
                   shape: BoxShape.circle),
-              child: const Center(
-                  child: Icon(
-                CupertinoIcons.plus,
-              )),
+              child: const Padding(
+                padding: EdgeInsets.all(4.0),
+                child: Icon(
+                  CupertinoIcons.plus,
+                  size: 25,
+                ),
+              ),
             )
           : Container(
               decoration: BoxDecoration(
                   border: Border.all(color: Theme.of(context).primaryColor),
                   shape: BoxShape.circle),
-              child: const Center(
-                  child: Icon(
+              child: const Icon(
                 CupertinoIcons.plus,
-              )),
+              ),
             )
               .animate(onPlay: (controller) => controller.repeat(reverse: true))
               .scale(
@@ -246,7 +253,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   end: const Offset(2, 2),
                   duration: const Duration(milliseconds: 1500)),
       itemBuilder: (BuildContext context) {
-        //TODO: Adicionar os outros métodos de import e chamar
         return [
           PopupMenuItem(
             child: const Text("Importar ficheiro de url"),

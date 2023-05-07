@@ -65,6 +65,7 @@ class _FiltersState extends State<Filters> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     MultiSelectDialogField<String>(
+                      selectedColor: Theme.of(context).primaryColor,
                       chipDisplay: MultiSelectChipDisplay.none(),
                       buttonText: Text(selectedUcs.isEmpty
                           ? "Selecionar Unidades Curriculares"
