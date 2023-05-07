@@ -1,10 +1,12 @@
 import 'package:calendar_manager/models/event_data_source.dart';
 import 'package:calendar_manager/models/event_model.dart';
 import 'package:calendar_manager/models/events_file_model.dart';
+import 'package:calendar_manager/utils/conversion.dart';
 import 'package:calendar_manager/utils/file.dart';
 import 'package:calendar_manager/widgets.dart/filters.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Home extends StatefulWidget {
@@ -17,28 +19,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   final CalendarController _calendarController = CalendarController();
   var eventsFile = EventsFile("", [], -1);
-  late AnimationController _breathingController;
-  var _breath = 0.0;
+  List<Event> selectedEventsFinalList = <Event>[];
 
   @override
   initState() {
     super.initState();
+
     _calendarController.displayDate = DateTime(2022, 02, 05);
-    _breathingController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1000));
-    _breathingController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _breathingController.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        _breathingController.forward();
-      }
-    });
-    _breathingController.addListener(() {
-      setState(() {
-        _breath = _breathingController.value;
-      });
-    });
-    _breathingController.forward();
   }
 
   EventDataSource? eventDataSource;
@@ -70,6 +57,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               eventsLst: eventsFile.lstEvents,
               onFilterChangedList: (lst) {
                 setState(() {
+                  selectedEventsFinalList = lst;
                   populateCalendar(lst);
                 });
               },
@@ -79,55 +67,78 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ),
       ),
       floatingActionButton: Column(
-        children: [downloadCalendarButton(), uploadCalendarButton()],
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          if (selectedEventsFinalList.isNotEmpty) downloadCalendarButtons(),
+          uploadCalendarButtons(),
+        ],
       ),
     );
   }
 
-  PopupMenuButton<dynamic> downloadCalendarButton() {
+  PopupMenuButton<dynamic> downloadCalendarButtons() {
     return PopupMenuButton(
-        icon: const Icon(CupertinoIcons.download_circle),
+        icon: const Icon(CupertinoIcons.floppy_disk),
+        iconSize: 50,
         tooltip: "",
         itemBuilder: (BuildContext context) {
           return [
             PopupMenuItem(
-            child: const Text("Gravar em CSV"),
-            onTap: () async {
-              WidgetsBinding.instance.addPostFrameCallback((_) async {
-                  var data = await File.getEventsFromUrl(url.toString());
-                  if (data.lstEvents.isNotEmpty) {
-                    startFilters(data);
-                  }
-                }
-              );
-            },
-          ), 
-          PopupMenuItem(
-            child: const Text("Gravar em JSON"),
-            onTap: () async {
-              WidgetsBinding.instance.addPostFrameCallback((_) async {
-                var url = await popUpMenu(context);
-                if (url != null) {
-                  var data = await File.getEventsFromUrl(url.toString());
-                  if (data.lstEvents.isNotEmpty) {
-                    startFilters(data);
-                  }
-                }
-              });
-            },
-          )
+              child: const Text("Gravar em CSV"),
+              onTap: () async {
+                WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  var name =
+                      await popUpMenu(context, "Nome do ficheiro a guardar");
+                  name != null
+                      ? await File.saveFile(
+                          Conversion.eventsToCsv(selectedEventsFinalList),
+                          Formato.csv,
+                          name)
+                      : await File.saveFile(
+                          Conversion.eventsToCsv(selectedEventsFinalList),
+                          Formato.csv);
+                });
+              },
+            ),
+            PopupMenuItem(
+              child: const Text("Gravar em JSON"),
+              onTap: () async {
+                WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  var name =
+                      await popUpMenu(context, "Nome do ficheiro a guardar");
+                  name != null
+                      ? await File.saveFile(
+                          Conversion.eventsToJson(selectedEventsFinalList),
+                          Formato.json,
+                          name)
+                      : await File.saveFile(
+                          Conversion.eventsToJson(selectedEventsFinalList),
+                          Formato.json);
+                });
+              },
+            )
           ];
         });
   }
 
-  PopupMenuButton<dynamic> uploadCalendarButton() {
+  PopupMenuButton<dynamic> uploadCalendarButtons() {
     return PopupMenuButton(
       tooltip: "",
-      icon: const Material(
-          color: Colors.transparent,
-          shape: CircleBorder(side: BorderSide(color: Colors.black)),
-          child: Icon(CupertinoIcons.plus)),
-      iconSize: eventsFile.lstEvents.isEmpty ? 50 + 10 * _breath : 50,
+      icon: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: Theme.of(context).primaryColor),
+            shape: BoxShape.circle),
+        child: Center(
+          child: eventsFile.lstEvents.isNotEmpty
+              ? const Icon(CupertinoIcons.plus)
+              : const Icon(
+                  CupertinoIcons.plus,
+                ),
+        ),
+      ).animate(onPlay: (controller) => controller.repeat(reverse: true)).scale(
+          begin: const Offset(1.4, 1.4),
+          end: const Offset(2, 2),
+          duration: const Duration(milliseconds: 1500)),
       itemBuilder: (BuildContext context) {
         //TODO: Adicionar os outros métodos de import e chamar
         return [
@@ -135,7 +146,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             child: const Text("Importar ficheiro de url"),
             onTap: () async {
               WidgetsBinding.instance.addPostFrameCallback((_) async {
-                var url = await popUpMenu(context);
+                var url = await popUpMenu(context, "URL do ficheiro");
                 if (url != null) {
                   var data = await File.getEventsFromUrl(url.toString());
                   if (data.lstEvents.isNotEmpty) {
@@ -209,7 +220,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
-  Future<dynamic> popUpMenu(BuildContext context) {
+  Future<dynamic> popUpMenu(BuildContext context, String showingText) {
     return showDialog(
         context: context,
         builder: (_) {
@@ -227,7 +238,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   },
                   child: const Text("Submit"))
             ],
-            title: const Text("Introduza o url"),
+            title: Text(showingText),
             content: TextField(
               controller: urlController,
             ),

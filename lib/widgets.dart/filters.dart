@@ -1,8 +1,7 @@
-import 'dart:html';
-
 import 'package:calendar_manager/models/event_model.dart';
 import 'package:calendar_manager/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
@@ -25,10 +24,8 @@ class _FiltersState extends State<Filters> {
   var selectedUcs = <String>[];
   var selectedTurnos = <String, List<String>>{};
   @override
-  
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) =>
-        widget.onFilterChangedList(mapEvents[selectedUc]![selectedTurno]!));
+    WidgetsBinding.instance.addPostFrameCallback((_) => callback());
     super.initState();
   }
 
@@ -42,9 +39,15 @@ class _FiltersState extends State<Filters> {
       padding: EdgeInsets.symmetric(
           horizontal: Utils.getSidePadding(context), vertical: 8),
       child: GFAccordion(
-        collapsedIcon: const Icon(
-          Icons.filter_alt,
-        ),
+        collapsedIcon: !(selectedUcs.isEmpty && mapEvents.isNotEmpty)
+            ? const Icon(Icons.filter_alt)
+            : const Icon(Icons.filter_alt)
+                .animate(
+                    onPlay: (controller) => controller.repeat(reverse: true))
+                .scale(
+                    begin: const Offset(1, 1),
+                    end: const Offset(1.5, 1.5),
+                    duration: const Duration(milliseconds: 1500)),
         expandedIcon: const Icon(Icons.filter_alt_outlined),
         collapsedTitleBackgroundColor:
             Theme.of(context).scaffoldBackgroundColor,
@@ -157,8 +160,6 @@ class _FiltersState extends State<Filters> {
 //TODO: Check if performance can be better (should be using isolates but no can do because its running on web)
   Future<void> updateMapValue() async {
     if (widget.eventsLst.isNotEmpty) {
-      selectedUc = widget.eventsLst.first.unidadeCurricular;
-      selectedTurno = widget.eventsLst.first.turno;
       mapEvents = {};
 
       for (var uc in widget.eventsLst
@@ -202,8 +203,6 @@ class _FiltersState extends State<Filters> {
       lst.addAll(mapEvents[uc]!["exam"]!);
     }
 
-    if (widget.onFilterChangedList != null) {
-      widget.onFilterChangedList!(lst);
-    }
+    widget.onFilterChangedList(lst);
   }
 }
