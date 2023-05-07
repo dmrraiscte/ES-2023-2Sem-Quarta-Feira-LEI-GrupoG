@@ -1,10 +1,13 @@
+import 'dart:html';
+
 import 'package:calendar_manager/models/event_model.dart';
 import 'package:flutter/material.dart';
 
 class Filters extends StatefulWidget {
   final List<Event> eventsLst;
-  final Function(List<Event>)? onFilterChangedList;
-  const Filters({super.key, required this.eventsLst, this.onFilterChangedList});
+  final Function(List<Event>) onFilterChangedList;
+  const Filters(
+      {super.key, required this.eventsLst, required this.onFilterChangedList});
 
   @override
   State<Filters> createState() => _FiltersState();
@@ -16,10 +19,10 @@ class _FiltersState extends State<Filters> {
   String selectedUc = "";
   String selectedTurno = "";
   @override
+  
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      callback();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) =>
+        widget.onFilterChangedList(mapEvents[selectedUc]![selectedTurno]!));
     super.initState();
   }
 
@@ -46,7 +49,8 @@ class _FiltersState extends State<Filters> {
                     setState(() {
                       selectedUc = val;
                       selectedTurno = mapEvents[val]!.keys.first;
-                      callback();
+                      widget.onFilterChangedList(
+                          mapEvents[selectedUc]![selectedTurno]!);
                     });
                   }
                 }),
@@ -66,7 +70,8 @@ class _FiltersState extends State<Filters> {
                     setState(() {
                       selectedTurno = val;
                     });
-                    callback();
+                    widget.onFilterChangedList(
+                        mapEvents[selectedUc]![selectedTurno]!);
                   }
                 }),
       ],
@@ -103,8 +108,6 @@ class _FiltersState extends State<Filters> {
   }
 
   void callback() {
-    if (widget.onFilterChangedList != null) {
-      widget.onFilterChangedList!(mapEvents[selectedUc]![selectedTurno]!);
-    }
+    widget.onFilterChangedList(mapEvents[selectedUc]![selectedTurno]!);
   }
 }

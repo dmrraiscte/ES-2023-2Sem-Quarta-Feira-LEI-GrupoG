@@ -51,7 +51,13 @@ class _HomeState extends State<Home> {
             if (eventsFile.numberOfErrors != -1)
               Filters(
                 eventsLst: eventsFile.lstEvents,
+                 onFilterChangedList: (events) {
+                  setState(() {
+                    populateCalendar(events);
+                  });
+                },
               ),
+              
             Expanded(
               child: eventDataSource == null
                   ? const Text(
