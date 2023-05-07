@@ -47,7 +47,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calendar Demo'),
+        title: const Center(child: Text('Construtor de Calendario')),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.arrow_back),
@@ -78,42 +78,84 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ],
         ),
       ),
-      floatingActionButton: PopupMenuButton(
+      floatingActionButton: Column(
+        children: [downloadCalendarButton(), uploadCalendarButton()],
+      ),
+    );
+  }
+
+  PopupMenuButton<dynamic> downloadCalendarButton() {
+    return PopupMenuButton(
+        icon: const Icon(CupertinoIcons.download_circle),
         tooltip: "",
-        icon: const Material(
-            color: Colors.transparent,
-            shape: CircleBorder(side: BorderSide(color: Colors.black)),
-            child: Icon(CupertinoIcons.plus)),
-        iconSize: eventsFile.lstEvents.isEmpty ? 40 + 10 * _breath : 40,
         itemBuilder: (BuildContext context) {
-          //TODO: Adicionar os outros métodos de import e chamar
           return [
             PopupMenuItem(
-              child: const Text("Importar ficheiro de url"),
-              onTap: () async {
-                WidgetsBinding.instance.addPostFrameCallback((_) async {
-                  var url = await popUpMenu(context);
-                  if (url != null) {
-                    var data = await File.getEventsFromUrl(url.toString());
-                    if (data.lstEvents.isNotEmpty) {
-                      startFilters(data);
-                    }
+            child: const Text("Gravar em CSV"),
+            onTap: () async {
+              WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  var data = await File.getEventsFromUrl(url.toString());
+                  if (data.lstEvents.isNotEmpty) {
+                    startFilters(data);
                   }
-                });
-              },
-            ),
-            PopupMenuItem(
-              child: const Text("Importar por ficheiro local"),
-              onTap: () async {
-                var data = await File.getEventsFromFile();
-                if (data.lstEvents.isNotEmpty) {
-                  startFilters(data);
                 }
-              },
-            ),
+              );
+            },
+          ), 
+          PopupMenuItem(
+            child: const Text("Gravar em JSON"),
+            onTap: () async {
+              WidgetsBinding.instance.addPostFrameCallback((_) async {
+                var url = await popUpMenu(context);
+                if (url != null) {
+                  var data = await File.getEventsFromUrl(url.toString());
+                  if (data.lstEvents.isNotEmpty) {
+                    startFilters(data);
+                  }
+                }
+              });
+            },
+          )
           ];
-        },
-      ),
+        });
+  }
+
+  PopupMenuButton<dynamic> uploadCalendarButton() {
+    return PopupMenuButton(
+      tooltip: "",
+      icon: const Material(
+          color: Colors.transparent,
+          shape: CircleBorder(side: BorderSide(color: Colors.black)),
+          child: Icon(CupertinoIcons.plus)),
+      iconSize: eventsFile.lstEvents.isEmpty ? 50 + 10 * _breath : 50,
+      itemBuilder: (BuildContext context) {
+        //TODO: Adicionar os outros métodos de import e chamar
+        return [
+          PopupMenuItem(
+            child: const Text("Importar ficheiro de url"),
+            onTap: () async {
+              WidgetsBinding.instance.addPostFrameCallback((_) async {
+                var url = await popUpMenu(context);
+                if (url != null) {
+                  var data = await File.getEventsFromUrl(url.toString());
+                  if (data.lstEvents.isNotEmpty) {
+                    startFilters(data);
+                  }
+                }
+              });
+            },
+          ),
+          PopupMenuItem(
+            child: const Text("Importar por ficheiro local"),
+            onTap: () async {
+              var data = await File.getEventsFromFile();
+              if (data.lstEvents.isNotEmpty) {
+                startFilters(data);
+              }
+            },
+          ),
+        ];
+      },
     );
   }
 
