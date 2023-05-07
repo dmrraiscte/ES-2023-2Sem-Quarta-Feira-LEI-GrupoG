@@ -48,15 +48,9 @@ class _HomeState extends State<Home> {
       body: Center(
         child: Column(
           children: [
-            if (eventsFile.numberOfErrors != -1)
-              Filters(
-                eventsLst: eventsFile.lstEvents,
-                onFilterChangedList: (events) {
-                  setState(() {
-                    populateCalendar(events);
-                  });
-                },
-              ),
+            Filters(
+              eventsLst: eventsFile.lstEvents,
+            ),
             eventDataSource?.overlapped != null
                 ? Text(eventDataSource!.overlapped!.length.toString())
                 : const Text("nada"),
@@ -72,7 +66,6 @@ class _HomeState extends State<Home> {
                   _selections[index]=!_selections[index];
                 })}),
 */
-
             Expanded(
               child: eventDataSource == null
                   ? const Text(
