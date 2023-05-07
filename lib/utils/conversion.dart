@@ -125,7 +125,7 @@ class Conversion {
           '',
           '',
           begin.last,
-          ad['End']!.split(' ').last,
+          ad['End']!.substring(ad['End']!.length - 5),
           begin.first,
           icdData['location'].split(',').first,
           '');

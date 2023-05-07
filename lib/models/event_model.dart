@@ -14,7 +14,6 @@ class Event {
   String dataAula;
   String salaAtribuidaAAula;
   String lotacaoSala;
-  DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
 
   /// Static to be used in csv formatted strings generation
   static String csvHeader =
@@ -32,17 +31,11 @@ class Event {
     this.dataAula,
     this.salaAtribuidaAAula,
     this.lotacaoSala,
-  )
-
-  //TODO: Este assert tem de ser revisto. No webcal existem imensos dados em falta.
-  : assert(curso.isNotEmpty &&
-            unidadeCurricular.isNotEmpty &&
+  ) : assert(unidadeCurricular.isNotEmpty &&
             turno.isNotEmpty &&
-            turma.isNotEmpty &&
             horaInicioAula.isNotEmpty &&
             horaFimAula.isNotEmpty &&
-            dataAula.isNotEmpty &&
-            salaAtribuidaAAula.isNotEmpty);
+            dataAula.isNotEmpty);
 
   ///__Creates an Event from the Map<String, dynamic> [json]__
   ///
@@ -109,20 +102,44 @@ class Event {
     return value.contains(",") ? "\"$value\"" : value;
   }
 
+  DateFormat getDateFormat() {
+    if (dataAula.contains("-")) return DateFormat("yyyy-MM-dd HH:mm");
+    return DateFormat("dd/MM/yyyy HH:mm:ss");
+  }
+/// __Returns a DateTime, specific of the beginning of a this event__
   DateTime? getEventStart() {
-    return dateFormat.parse("$dataAula $horaInicioAula");
+    return getDateFormat().parse("$dataAula $horaInicioAula");
   }
-
+/// __Returns a DateTime, specific of the end of a this event__
   DateTime? getEventEnd() {
-    return dateFormat.parse("$dataAula $horaFimAula");
+    return getDateFormat().parse("$dataAula $horaFimAula");
   }
-
+/// __Returns a String containing the fields unidadeCurricular and SalaAtribuidaAAula of a this event__
   String getDescription() {
     return "$unidadeCurricular\n$salaAtribuidaAAula";
+  }
+/// __Returns a boolean specifing if this event represents an evaluation class or a normal class__
+  bool isTestOrExam() {
+    return turno.toLowerCase().contains("teste") ||
+        turno.toLowerCase().contains("exame") ||
+        turno.toLowerCase().contains("avaliação") ||
+        turno.toLowerCase().contains("intercalar");
   }
 
   @override
   String toString() {
     return 'EVENT[curso: $curso, dataAula: $dataAula, diaDaSemana: $diaDaSemana, horaFimAula: $horaFimAula, horaInicioAula: $horaInicioAula, inscritosNoTurno: $inscritosNoTurno, lotacaoSala: $lotacaoSala, salaAtribuidaAAula: $salaAtribuidaAAula, turma: $turma, turno: $turno, unidadeCurricular: $unidadeCurricular]';
+  }
+
+  /// __Returns a string representing an Event an its some of its variables in a string__
+
+  String getOverlappingDescription() {
+    return "$turno - $unidadeCurricular $dataAula ($horaInicioAula - $horaFimAula)";
+  }
+
+  /// __Returns a string representing an Event an its some of its variables in a string__
+
+  String getSobrelotationDescription() {
+    return "$turno - $unidadeCurricular $dataAula ($horaInicioAula - $horaFimAula)\nLotação máxima: $lotacaoSala; Lotação atual: $inscritosNoTurno";
   }
 }
