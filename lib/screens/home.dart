@@ -264,6 +264,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   void startFilters(EventsFile data) {
+    clearCalendar();
     setState(() {
       eventsFile = data;
     });
