@@ -6,8 +6,11 @@ import 'package:calendar_manager/utils/file.dart';
 import 'package:calendar_manager/widgets.dart/filters.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/accordion/gf_accordion.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:badges/badges.dart' as badges;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -62,6 +65,93 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 });
               },
             ),
+            if(eventDataSource?.overlapped != null)
+                 Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: badges.Badge(
+                        badgeStyle: badges.BadgeStyle(
+                          badgeColor: Theme.of(context).primaryColor,
+                        ),
+                        badgeContent: Text(
+                          (eventDataSource!.overlapped.length +
+                                  eventDataSource!.sobrelotation.length)
+                              .toString(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        child: IconButton(
+                          icon: const Icon(
+                              CupertinoIcons.exclamationmark_triangle_fill),
+                          onPressed: () {
+                            showDialog(
+                              //if set to true allow to close popup by tapping out of the popup
+                              barrierDismissible: true,
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: GestureDetector(
+                                    child: const Icon(CupertinoIcons.xmark),
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ),
+                                content: SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.60,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.60,
+                                    child: Column(
+                                      children: [
+                                        GFAccordion(
+                                          showAccordion: true,
+                                          title: "Sobreposições",
+                                          contentChild: ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: eventDataSource
+                                                  ?.overlapped.length,
+                                              itemBuilder: (_, int index) {
+                                                return ListTile(
+                                                    title: Text(
+                                                        "${eventDataSource!.overlapped.elementAt(index).item1.getOverlappingDescription()} [X] ${eventDataSource!.overlapped.elementAt(index).item2.getOverlappingDescription()}"));
+                                              }),
+                                        ),
+                                        GFAccordion(
+                                          showAccordion: true,
+                                          title: "Sobrelotações",
+                                          contentChild: ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: eventDataSource
+                                                  ?.sobrelotation.length,
+                                              itemBuilder: (_, int index) {
+                                                return ListTile(
+                                                    title: Text(eventDataSource!
+                                                        .sobrelotation
+                                                        .elementAt(index)));
+                                              }),
+                                        )
+                                      ],
+                                    )
+                                    /*child: ListView.builder(
+                                      itemCount:
+                                          eventDataSource?.overlapped.length,
+                                      itemBuilder: (_, int index) {
+                                        return ListTile(
+                                            title: Text(
+                                                "${eventDataSource!.overlapped.elementAt(index).item1.getOverlappingDescription()} [X] ${eventDataSource!.overlapped.elementAt(index).item2.getOverlappingDescription()}"));
+                                      }), */
+                                    ),
+                                elevation: 24,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  )
+                ,
             getPresentingWidget(),
           ],
         ),

@@ -106,19 +106,19 @@ class Event {
     if (dataAula.contains("-")) return DateFormat("yyyy-MM-dd HH:mm");
     return DateFormat("dd/MM/yyyy HH:mm:ss");
   }
-
+/// __Returns a DateTime, specific of the beginning of a this event__
   DateTime? getEventStart() {
     return getDateFormat().parse("$dataAula $horaInicioAula");
   }
-
+/// __Returns a DateTime, specific of the end of a this event__
   DateTime? getEventEnd() {
     return getDateFormat().parse("$dataAula $horaFimAula");
   }
-
+/// __Returns a String containing the fields unidadeCurricular and SalaAtribuidaAAula of a this event__
   String getDescription() {
     return "$unidadeCurricular\n$salaAtribuidaAAula";
   }
-
+/// __Returns a boolean specifing if this event represents an evaluation class or a normal class__
   bool isTestOrExam() {
     return turno.toLowerCase().contains("teste") ||
         turno.toLowerCase().contains("exame") ||
@@ -129,5 +129,17 @@ class Event {
   @override
   String toString() {
     return 'EVENT[curso: $curso, dataAula: $dataAula, diaDaSemana: $diaDaSemana, horaFimAula: $horaFimAula, horaInicioAula: $horaInicioAula, inscritosNoTurno: $inscritosNoTurno, lotacaoSala: $lotacaoSala, salaAtribuidaAAula: $salaAtribuidaAAula, turma: $turma, turno: $turno, unidadeCurricular: $unidadeCurricular]';
+  }
+
+  /// __Returns a string representing an Event an its some of its variables in a string__
+
+  String getOverlappingDescription() {
+    return "$turno - $unidadeCurricular $dataAula ($horaInicioAula - $horaFimAula)";
+  }
+
+  /// __Returns a string representing an Event an its some of its variables in a string__
+
+  String getSobrelotationDescription() {
+    return "$turno - $unidadeCurricular $dataAula ($horaInicioAula - $horaFimAula)\nLotação máxima: $lotacaoSala; Lotação atual: $inscritosNoTurno";
   }
 }
