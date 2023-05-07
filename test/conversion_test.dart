@@ -147,8 +147,8 @@ DF,Investimentos II,01074TP01,DFB1,3,Seg,17:30:00,19:00:00,21/11/2022,D1.07,27""
     var value = Conversion.fromJsonToCSV(""" {
     "events": [
         {
-            "Curso": "",
-            "Unidade Curricular": "Teoria dos Jogos,dos Contratos",
+            "Curso": "LEI",
+            "Unidade Curricular": "",
             "Turno": "01789TP01",
             "Turma": "MEA1",
             "Inscritos no turno": "30",
@@ -274,7 +274,7 @@ END:VCALENDAR''';
       () {
     var value = Conversion.fromJsonToCSV("""{
     "events": [{ "Curso": "MGSS", "Unidade Curricular": "GestÃ£o de OperaÃ§Ãµes e Sistema LogÃ­stico", "Turno": "03475TP01", "Turma": "MGSSA1", "Inscritos no turno": "43", "Dia da semana": "Sex", "Hora início da aula": "09:30:00", "Hora fim da aula": "11:00:00", "Data da aula": "16/09/2022", "Sala atribuída à aula": "AA3.23", "Lotação da sala":"" },
-{ "Curso": "", "Unidade Curricular": "Agentes AutÃ³nomos", "Turno": "03727T01", "Turma": "EI-PL-C2, EI-PL-C1", "Inscritos no turno": "51", "Dia da semana": "Seg", "Hora início da aula": "21:00:00", "Hora fim da aula": "22:30:00", "Data da aula": "05/12/2022", "Sala atribuída à aula": "C5.08", "Lotação da sala": "53" } ]}""");
+{ "Curso": "LEI", "Unidade Curricular": "Agentes AutÃ³nomos", "Turno": "", "Turma": "EI-PL-C2, EI-PL-C1", "Inscritos no turno": "51", "Dia da semana": "Seg", "Hora início da aula": "21:00:00", "Hora fim da aula": "22:30:00", "Data da aula": "05/12/2022", "Sala atribuída à aula": "C5.08", "Lotação da sala": "53" } ]}""");
 
     expect(value.numberOfErrors, 1);
   });
