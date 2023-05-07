@@ -129,6 +129,10 @@ class File {
   ///
   ///__Save a file in a default path with a specified formate from a String__
   ///
+  ///Consist in 3 parameters fileText String that will be the content of the file,
+  ///format may be json or csv and optional parameter that will be the name of the 
+  ///file by default will be calendar.
+  ///
   ///``` dart
   /// onPressed: () {
   ///           var txt = Util.eventsToJson(List<Events>);
