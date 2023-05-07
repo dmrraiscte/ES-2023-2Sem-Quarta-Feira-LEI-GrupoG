@@ -121,7 +121,12 @@ class File {
   ///
   /// * Makes an HTTP GET request at given [url], downloads the file and returns the response
   static Future<Response> getUrlFileData(String url) async {
-    var header = {'Access-Control-Allow-Origin': '*'};
+    var header = {
+      'Access-Control-Allow-Origin': '*',
+      "Access-Control-Allow-Methods": "GET,PUT,PATCH,POST,DELETE",
+      "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept"
+    };
     var response = await get(Uri.parse(url), headers: header);
     return response;
   }

@@ -47,6 +47,7 @@ dependencies:
   getwidget: ^3.1.1
   badges: ^3.1.1
   tuple: ^2.0.1
+  flutter_animate: ^4.1.1+1
 
 
   flutter_localizations:

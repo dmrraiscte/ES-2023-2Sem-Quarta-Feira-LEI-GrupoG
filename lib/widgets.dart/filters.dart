@@ -1,6 +1,7 @@
 import 'package:calendar_manager/models/event_model.dart';
 import 'package:calendar_manager/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
@@ -15,12 +16,10 @@ class Filters extends StatefulWidget {
 
 class _FiltersState extends State<Filters> {
   var tempLst = <Event>[];
-  Map<String, Map<String, List<Event>>> mapEvents = {};
-  String selectedUc = "";
-  String selectedTurno = "";
+  var mapEvents = <String, Map<String, List<Event>>>{};
 
   var selectedUcs = <String>[];
-  var selectedTurnos = <String, String>{};
+  var selectedTurnos = <String, List<String>>{};
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) => callback());
@@ -37,10 +36,24 @@ class _FiltersState extends State<Filters> {
       padding: EdgeInsets.symmetric(
           horizontal: Utils.getSidePadding(context), vertical: 8),
       child: GFAccordion(
-        collapsedIcon: const Icon(
-          Icons.filter_alt,
-        ),
-        expandedIcon: const Icon(Icons.filter_alt_outlined),
+        collapsedIcon: mapEvents.isEmpty
+            ? const Icon(Icons.filter_alt)
+            : const Icon(Icons.filter_alt)
+                .animate(
+                    onPlay: (controller) => controller.repeat(reverse: true))
+                .scale(
+                    begin: const Offset(1.2, 1.2),
+                    end: const Offset(1.7, 1.7),
+                    duration: const Duration(milliseconds: 1000)),
+        expandedIcon: mapEvents.isEmpty
+            ? const Icon(Icons.filter_alt_outlined)
+            : const Icon(Icons.filter_alt_outlined)
+                .animate(
+                    onPlay: (controller) => controller.repeat(reverse: true))
+                .scale(
+                    begin: const Offset(1.2, 1.2),
+                    end: const Offset(1.7, 1.7),
+                    duration: const Duration(milliseconds: 1000)),
         collapsedTitleBackgroundColor:
             Theme.of(context).scaffoldBackgroundColor,
         expandedTitleBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -62,12 +75,9 @@ class _FiltersState extends State<Filters> {
                               : "${selectedUcs.length} UC's selecionadas"),
                       listType: MultiSelectListType.LIST,
                       searchable: true,
-                      items: [
-                        ...mapEvents.keys
-                            .map((e) => MultiSelectItem<String>(e, e))
-                            .toList(),
-                        MultiSelectItem<String>("teste", "teste")
-                      ],
+                      items: mapEvents.keys
+                          .map((e) => MultiSelectItem<String>(e, e))
+                          .toList(),
                       title: const Text("Unidades curriculares"),
                       onConfirm: (selectedLst) {
                         setState(() {
@@ -91,8 +101,14 @@ class _FiltersState extends State<Filters> {
                               scrollDirection: Axis.horizontal,
                               child: Row(
                                 children: mapEvents[uc]!.keys.map((turno) {
+                                  if (!selectedTurnos.keys
+                                      .toList()
+                                      .contains(uc)) {
+                                    selectedTurnos[uc] = <String>[];
+                                  }
+
                                   var isThisSelected =
-                                      selectedTurnos[uc] == turno;
+                                      selectedTurnos[uc]!.contains(turno);
                                   if (turno == "exam") return Container();
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -100,9 +116,9 @@ class _FiltersState extends State<Filters> {
                                       onTap: () {
                                         setState(() {
                                           if (isThisSelected) {
-                                            selectedTurnos.remove(uc);
+                                            selectedTurnos[uc]!.remove(turno);
                                           } else {
-                                            selectedTurnos[uc] = turno;
+                                            selectedTurnos[uc]!.add(turno);
                                           }
                                         });
 
@@ -149,9 +165,9 @@ class _FiltersState extends State<Filters> {
 //TODO: Check if performance can be better (should be using isolates but no can do because its running on web)
   Future<void> updateMapValue() async {
     if (widget.eventsLst.isNotEmpty) {
-      selectedUc = widget.eventsLst.first.unidadeCurricular;
-      selectedTurno = widget.eventsLst.first.turno;
-      mapEvents = {};
+      selectedUcs = [];
+      selectedTurnos = <String, List<String>>{};
+      mapEvents = <String, Map<String, List<Event>>>{};
 
       for (var uc in widget.eventsLst
           .map((e) => e.unidadeCurricular)
@@ -159,7 +175,7 @@ class _FiltersState extends State<Filters> {
           .toList()) {
         Map<String, List<Event>> turnoMap = {};
         for (var turno in widget.eventsLst
-            .where((e) => e.unidadeCurricular == uc)
+            .where((e) => e.unidadeCurricular == uc && !e.isTestOrExam())
             .map((e) => e.turno)
             .toSet()
             .toList()) {
@@ -183,7 +199,9 @@ class _FiltersState extends State<Filters> {
   void callback() {
     var lst = <Event>[];
     for (var entry in selectedTurnos.entries) {
-      lst.addAll(mapEvents[entry.key]![entry.value]!);
+      for (String turno in entry.value) {
+        lst.addAll(mapEvents[entry.key]![turno]!);
+      }
     }
 
     for (var uc in selectedUcs) {
