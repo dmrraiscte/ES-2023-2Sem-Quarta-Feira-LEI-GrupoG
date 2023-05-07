@@ -104,12 +104,8 @@ class File {
   /// * CSV format is only compared against [Event.csvHeader], given the scope of use
   static bool isCsvFormat(String text) {
     int le = Event.csvHeader.split(',').length;
-    for (var e in text.split('\n')) {
-      if (e.split(',').length != le) {
-        return false;
-      }
-    }
-    return true;
+
+    return text.split('\n')[0].split(",").length == le;
   }
 
   /// __Returns boolean value for wether [text] is a ics format string or not.__
