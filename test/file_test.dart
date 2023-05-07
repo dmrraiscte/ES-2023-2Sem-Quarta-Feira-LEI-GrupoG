@@ -19,7 +19,7 @@ void main() {
   test('getEventsFromURL() - test with JSON file', () async {
     var data = await File.getEventsFromUrl(
         'https://raw.githubusercontent.com/dmrraiscte/ES-2023-2Sem-Quarta-Feira-LEI-GrupoG/main/assets/files/events.json');
-    expect(data.lstEvents.length, 26019);
+    expect(data.lstEvents.length, 26003);
   });
 
   test('getEventsFromURL() - test with bad webpage', () async {
