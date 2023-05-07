@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class EventDataSource extends CalendarDataSource {
-  List<Event>? overlapped;
+  //List<Event>? overlapped = [];
+  Set<Event> overlapped = {};
+  //HashMap overlapped = HashMap<Event, Event>();
 
   EventDataSource(List<Event> source) {
     appointments = source;
-    overlapped = [];
+    appointments?.asMap().forEach((index, element) {
+      getColor(index);
+    });
   }
 
   @override
@@ -39,9 +43,9 @@ class EventDataSource extends CalendarDataSource {
               appointments![index].getEventEnd() == e.getEventEnd() ||
               appointments![index].getEventStart() == e.getEventStart());
     })) {
-      print(overlapped?.length);
-      overlapped?.add(appointments![index]);
-      print(overlapped?.length);
+      print(overlapped.length);
+      overlapped.add(appointments![index]);
+      print(overlapped.length);
       return Colors.red;
     }
     return Colors.green;

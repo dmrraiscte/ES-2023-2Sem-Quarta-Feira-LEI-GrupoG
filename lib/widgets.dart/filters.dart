@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:calendar_manager/models/event_model.dart';
 import 'package:calendar_manager/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +6,8 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class Filters extends StatefulWidget {
   final List<Event> eventsLst;
-  final Function(List<Event>) onFilterChangedList;
-  const Filters(
-      {super.key, required this.eventsLst, required this.onFilterChangedList});
+  final Function(List<Event>)? onFilterChangedList;
+  const Filters({super.key, required this.eventsLst, this.onFilterChangedList});
 
   @override
   State<Filters> createState() => _FiltersState();
@@ -25,10 +22,8 @@ class _FiltersState extends State<Filters> {
   var selectedUcs = <String>[];
   var selectedTurnos = <String, String>{};
   @override
-  
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) =>
-        widget.onFilterChangedList(mapEvents[selectedUc]![selectedTurno]!));
+    WidgetsBinding.instance.addPostFrameCallback((_) => callback());
     super.initState();
   }
 

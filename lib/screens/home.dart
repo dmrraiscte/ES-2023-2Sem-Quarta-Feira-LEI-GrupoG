@@ -6,6 +6,7 @@ import 'package:calendar_manager/widgets.dart/filters.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:badges/badges.dart' as badges;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -57,7 +58,48 @@ class _HomeState extends State<Home> {
               },
             ),
             eventDataSource?.overlapped != null
-                ? Text(eventDataSource!.overlapped!.length.toString())
+                ? //Text(eventDataSource!.overlapped!.length.toString())
+                badges.Badge(
+                    badgeStyle: const badges.BadgeStyle(
+                      badgeColor: Color.fromARGB(255, 255, 0, 85),
+                    ),
+                    badgeContent: Text(
+                      eventDataSource!.overlapped.length.toString(),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    child: IconButton(
+                      icon: const Icon(CupertinoIcons.bell_fill),
+                      onPressed: () {
+                        showDialog(
+                          //if set to true allow to close popup by tapping out of the popup
+                          barrierDismissible: true,
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text("SOBREPOSIÇÕES"),
+                            content: SizedBox(
+                              width: 600,
+                              height: 400,
+                              child: ListView.builder(
+                                  itemCount: eventDataSource?.overlapped.length,
+                                  itemBuilder: (_, int index) {
+                                    return ListTile(
+                                        title: Text(eventDataSource!.overlapped
+                                            .elementAt(index)
+                                            .getOverlappingDescription()));
+                                  }),
+                            ),
+                            elevation: 24,
+                          ),
+                        );
+                        /*                       ListView.builder(
+                            itemCount: eventDataSource?.overlapped?.length,
+                            itemBuilder: (_, int index) {
+                              return ListTile(title: Text('item $index'));
+                            });
+                            */
+                      },
+                    ),
+                  )
                 : const Text("nada"),
 /*                ToggleButtons(
               children: <Widget>[
